@@ -1,0 +1,27 @@
+# Code for visualizing satellite data
+
+library(terra)
+library(imageRy)
+
+# Listing files
+im.list()
+
+# Sentinel b2 https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/bands/
+b2 = im.import("sentinel.dolomites.b2.tif") 
+
+#
+per cambiare i colori della nostra immagine abbiamo questa funzione: colorRampPalette. ho inserito anche 100 gamme di colori tra uno e l'altro.
+cl = colorRampPalette(c("black", "dark grey", "light grey"))(100)
+plot(b2, col=cl)
+
+cl = colorRampPalette(c("black", "dark grey", "light grey"))(3)
+plot(b2, col=cl)
+
+cl = colorRampPalette(c("blue", "green", "yellow"))(100)
+plot(b2, col=cl)
+
+# esercizio: cambia i colori della mappa
+
+cl = colorRampPalette(c("red1", "mediumblue", "limegreen"))(100)
+plot(b2, col=cl)
+
