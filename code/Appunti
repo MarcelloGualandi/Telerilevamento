@@ -1,0 +1,24 @@
+l## Lezione 13 marzo
+Parliamo di sistemi di riferimento.
+la forma della terra è un geoide, ciò vuol dire che sono possibili tutta una serie di forme ma che non sono sfere perchè la gravità non è
+sempre la stessa. non è geometrica. la terra è una delle n superfici equipotenziali. di tutte queste ce ne è una che approssima il livello
+medio dei mari che è il geoide. piccolo problema: per poter fare delle misure sulla terra dobbiamo convertire un geoide ad un elissoide.
+ondulazione geoidicia: il geoide in alcuni punti non corrisponde all'elissoide, le due misure non combaciano. come si fa? la soluzione è che
+ognuno usa il suo elissoide. 
+un datum non è solo l'elissoide che stiamo usando ma anche dove l'abbiamo piazzato nel pianeta. in Europa si decise di utilizzare l'elissoide rosso (ED 50 = EUROPEAN DATUM, Elissoide internazionale), mentre negli stati uniti di utilizza l'elissoide di Clarke (NAD 27 = NORD AMERICAN DATUM)
+(la forma di una sella è quella che resiste di più agli urti (es pringles)).
+
+Parliamo di latitudine e longitudine.
+latitudine: si forma tra la normale al punto P e il piano che contiene l'equatore. l'unica superficie dove la normale al punto P va al centro è la sfera, ma la terra non è una sfera, è un elissoide.
+quindi quello che vediamo solitamente è sbagliato perchè in tutte queste immagini l'angolo va al centro siccome la terra viene rapresentata come una sfera, ma la terra non è una sfera per cui è impossibile che passi dal centro.
+la latitudine ha un senso biologico, naturale, per esempio la biodiversità è max verso le zone equatoriali perchè ci sono più risorse, energia ecc.
+la longitudine invece ce la siamo inventata per fare misurazioni.
+
+WGS84: è il datum comune.
+UTM: (proiezione di Gaus) al posto del concetto di grado uso quello di metro, superficie bidimensionale. tra le proiezioni più conosciuti c'è quella di marcatore, per primo fa una proiezione seria del pianeta: prende la terra e mette un cilindro che va a toccare la terra sull'equatore, tutte le zone vicine all'equatore saranno in scala 1:1 (super precisa), ma più mi allontano più saranno distorte.
+bisogna quindi optare per un'altra proiezione che utilizza sempre il cilindro ma lo faccio toccare su un meridiano di riferimento e poi lo svolgo, qui c'è un altro probelma ovvero tutte le zone attacate al meridiano centrale sono perfette ma se mi allontano da questo meridiano centrale si ha una distorsione.
+come si fa? tutte le volte cambio il meridiano di riferimento, taglio la superficie della terra e cambio ogni volta il meridiano centrale. è stato stabilito che la distanza massima di questi fusi sia di 6 gradi. quindi divido la terra in fusi (360:6--> sulla terra ci sono 60 fusi).
+l'italia cade su due fusi, 32 e 33. si calcola la distanza dal meridiano centrale in metri come X e la distanza dall'equatore in metri come Y. 
+è stata adottata anche una falsa origine.
+come si passa da un sistema all'altro? traformazione molodensky helmert. traslazione e rotazione di x y z (6 parametri di variazione).
+EPSG: ("european petroleum survey group") tutte le società petrolifere del piante sono interessate a dove andare a trivellare con precisione, per ogni singolo sistema di riferimento hanno dato un codice. se abbiamo un certo codice sappiamo che utilizza quel sistema ai riferimento.
