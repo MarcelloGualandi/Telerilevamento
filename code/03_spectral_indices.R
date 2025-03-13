@@ -65,4 +65,70 @@ Tree: NIR=255 (8 bit), red=0 (8 bit), DVI=NIR-red=255-0=255. questo è l'indice 
 #Stressed tree; vediamo cosa succede in una pianta malata
 Stressed tree:  NIR=100 (8bit), red=30 (perchè la fotosintesi non funziona bene e una parte viene riflessa) DVI=NIR-red=100-30=70
 
+##Calculatind DVI
+im.multiframe(1,2)
+plot(mato1992)
+plot(mato2006)
 
+# 1 = NIR
+# 2 = red
+
+dvi1992 = mato1992[[1]] - mato1992[[2]] # NIR - red
+plot(dvi1992)
+
+# range DVI
+# maximum: NIR - red = 255 - 0 = 255
+# minimum: NIR - red = 0 - 255 = -255
+
+plot(dvi1992, col=inferno(100))           ## 100 indica che ci sono 100 sfumature del colore
+
+# Calculate DVI for 2006
+
+> dvi2006 = mato2006[[1]] - mato2006[[2]] # NIR - red
+> plot(dvi2006)
+> plot(dvi2006, col=inferno(100))
+
+im.multiframe(1,2)   ## per metterle una accanto all'altra
+plot(dvi1992, col=inferno(100))
+plot(dvi2006, col=inferno(100))
+
+## Different radiometric resolutions
+
+# DVI 8 bit: range
+# maximum: NIR - red = 255 - 0 = 255
+# minimum: NIR - red = 0 - 255 = -255
+
+# DVI 4 bit: range (0-15)
+# maximum: NIR - red = 15 - 0 = 15
+# minimum: NIR - red = 0 - 15 = -15
+
+#NDVI 8 bit : range (0-255)
+# maximum: (NIR - red) / (NIR + red) = (255 - 0) / (255 + 0) = 1
+# minimum: (NIR - red) / (NIR + red) = (0 - 255) / (0 + 255) = -1
+
+#NDVI 4 bit : range (0-15)
+# maximum: (NIR - red) / (NIR + red) = (15 - 0) / (15 + 0) = 1
+# minimum: (NIR - red) / (NIR + red) = (0 - 15) / (0 + 15) = -1
+
+ndvi1992 = (mato1992[[1]] - mato1992[[2]] /  mato1992[[1]] + mato1992[[2]])
+# ndvi1992 = dvi1992 / (mato19992[[1] + mato1992[[2]]
+plot(ndvi1992)
+
+ndvi2006 = (mato2006[[1]] - mato2006[[2]] /  mato2006[[1]] + mato2006[[2]])
+# ndvi2006 = dvi2006 / (mato2006[[1] + mato2006[[2]]
+plot(ndvi2006)
+
+#Functions fro imageRy
+dvi1992auto = im.dvi(mato1992, 1, 2)
+> dev.off()
+> plot(dvi1992auto)
+
+dvi2006auto = im.dvi(mato2006, 1, 2)
+> dev.off()
+> plot(dvi2006auto)
+
+ndvi1992auto = im.ndvi(mato1992, 1, 2)
+plot(ndvi1992auto)
+
+ndvi2006auto = im.ndvi(mato2006, 1, 2)
+plot(ndvi2006auto)
