@@ -1,0 +1,64 @@
+library(imageRy)
+library(terra)
+
+
+library(viridis)
+library(ggridges)
+
+# Listing the data
+im.list()
+
+# Greenland ice melt
+
+gr = im.import("greenland")
+
+## installa ggridges
+install.packages("ggridges") # this is needed to create ridgeline plots
+
+#Ridgeline plots
+im.ridgeline(gr, scale=1) #scale =1 è l'altezza del grafico
+cosa stiamo facendo? chiedi appunti
+
+im.ridgeline(gr, scale=2)
+im.ridgeline(gr, scale=2,palette="inferno")
+im.ridgeline(gr, scale=3,palette="inferno")  #vediamo che si sovrappongono troppo, meglio evitare scale tropppo grandi
+
+im.list()
+
+#esercizio: import NDVI
+ndvi = im.import("Sentinel2_NDVI")
+>ndvi  #vediamo cosa ci dice
+im.ridgeline(ndvi, scale=2) # c'è un grafico solo perchè hanno tutti lo stesso nome. copiamo sources( lo trovi facendo >ndvi)
+ #sources  :  Sentinel2_NDVI_2020-02-21.tif  
+              Sentinel2_NDVI_2020-05-21.tif  
+              Sentinel2_NDVI_2020-08-01.tif  
+              Sentinel2_NDVI_2020-11-27.tif  
+
+names(ndvi) = c("02_Feb", "05_may", "08_aug", "11_nov")
+
+(#tutte le volte che abbiamo un problema grafico fai dev.off() )
+
+im.ridgeline(ndvi, scale=2)
+im.ridgeline(ndvi, scale=2, palette="mako")
+
+pairs(ndvi)
+plot(ndvi[[1]], ndvi[[2]], xlim=c(-0.3, 0.9), ylim=c(-0.3, 0.9))  #sulla x c'è febbraio e sulla y maggio
+# y = x # may y, feb x
+# una funzione che descrive una linea è y = a + bx
+# a=0, b=1
+#y = a + bx = 0 + 1x = x
+
+abline(0, 1, col="red")
+plot(ndvi[[1]], ndvi[[2]], xlim=c(-0.3, 0.9), ylim=c(-0.3, 0.9))
+abline(0, 1, col="red")
+il grafico ci dice che i valori di maggio sono sempre sopra la linea rossa
+
+im.multiframe(1,3)
+plot(ndvi[[1]])
+plot(ndvi[[2]])
+plot(ndvi[[1]], ndvi[[2]], xlim=c(-0.3, 0.9), ylim=c(-0.3, 0.9))
+abline(0, 1, col="red")
+
+
+
+
