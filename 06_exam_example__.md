@@ -27,7 +27,7 @@ il codice utilizzato è il seeguente: prima di tutto selezioniamo la working dir
 setwd("~/Desktop/")
 # c://blablabla/lknlnln
 
-getxd()
+getwd()
 
 list.files()
 ```
