@@ -151,7 +151,7 @@ ylim(c(0,100)) # limits
 Rimuoviamo la legende, in questo caso in solo uno dei due grafici ma lo puoi fare anche nell'altro
 p1<-ggplot(tabout, aes(x=class,y=perc1992, color=class)) + # structure
   geom_bar(stat="identity", fill="white") + # bar plot
-ylim(c(0,100)) # limits
+ylim(c(0,100)) + # limits
 theme(legend.position="none")   # removing legend
 
 p2<-ggplot(tabout, aes(x=class,y=perc2006, color=class)) + # structure
