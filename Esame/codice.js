@@ -1,4 +1,3 @@
-
 // ==============================================
 // Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
 // https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED
@@ -28,7 +27,7 @@ function maskS2clouds(image) {
 // Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
 var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
                    .filterBounds(aoi)
-                   .filterDate('2026-01-01', '2026-06-01')              // Filter by date                                   // Filter by AOI
+                   .filterDate('2025-06-01', '2025-06-30')              // Filter by date                                   // Filter by AOI
                    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
                    .map(maskS2clouds);                                  // Apply cloud masking
 
@@ -49,14 +48,14 @@ Map.centerObject(aoi, 10); // Zoom to the AOI
 
 // Display the first image of the collection (GEE does this by default)
 Map.addLayer(collection, {
-  bands: ['B4', 'B3', 'B2'],  // True color: Red, Green, Blue
+  bands: ['B4', 'B3', 'B2', 'B8', 'B12'],  // True color: Red, Green, Blue
   min: 0,
   max: 0.3
 }, 'First image of collection');
 
 // Display the median composite image
 Map.addLayer(composite, {
-  bands: ['B4', 'B3', 'B2'],
+  bands: ['B4', 'B3', 'B2', 'B8', 'B12'],
   min: 0,
   max: 0.3
 }, 'Median composite');
@@ -70,7 +69,7 @@ Export.image.toDrive({
   image: composite.select(['B4', 'B3', 'B2', 'B8', 'B12']),  // Select RGB bands
   description: 'Sentinel2_Median_Composite',
   folder: 'GEE_exports',                        // Folder in Google Drive
-  fileNamePrefix: 'HL_2026',
+  fileNamePrefix: 'HL_2025',
   region: aoi,
   scale: 10,                                    // Sentinel-2 resolution
   crs: 'EPSG:4326',
