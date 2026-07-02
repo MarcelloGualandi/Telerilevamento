@@ -334,10 +334,11 @@ nir_2007_res <- terra::resample(nir_2007, ggw2025[[4]], method="bilinear")
 ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method="bilinear")
 ndvi_diff <- ndvi_2025 - ndvi_2007_res
 im.multiframe(1, 2)
-plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2017)")
-plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2017)")
+plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
+plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 ````
-<img width="604" height="386" alt="Multitemporal" src="https://github.com/user-attachments/assets/47677fff-db62-4b51-a3cb-2ac4c2b923bd" />
+<img width="491" height="386" alt="Multitemporal" src="https://github.com/user-attachments/assets/51c75280-e560-469d-8c28-25b983903084" />
+
 
 ## 📌 Commenti e Conclusioni
 
