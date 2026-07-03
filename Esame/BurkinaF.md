@@ -138,7 +138,7 @@ im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
 plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 ````
-<img width="540" height="386" alt="DVI" src="https://github.com/user-attachments/assets/26b4c9a8-4958-4787-a87c-b178162995a6" />
+<img width="800" height="600" alt="DVI" src="https://github.com/user-attachments/assets/26b4c9a8-4958-4787-a87c-b178162995a6" />
 
 ````r
 # Calcolo e visualizzazione differenza DVI  
@@ -173,7 +173,7 @@ im.multiframe(1, 2)
 plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 ````
-<img width="540" height="386" alt="NDVI" src="https://github.com/user-attachments/assets/72c5c507-d0a7-430d-a2cd-af59cb767c74" />
+<img width="800" height="600" alt="NDVI" src="https://github.com/user-attachments/assets/72c5c507-d0a7-430d-a2cd-af59cb767c74" />
 
 > **Valori alti:** vegetazione sana e densa
 > **Valori bassi:** suolo nudo e vegetazione scarsa
@@ -235,7 +235,9 @@ im.multiframe(1, 2)
 plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2007")
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
  ````
-<img width="540" height="386" alt="class_NDVI" src="https://github.com/user-attachments/assets/5abde95f-5e84-4a74-b861-55650417b23e" />
+<p align="center">
+<img width="800" height="600" alt="class_NDVI" src="https://github.com/user-attachments/assets/5abde95f-5e84-4a74-b861-55650417b23e" />
+</p>
 
 > La classificazione NDVI evidenzia un cambiamento netto tra il 2007 e il 2025. Nel 2007 l’intera area ricade nella classe 1 (NDVI < 0.2), indicativa di una copertura vegetale molto bassa e omogenea. Nel 2025 emergono invece tre classi distinte, con la comparsa di patch a NDVI elevato (classe 3) e una maggiore eterogeneità spaziale. Questo pattern è coerente con processi di rigenerazione vegetale associati alle iniziative della Great Green Wall.
 
