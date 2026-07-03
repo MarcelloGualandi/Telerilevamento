@@ -24,7 +24,7 @@ Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia della G
 
 # 📄 Materiali e metodi
 Le immagini satellitari sono state ricavate attraverso [Google Earth Engine](https://earthengine.google.com/) selezionando le date di riferimento utili all'analisi. 
-Per l'immagine satellitare del 2025 è stato utilizzato Sentinel2 mentre per quella del 2007 Landsat in quanto Sentinel-2 non era ancora nato.
+Per l'immagine satellitare del 2025 è stato utilizzato Sentinel-2 mentre per quella del 2007 Landsat in quanto Sentinel-2 non era ancora nato.
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Codice.js
 
