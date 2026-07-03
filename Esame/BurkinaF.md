@@ -124,7 +124,7 @@ plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="lin",
 Il DVI (Difference Vegetation Index) è uno dei più semplici indici spettrali utilizzati per valutare la presenza e la vitalità della vegetazione.
 Si calcola sottraendo la riflettanza nel rosso (Red) da quella nel vicino infrarosso (NIR).
 
-***DVI*** = ***NIR** - *Red*
+***DVI*** = **NIR** - *Red*
 
 Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di DVI indicano vegetazione vigorosa.
 È un indice non normalizzato, ma fornisce indicazioni dirette sulla biomassa verde e può essere utile per analisi comparative quando le condizioni di acquisizione sono simili. 
