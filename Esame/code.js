@@ -121,3 +121,70 @@ Export.image.toDrive({
   crs: 'EPSG:4326',
   maxPixels: 1e13
 })
+
+Sahel NDVI 2023
+// Area del Sahel
+var sahel = ee.Geometry.Rectangle([-20, 10, 40, 18]);
+
+// NDVI MODIS per il 2023 (valori scalati 0–10000)
+var modis2023 = ee.ImageCollection('MODIS/006/MOD13A2')
+  .filterBounds(sahel)
+  .filterDate('2023-01-01', '2023-12-31')
+  .select('NDVI');
+
+// NDVI annuale (media)
+var ndvi2023 = modis2023.mean();
+
+// Conversione a NDVI reale (-1 → +1)
+var ndvi2023_real = ndvi2023.divide(10000).rename('NDVI_real');
+
+// Palette NDVI Earth Engine
+var palette = ['blue', 'white', 'yellow', 'green'];
+
+// Visualizzazione
+Map.centerObject(sahel, 4);
+Map.addLayer(ndvi2023_real, {min:-1, max:1, palette: palette}, 'NDVI reale 2023');
+
+// Esportazione GeoTIFF NDVI reale
+Export.image.toDrive({
+  image: ndvi2023_real,
+  description: 'NDVI_Sahel_2023_reale',
+  scale: 1000,        // MODIS 1 km
+  region: sahel,
+  maxPixels: 1e9,     // sicurezza
+  fileFormat: 'GeoTIFF'
+});
+
+Sahel NDVI 2007
+// Area del Sahel
+var sahel = ee.Geometry.Rectangle([-20, 10, 40, 18]);
+
+// NDVI MODIS per il 2007 (valori scalati 0–10000)
+var modis2007 = ee.ImageCollection('MODIS/006/MOD13A2')
+  .filterBounds(sahel)
+  .filterDate('2007-01-01', '2007-12-31')
+  .select('NDVI');
+
+// NDVI annuale (media)
+var ndvi2007 = modis2007.mean();
+
+// Conversione a NDVI reale (-1 → +1)
+var ndvi2007_real = ndvi2007.divide(10000).rename('NDVI_real');
+
+// Palette NDVI Earth Engine
+var palette = ['blue', 'white', 'yellow', 'green'];
+
+// Visualizzazione
+Map.centerObject(sahel, 4);
+Map.addLayer(ndvi2007_real, {min:-1, max:1, palette: palette}, 'NDVI reale 2007');
+
+// Esportazione GeoTIFF NDVI reale
+Export.image.toDrive({
+  image: ndvi2007_real,
+  description: 'NDVI_Sahel_2007_reale',
+  scale: 1000,
+  region: sahel,
+  fileFormat: 'GeoTIFF'
+});
+
+
