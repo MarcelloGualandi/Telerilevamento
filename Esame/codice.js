@@ -1,143 +1,123 @@
-great green wall 2007
-/ ==============================================
-// Landsat 5 TM Surface Reflectance - Cloud Masking and Visualization
-// ==============================================
+Landsat 	Burkina Faso 2007
 
 // ==============================================
-// Function to mask clouds using the pixel_qa band
+// Function to mask clouds using QA_PIXEL (Landsat 5 TM C2)
+// Bits:
+// 3 = cloud shadow
+// 5 = cloud
+// 7 = dilated cloud
 // ==============================================
-  // ==============================================
-// AOI Great Green Wall - Senegal (Louga / Linguère)
-// ==============================================
-var aoi = ee.Geometry.Rectangle([
-  -14.70, 15.30,   // Ovest, Sud
-  -14.10, 15.60    // Est, Nord
-]);
-
 function maskL5clouds(image) {
   var qa = image.select('QA_PIXEL');
 
-  // Bitmask per cloud e cloud shadow (Collection 2)
-  var cloud = qa.bitwiseAnd(1 << 5).eq(0);       // Cloud
-  var shadow = qa.bitwiseAnd(1 << 3).eq(0);      // Cloud shadow
+  var cloud   = qa.bitwiseAnd(1 << 5).eq(0);
+  var shadow  = qa.bitwiseAnd(1 << 3).eq(0);
+  var dilated = qa.bitwiseAnd(1 << 7).eq(0);
 
-  var mask = cloud.and(shadow);
+  var mask = cloud.and(shadow).and(dilated);
 
   return image.updateMask(mask).divide(10000);
 }
 
-
 // ==============================================
-// Load and Prepare the Image Collection (2007)
+// Load Landsat 5 TM Surface Reflectance collection (2007)
 // ==============================================
 var collection = ee.ImageCollection('LANDSAT/LT05/C02/T1_L2')
                    .filterBounds(aoi)
                    .filterDate('2007-01-01', '2007-12-31')
                    .map(maskL5clouds);
 
-print('Number of images in collection (2007):', collection.size());
+// Print number of images available after filtering
+print('Number of images in collection:', collection.size());
 
 // ==============================================
-// Create a median composite
+// Create a median composite from the collection
 // ==============================================
 var composite = collection.median().clip(aoi);
 
 // ==============================================
 // Visualization on the Map
-// Landsat 5 RGB = B3 (Red), B2 (Green), B1 (Blue)
 // ==============================================
-Map.centerObject(aoi, 7);
+Map.centerObject(aoi, 10);
 
+// Display the first image of the collection
 Map.addLayer(collection, {
-  bands: ['SR_B3', 'SR_B2', 'SR_B1'],
+  bands: ['SR_B3', 'SR_B2', 'SR_B1'],  
   min: 0,
   max: 0.3
-}, 'First image of collection (L5 TM)');
+}, 'First image of collection');
 
+// Display the median composite image
 Map.addLayer(composite, {
-  bands: ['SR_B3', 'SR_B2', 'SR_B1'],
+  bands: ['SR_B3', 'SR_B2', 'SR_B1',],
   min: 0,
   max: 0.3
-}, 'Median composite 2007');
+}, 'Median composite');
 
 // ==============================================
 // Export to Google Drive
 // ==============================================
 Export.image.toDrive({
-  image: composite.select(['SR_B1','SR_B2','SR_B3','SR_B4','SR_B7']),
+  image: composite.select(['SR_B3', 'SR_B2', 'SR_B1', 'SR_B4', 'SR_B7']),
   description: 'Landsat5_Median_Composite_2007',
   folder: 'GEE_exports',
-  fileNamePrefix: 'GGW_Senegal_2007',
+  fileNamePrefix: 'BURKINA_2007',
   region: aoi,
-  scale: 30,               // Landsat resolution
+  scale: 30,               // Landsat 5 resolution
   crs: 'EPSG:4326',
   maxPixels: 1e13
 });
 
 
+Sentinel-2 Burkina Faso 2025
 
-
-
-great green wall 2025
-// ==============================================
-// AOI Great Green Wall - Senegal (Louga / Linguère)
-// ==============================================
-var aoi = ee.Geometry.Rectangle([
-  -14.70, 15.30,   // Ovest, Sud
-  -14.10, 15.60    // Est, Nord
-]);
-
-// ==============================================
-// Funzione di mascheramento nuvole 
-// ==============================================
-function maskS2clouds(image) {
-  var qa = image.select('QA60');
-  var cloudBitMask = 1 << 10;
-  var cirrusBitMask = 1 << 11;
-
-  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
-               .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
-
-  return image.updateMask(mask).divide(10000);
-}
-
-// ==============================================
-// Collezione Sentinel-2 SR Harmonized (solo bande)
-// ==============================================
 var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
                    .filterBounds(aoi)
-                   .filterDate('2025-01-01', '2025-12-31')
-                   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-                   .map(maskS2clouds);
+                   .filterDate('2025-01-01', '2025-12-31')              // Filter by date                                   // Filter by AOI
+                   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
+                   .map(maskS2clouds);                                  // Apply cloud masking
 
-print('Numero immagini nella collezione:', collection.size());
+// Print number of images available after filtering
+print('Number of images in collection:', collection.size());
 
 // ==============================================
-// Composito median 
+// Create a median composite from the collection
+// Useful when the AOI overlaps multiple scenes or frequent cloud cover
 // ==============================================
 var composite = collection.median().clip(aoi);
 
 // ==============================================
-// Visualizzazione RGB
+// Visualization on the Map
 // ==============================================
-Map.centerObject(aoi, 10);
 
-Map.addLayer(composite, {
-  bands: ['B4', 'B3', 'B2'],   // RGB
+Map.centerObject(aoi, 10); // Zoom to the AOI
+
+// Display the first image of the collection (GEE does this by default)
+Map.addLayer(collection, {
+  bands: ['B4', 'B3', 'B2', 'B8', 'B12'],  // True color: Red, Green, Blue
   min: 0,
   max: 0.3
-}, 'Composite RGB 2025');
+}, 'First image of collection');
+
+// Display the median composite image
+Map.addLayer(composite, {
+  bands: ['B4', 'B3', 'B2', 'B8', 'B12'],
+  min: 0,
+  max: 0.3
+}, 'Median composite');
 
 // ==============================================
-// Export delle bande spettrali (per analisi in R)
+// Export to Google Drive
 // ==============================================
+
+// Export the median composite
 Export.image.toDrive({
-  image: composite.select(['B2','B3','B4','B8','B11','B12']),
-  description: 'Sentinel2_GGW_Senegal_2025_bande_spettrali',
-  folder: 'GEE_exports',
-  fileNamePrefix: 'GGW_Senegal_2025',
+  image: composite.select(['B4', 'B3', 'B2', 'B8', 'B12']),  // Select RGB bands
+  description: 'Sentinel2_Median_Composite',
+  folder: 'GEE_exports',                        // Folder in Google Drive
+  fileNamePrefix: 'BURKINA_2025',
   region: aoi,
-  scale: 10,
+  scale: 10,                                    // Sentinel-2 resolution
   crs: 'EPSG:4326',
   maxPixels: 1e13
-});
+})
