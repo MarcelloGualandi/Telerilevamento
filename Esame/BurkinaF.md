@@ -6,7 +6,7 @@
 
 # 📌 Introduzione 
 
-La **Great Green Wall** **GGW** è un progetto lanciato dall’Unione Africana nel 2007 per creare un mosaico di paesaggi produttivi verdi lungo una fascia di ~8.000 km dal Senegal a Gibuti per contrastare la desertificazione. 
+La **Great Green Wall** **GGW** è un progetto lanciato dall’Unione Africana nel 2007 per contrastare la desertificazione creando un mosaico di paesaggi produttivi verdi lungo una fascia di ~8.000 km dal Senegal a Gibuti. 
 La fascia del Sahel è una delle regioni africane più vulnerabili al cambiamento climatico, con desertificazione crescente e pressioni antropiche.
 
 Gli obiettivi fissati per il 2030 includono:
