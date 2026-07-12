@@ -261,6 +261,43 @@ plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 
 > La classificazione NDVI evidenzia un cambiamento netto tra il 2007 e il 2025. Nel 2007 l’intera area ricade nella classe 1 (NDVI < 0.2), indicativa di una copertura vegetale molto bassa e omogenea. Nel 2025 emergono invece tre classi distinte, con la comparsa di patch a NDVI elevato (classe 3) e una maggiore eterogeneità spaziale. Questo pattern è coerente con processi di rigenerazione vegetale associati alle iniziative della Great Green Wall.
 
+Utilizziamo ora classi diverse pe mettere in maggiore risalto quelli che potrebbero essere i cambiamenti avvenuti nel secolo. le diverse soglie sono state scelte dopo ricerca bibliografica. 
+ ````r
+class_matrix_sahel <- matrix(c(
+     -Inf, 0.05, 0,   # Ombra, roccia, acqua, suolo molto scuro
+     0.05, 0.20, 1,  # Suolo nudo / vegetazione erbacea molto rada
+     0.20, 0.35, 2,  # Vegetazione erbacea/arbustiva discontinua
+     0.35, 0.50, 3,  # Vegetazione arbustiva/arborea moderata (GGW in crescita)
+      0.50, Inf, 4    # Vegetazione arborea/arbustiva densa (nuclei di successo GGW)
+), 
+ncol = 3, byrow = TRUE)
+ 
+class_matrix_sahel
+     # [,1] [,2] [,3]
+# [1,] -Inf 0.05    0
+# [2,] 0.05 0.20    1
+# [3,] 0.20 0.35    2
+# [4,] 0.35 0.50    3
+# [5,] 0.50  Inf    4
+ 
+ndvi_2007_cl <- classify(ndvi_2007, class_matrix_sahel)
+ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
+pal_sahel_cb <- c(
+  "#000000",  # Classe 0 - ombra / roccia / acqua
+  "#E41A1C",  # Classe 1 - suolo nudo
+  "#377EB8",  # Classe 2 - erbacee / arbusti bassi
+  "#4DAF4A",  # Classe 3 - arbusti attivi
+  "#984EA3"   # Classe 4 - vegetazione densa
+)
+
+im.multiframe(1, 2)
+plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007 (Sahel)")
+plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
+ ````
+<img width="800" height="600" alt="Class_5" src="https://github.com/user-attachments/assets/d5127338-a5c2-4fe5-89ed-5861d13fec07" />
+
+
+> E' stata scelta una gamma di colori "friendly" per i daltonici
 ## Calcolo percentuali
  ````r
 # Frequenze
@@ -352,6 +389,77 @@ ggplot(df_long, aes(x = Classe, y = Percentuale, fill = Anno)) +
 <img width="540" height="386" alt="visual_corretto" src="https://github.com/user-attachments/assets/f092e27e-7f23-41c2-ad22-4f1f65ce700f" />
 
 > Confronto tra le classi NDVI nel 2007 e nel 2025. Nel 2007 l’area ricade interamente nella classe “Suolo nudo”, indicando una copertura vegetale molto scarsa. Nel 2025 si osserva invece una distribuzione più articolata, con una riduzione del suolo nudo (50%) e la comparsa delle classi “Vegetazione media” (47%) e “Vegetazione sana” (3%), evidenziando un miglioramento della copertura vegetale coerente con processi di rigenerazione.
+
+Ora facciamolo per le 5 classi
+````r
+freq_2007 <- freq(ndvi_2007_cl)
+freq_2025 <- freq(ndvi_2025_cl)
+
+tot2007 <- sum(freq_2007$count)
+tot2025 <- sum(freq_2025$count)
+
+# Funzione per estrarre percentuali garantendo tutte le classi
+get_perc <- function(freq, tot) {
+  sapply(0:4, function(k) {
+    if (k %in% freq$value) freq$count[freq$value == k] / tot else 0
+  })
+}
+
+perc_2007 <- get_perc(freq_2007, tot2007)
+perc_2025 <- get_perc(freq_2025, tot2025)
+
+tab <- data.frame(
+  Classe = c("0 - Ombra/suolo scuro",
+             "1 - Suolo nudo",
+             "2 - Erbacee/arbusti bassi",
+             "3 - Arbusti attivi",
+             "4 - Vegetazione densa"),
+  Perc_2007 = round(perc_2007, 2),
+  Perc_2025 = round(perc_2025, 2)
+)
+
+| Classe                       | 2007 | 2025 |
+|------------------------------|------|------|
+| 0 – Ombra / suolo scuro      | 0.01 | 0.00 |
+| 1 – Suolo nudo               | 0.99 | 0.50 |
+| 2 – Erbacee / arbusti bassi  | 0.00 | 0.43 |
+| 3 – Arbusti attivi           | 0.00 | 0.06 |
+| 4 – Vegetazione densa        | 0.00 | 0.00 |
+
+
+tab <- data.frame(
+  classi = c("0 - Ombra/suolo scuro",
+             "1 - Suolo nudo",
+             "2 - Erbacee/arbusti bassi",
+             "3 - Arbusti attivi",
+             "4 - Vegetazione densa"),
+  a2007 = round(perc_2007 * 100, 2),   # percentuali in %
+  a2025 = round(perc_2025 * 100, 2),
+  check.names = FALSE
+)
+
+p1 <- ggplot(tab, aes(x = classi, y = a2007, fill = classi)) +    
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2007 (Sahel)", y = "%", x = NULL) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 20, hjust = 1))
+
+p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2025 (Sahel)", y = "%", x = NULL) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 20, hjust = 1))
+
+p1 + p2
+````
+<img width="1013" height="428" alt="Visual_5" src="https://github.com/user-attachments/assets/17659933-c64e-414b-85e2-bb07a5e09910" />
+
+
+
 
 ## 📉 Analisi multitemporale
 L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2007 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco di quasi vent'anni.
