@@ -1,4 +1,3 @@
-
 setwd("~/Desktop/")
 library(terra)  
 library(imageRy)  
@@ -17,9 +16,9 @@ names(bk2007)
 # [1] "SR_B1" "SR_B2" "SR_B3" "SR_B4" "SR_B7"
 names(bk2007) <- c("B2","B3","B4","B8","B12") ## per rinominare bande
 im.multiframe(1,2) ## true color
-plotRGB(bk2007, r="B4", g="B3", b="B2", stretch="lin",
+plotRGB(bk2007, r="B4", g="B3", b="B2", stretch="hist",
         main = "Burkina Faso, GGW 2007")
-plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="lin",
+plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist",
         main = "Burkina Faso, GGW 2025")
 # Visualizzazione separata delle quattro bande (RGB e NIR) per entrambe le immagini    
 im.multiframe(2,2)
@@ -35,11 +34,16 @@ plot(bk2025[[2]], main = "B3 - Green", col = magma(100))
 plot(bk2025[[3]], main = "B2 - Blue", col = magma(100)) 
 plot(bk2025[[4]], main = "B8 - NIR", col = magma(100)) 
 
+#visualizziamo lo Swir
+im.multiframe(1,2)
+plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
+plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
+
 ## Sostituendo il NIR al posto della banda del red, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo).
 im.multiframe(1,2)
-plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="lin",
+plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="hist",
         main="Burkina Faso, GGW 2007")
-plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="lin",
+plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
         main="Burkina Faso, GGW 2025")
 
 ## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
@@ -64,7 +68,7 @@ plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
 ## # Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy 
 ndvi_2007 <- im.ndvi(bk2007, 4, 1)   
 ndvi_2025 <- im.ndvi(bk2025, 4, 1) 
-# Creazione di un pannello multiframe isualizzazione NDVI
+# Creazione di un pannello multiframe visualizzazione NDVI
 im.multiframe(1, 2)
 plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
@@ -82,8 +86,7 @@ names(GGW_ridg) <- c("NDVI_2007", "NDVI_2025")
 im.ridgeline(
   GGW_ridg,
   scale = 2,
-  palette = c("magma", "viridis")  # 2007 = viola/rosso, 2025 = verde/giallo
-)
+  palette = "magma")
 
 ## Classificazione per classi di vegetazione
 ## Scelta del range di valori adatto alla classificazione
@@ -91,6 +94,7 @@ im.ridgeline(
 hist(ndvi_2007, main = "NDVI 2007", col = "darkgreen")  
 hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
 
+## 3 classi
 class_matrix <- matrix(c(-Inf, 0.2, 1, 
                          0.2, 0.4, 2, 
                          0.4, Inf, 3), 
@@ -106,6 +110,39 @@ ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
 im.multiframe(1, 2)
 plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2007")
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
+
+## utilizziamo altre soglie per definire più classi. 5 classi
+
+class_matrix_sahel <- matrix(c(
+  -Inf, 0.05, 0,   # Ombra, roccia, acqua, suolo molto scuro
+  0.05, 0.20, 1,  # Suolo nudo / vegetazione erbacea molto rada
+  0.20, 0.35, 2,  # Vegetazione erbacea/arbustiva discontinua
+  0.35, 0.50, 3,  # Vegetazione arbustiva/arborea moderata (GGW in crescita)
+  0.50, Inf, 4    # Vegetazione arborea/arbustiva densa (nuclei di successo GGW)
+), 
+ncol = 3, byrow = TRUE)
+
+class_matrix_sahel
+#     [,1] [,2] [,3]
+# [1,] -Inf 0.05    0
+# [2,] 0.05 0.20    1
+# [3,] 0.20 0.35   2
+# [4,] 0.35 0.50    3
+# [5,] 0.50  Inf    4
+
+ndvi_2007_cl <- classify(ndvi_2007, class_matrix_sahel)
+ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
+pal_sahel_cb <- c(
+  "#000000",  # Classe 0 - ombra / roccia / acqua
+  "#E41A1C",  # Classe 1 - suolo nudo
+  "#377EB8",  # Classe 2 - erbacee / arbusti bassi
+  "#4DAF4A",  # Classe 3 - arbusti attivi
+  "#984EA3"   # Classe 4 - vegetazione densa
+)
+
+im.multiframe(1, 2)
+plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007 (Sahel)")
+plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
 
 # Calcolo percentuali
 # Frequenze
@@ -147,50 +184,78 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
 
 p1 + p2      # Grazie al pacchetto patchwork si possono unire i grafici in questo modo
 
-## miglior visual
-# ============================
-# ============================
-# 1) CREAZIONE DEL DATA FRAME
-# ============================
+## Ora facciamolo con le 5 classi
 
-df <- data.frame(
-  Classe = c("Suolo nudo", "Vegetazione media", "Vegetazione sana"),
-  `2007` = c(1.00, 0.00, 0.00),
-  `2025` = c(0.50, 0.47, 0.03),
+freq_2007 <- freq(ndvi_2007_cl)
+freq_2025 <- freq(ndvi_2025_cl)
+
+tot2007 <- sum(freq_2007$count)
+tot2025 <- sum(freq_2025$count)
+
+
+# Funzione per estrarre percentuali garantendo tutte le classi
+get_perc <- function(freq, tot) {
+  sapply(0:4, function(k) {
+    if (k %in% freq$value) freq$count[freq$value == k] / tot else 0
+  })
+}
+
+perc_2007 <- get_perc(freq_2007, tot2007)
+perc_2025 <- get_perc(freq_2025, tot2025)
+
+tab <- data.frame(
+  Classe = c("0 - Ombra/suolo scuro",
+             "1 - Suolo nudo",
+             "2 - Erbacee/arbusti bassi",
+             "3 - Arbusti attivi",
+             "4 - Vegetazione densa"),
+  Perc_2007 = round(perc_2007, 2),
+  Perc_2025 = round(perc_2025, 2)
+)
+
+print(tab)
+
+tab <- data.frame(
+  classi = c("0 - Ombra/suolo scuro",
+             "1 - Suolo nudo",
+             "2 - Erbacee/arbusti bassi",
+             "3 - Arbusti attivi",
+             "4 - Vegetazione densa"),
+  a2007 = round(perc_2007 * 100, 2),   # percentuali in %
+  a2025 = round(perc_2025 * 100, 2),
   check.names = FALSE
 )
 
-# ============================
-# 2) CONVERSIONE IN FORMATO LONG
-# ============================
-
-df_long <- df %>%
-  pivot_longer(
-    cols = c("2007", "2025"),
-    names_to = "Anno",
-    values_to = "Percentuale"
-  )
-
-# ============================
-# 3) GRAFICO LEGGIBILE
-# ============================
-
-ggplot(df_long, aes(x = Classe, y = Percentuale, fill = Anno)) +
-  geom_col(position = "dodge", width = 0.7) +
-  geom_text(aes(label = Percentuale),
-            position = position_dodge(width = 0.7),
+p1 <- ggplot(tab, aes(x = classi, y = a2007, fill = classi)) +    
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = a2007),
             vjust = -0.5, size = 4) +
-  scale_fill_manual(values = c("2007" = "#440154", "2025" = "#2FB47C")) +
-  labs(
-    title = "Confronto classi NDVI 2007 vs 2025",
-    y = "Percentuale",
-    x = "Classe NDVI"
-  ) +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2007", y = "%", x = NULL) +
   theme_minimal(base_size = 14) +
   theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 20, hjust = 1)
+    axis.text.x = element_blank(),   # niente nomi sotto l’asse X
+    axis.ticks.x = element_blank(),
+    legend.position = "right"        # legenda a lato
   )
+
+p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = a2025),
+            vjust = -0.5, size = 4) +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_blank(),   # niente nomi sotto l’asse X
+    axis.ticks.x = element_blank(),
+    legend.position = "right"        # legenda a lato
+  )
+
+
+p1 + p2
 
 ## Analisi multitemporale
 # L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2007 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco di quasi vent'anni.
@@ -207,3 +272,4 @@ ndvi_diff <- ndvi_2025 - ndvi_2007_res
 im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
+
