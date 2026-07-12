@@ -334,7 +334,6 @@ print(tab) ##       classi a2007 a2025
  ````
 Si riportano i risultati in una tabella:
 ### Confronto classi NDVI (2007 vs 2025)
-### Confronto classi NDVI (2007 vs 2025)
 
 | Classe              | 2007 | 2025 |
 |---------------------|------|------|
@@ -416,7 +415,9 @@ tab <- data.frame(
   Perc_2007 = round(perc_2007, 2),
   Perc_2025 = round(perc_2025, 2)
 )
-
+````
+Si riportano i risultati in una tabella:
+### Confronto classi NDVI (2007 vs 2025)
 | Classe                       | 2007 | 2025 |
 |------------------------------|------|------|
 | 0 – Ombra / suolo scuro      | 0.01 | 0.00 |
@@ -425,7 +426,7 @@ tab <- data.frame(
 | 3 – Arbusti attivi           | 0.00 | 0.06 |
 | 4 – Vegetazione densa        | 0.00 | 0.00 |
 
-
+````r
 tab <- data.frame(
   classi = c("0 - Ombra/suolo scuro",
              "1 - Suolo nudo",
@@ -478,7 +479,7 @@ im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 ````
-<img width="540" height="386" alt="Multitemporal" src="https://github.com/user-attachments/assets/61d7c346-357e-4f6b-987f-1003253d804c" />
+<img width="700" height="500" alt="Multitemporal" src="https://github.com/user-attachments/assets/61d7c346-357e-4f6b-987f-1003253d804c" />
 
 ## 📌 Commenti e Conclusioni
 
