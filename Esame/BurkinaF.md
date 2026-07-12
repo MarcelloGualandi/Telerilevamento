@@ -46,7 +46,7 @@ bk2007 <- rast ("BURKINA_2007.tif") # importazione primo file raster
 plot(bk2007) plot(ggw2007) # visualizzazione
 ````
 <p align="center">
-<img width="540" height="386" alt="bk2007" src="https://github.com/user-attachments/assets/4687d44e-6a14-4188-bc1c-795311150f7f" />
+<img width="700" height="500" alt="bk2007" src="https://github.com/user-attachments/assets/4687d44e-6a14-4188-bc1c-795311150f7f" />
 </p>
 
 > Immagine GGW2007 nelle 5 bande Landsat
@@ -56,10 +56,17 @@ bk2025 <- rast ("BURKINA_2025.tif")  # importazione secondo file raster
 plot(bk2025)  # visualizzazione
 ````
 <p align="center">
-<img width="540" height="386" alt="bk2025" src="https://github.com/user-attachments/assets/484710f0-03b8-4dcb-8a10-67a267753ac2" />
+<img width="700" height="500" alt="bk2025" src="https://github.com/user-attachments/assets/484710f0-03b8-4dcb-8a10-67a267753ac2" />
 </p>
 
 > Immagine GGW2025 nelle 5 bande Sentinel-2
+
+<!-- Le diverse bande mostrano differenze nella risposta spettrale, ogni banda evidenza pattern diversi della stessa area, perchè ciascusa risposnde a componenti differenti della superficie. 
+- B2 (blue) valori bassi, utile per discriminare acqua/ombra e suoli molto chiari 
+- B3 (green) valori leggermente più alti, sensibile alla vegetazione iniziale
+- B4 (red) evidenzia bene suoli nudi e aree degradate
+- B8 (NIR) mostra le zone con maggiore biomassa (valori + alti)
+- B12 (SWIR2) sensibile a umidità del suolo e stress idrico -->
 
 # Visualizzazione con colori reali (RGB)
 ### Corrispondenza bande Landsat 5 TM ↔ Sentinel‑2
@@ -79,12 +86,12 @@ names(bk2007)
 # [1] "SR_B1" "SR_B2" "SR_B3" "SR_B4" "SR_B7"
 names(bk2007) <- c("B2","B3","B4","B8","B12") ## per rinominare bande
 im.multiframe(1,2) ## true color
-plotRGB(bk2007, r="B4", g="B3", b="B2", stretch="lin", main = "Burkina Faso, GGW 2007")
-plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="lin", main = "Burkina Faso, GGW 2025")
+plotRGB(bk2007, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GGW 2007")
+plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GGW 2025")
  ````
-
+<!-- ho usato la funzione "hist" per ottenere una immagine più luminosa e naturale con maggiori dettagli meglio per un suolo prevalentemente nudo come quello del sahel. l'hist prende l'istogramma dei valori li ridistribuisce in modo da occupare tutta la gamma aumentando così il contrasto nelle zone dove i valori sono più frequenti. il "lin" invece prende i valori mi e max della banda e li mappa linearmente tra 0 e 255 (RGB),si ottiene una immagine scura se i valori sono bassi (SR 0-0.3) e se il contrasto è basso con colori poco vividi. --> 
 <p align="center">
-<img width="540" height="386" alt="True_col" src="https://github.com/user-attachments/assets/680f18e2-621d-4f47-9dc0-be197094ac6c" />
+<img width="579" height="386" alt="true_color2" src="https://github.com/user-attachments/assets/ce0de582-e3f2-48a7-9c27-ef027ed35bc9" />
 </p>
 
 > Le immagini true color mostrano l’evoluzione del paesaggio tra il 2007 e il 2025 utilizzando le bande del visibile (Red, Green, Blue). La visualizzazione RGB consente di interpretare il cambiamento in modo naturale, come sarebbe percepito dall’occhio umano.
@@ -97,7 +104,7 @@ plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
 plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
 plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
  ````
-<img width="540" height="386" alt="4Bands_2007" src="https://github.com/user-attachments/assets/f37c0721-6e99-4886-9eb5-840587fb6689" />
+
 
 ````r
 im.multiframe(2,2)
@@ -110,17 +117,28 @@ plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 
 > La visualizzazione separata delle bande spettrali (Blue, Green, Red, NIR) permette di analizzare la risposta del territorio alle diverse lunghezze d’onda: il suolo riflette maggiormente nel blu e nel rosso, mentre la vegetazione sana mostra valori elevati nel NIR. Questa analisi è fondamentale per interpretare correttamente gli indici di vegetazione.
 
+````r
+#visualizziamo lo Swir
+im.multiframe(1,2)
+plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
+plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
+````
+<img width="700" height="500" alt="swir" src="https://github.com/user-attachments/assets/0f5aec2c-6df9-4637-a896-34b287409acb" />
+
+> Lo SWIR mostra chiaramente che nel 2025 il suolo è meno arido e più vegetato rispetto al 2007. valori alti di swir come nel 2007 mostrano suolo più secco rispetto a valori bassi che riflettono una maggiore umidità.
+
 ### Composizione RGB con NIR al post del red
 ````r
 im.multiframe(1,2)
-plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="lin",
+plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="hist",
         main="Burkina Faso, GGW 2007")
-plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="lin",
+plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
         main="Burkina Faso, GGW 2025")
 ````
-<img width="540" height="386" alt="NIR_inRed" src="https://github.com/user-attachments/assets/d2394633-3d24-4e35-a25c-ba0d2603aa5c" />
+<img width="700" height="500" alt="NIR_inRed" src="https://github.com/user-attachments/assets/a70194c7-355c-45ad-8442-c08d09b920fd" />
 
-> sostituire il NIR nella banda del RED permette di evidenziare visivamente la vegetazione e il suo cambiamento tra 2007 e 2025. si evidenziano le zone di vegetazione (rosso) e gialle le zone aride.
+
+> sostituire il NIR nella banda del RED permette di evidenziare visivamente la vegetazione e il suo cambiamento tra 2007 e 2025. si evidenziano le zone di vegetazione (rosso).
 
 ### Analisi DVI 
 Il DVI (Difference Vegetation Index) è uno dei più semplici indici spettrali utilizzati per valutare la presenza e la vitalità della vegetazione.
