@@ -346,47 +346,46 @@ Si riportano i risultati in una tabella:
  ````r
 # 1) CREAZIONE DEL DATA FRAME
 # ============================
-
 df <- data.frame(
-  Classe = c("Suolo nudo", "Vegetazione media", "Vegetazione sana"),
-  `2007` = c(1.00, 0.00, 0.00),
-  `2025` = c(0.50, 0.47, 0.03),
+  classi = c("Suolo nudo", "Vegetazione media", "Vegetazione sana"),
+  a2007 = c(100, 0, 0),
+  a2025 = c(50, 47, 3),
   check.names = FALSE
 )
-
-# ============================
-# 2) CONVERSIONE IN FORMATO LONG
-# ============================
-
-df_long <- df %>%
-  pivot_longer(
-    cols = c("2007", "2025"),
-    names_to = "Anno",
-    values_to = "Percentuale"
-  )
-
 # ============================
 # 3) GRAFICO LEGGIBILE
 # ============================
-
-ggplot(df_long, aes(x = Classe, y = Percentuale, fill = Anno)) +
-  geom_col(position = "dodge", width = 0.7) +
-  geom_text(aes(label = Percentuale),
-            position = position_dodge(width = 0.7),
+p1 <- ggplot(df, aes(x = classi, y = a2007, fill = classi)) +    
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = a2007),
             vjust = -0.5, size = 4) +
-  scale_fill_manual(values = c("2007" = "#440154", "2025" = "#2FB47C")) +
-  labs(
-    title = "Confronto classi NDVI 2007 vs 2025",
-    y = "Percentuale",
-    x = "Classe NDVI"
-  ) +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2007", y = "%", x = NULL) +
   theme_minimal(base_size = 14) +
   theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 20, hjust = 1)
+    axis.text.x = element_blank(),   # niente nomi sotto l’asse X
+    axis.ticks.x = element_blank(),
+    legend.position = "right"        # legenda a lato
   )
+p2 <- ggplot(df, aes(x = classi, y = a2025, fill = classi)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = a2025),
+            vjust = -0.5, size = 4) +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.position = "right"
+  )
+p1 + p2
+
 ````
-<img width="540" height="386" alt="visual_corretto" src="https://github.com/user-attachments/assets/f092e27e-7f23-41c2-ad22-4f1f65ce700f" />
+<img width="1210" height="709" alt="Visual_3" src="https://github.com/user-attachments/assets/4d387c3d-70ca-495a-88ae-04ad785de1e4" />
+
 
 > Confronto tra le classi NDVI nel 2007 e nel 2025. Nel 2007 l’area ricade interamente nella classe “Suolo nudo”, indicando una copertura vegetale molto scarsa. Nel 2025 si osserva invece una distribuzione più articolata, con una riduzione del suolo nudo (50%) e la comparsa delle classi “Vegetazione media” (47%) e “Vegetazione sana” (3%), evidenziando un miglioramento della copertura vegetale coerente con processi di rigenerazione.
 
@@ -456,7 +455,8 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
 
 p1 + p2
 ````
-<img width="1013" height="428" alt="Visual_5" src="https://github.com/user-attachments/assets/17659933-c64e-414b-85e2-bb07a5e09910" />
+<img width="1440" height="768" alt="Visual_5" src="https://github.com/user-attachments/assets/0954f206-022f-42bd-98cd-c7a14e4de31d" />
+
 
 
 
