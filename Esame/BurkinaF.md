@@ -44,21 +44,23 @@ library(tidyr)
 ````
 ## Importazione immagini raster
 ````r
-bk2007 <- rast ("BURKINA_2007.tif") # importazione primo file raster
+bk2007 <- rast ("Sampelga_2007.tif") # importazione primo file raster
 plot(bk2007) plot(ggw2007) # visualizzazione
 ````
 <p align="center">
-<img width="700" height="500" alt="bk2007" src="https://github.com/user-attachments/assets/4687d44e-6a14-4188-bc1c-795311150f7f" />
+<img width="614" height="387" alt="bk2007" src="https://github.com/user-attachments/assets/6d7203ec-f73c-4e3a-aa37-5332cb94f0a2" />
+
 </p>
 
 > Immagine GGW2007 nelle 5 bande Landsat
 
 ````r
-bk2025 <- rast ("BURKINA_2025.tif")  # importazione secondo file raster
+bk2025 <- rast ("Sampelga_2025.tif")  # importazione secondo file raster
 plot(bk2025)  # visualizzazione
 ````
 <p align="center">
-<img width="700" height="500" alt="bk2025" src="https://github.com/user-attachments/assets/484710f0-03b8-4dcb-8a10-67a267753ac2" />
+<img width="614" height="387" alt="bk2025" src="https://github.com/user-attachments/assets/f9ef4d23-ff8e-491f-a5da-4263e0d6327f" />
+
 </p>
 
 > Immagine GGW2025 nelle 5 bande Sentinel-2
@@ -93,7 +95,8 @@ plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GG
  ````
 <!-- ho usato la funzione "hist" per ottenere una immagine più luminosa e naturale con maggiori dettagli meglio per un suolo prevalentemente nudo come quello del sahel. l'hist prende l'istogramma dei valori li ridistribuisce in modo da occupare tutta la gamma aumentando così il contrasto nelle zone dove i valori sono più frequenti. il "lin" invece prende i valori mi e max della banda e li mappa linearmente tra 0 e 255 (RGB),si ottiene una immagine scura se i valori sono bassi (SR 0-0.3) e se il contrasto è basso con colori poco vividi. --> 
 <p align="center">
-<img width="579" height="386" alt="true_color2" src="https://github.com/user-attachments/assets/ce0de582-e3f2-48a7-9c27-ef027ed35bc9" />
+<img width="614" height="387" alt="true_color" src="https://github.com/user-attachments/assets/4b5ce2f0-2005-4a8e-915c-b8136114adf2" />
+ 
 </p>
 
 > Le immagini true color mostrano l’evoluzione del paesaggio tra il 2007 e il 2025 utilizzando le bande del visibile (Red, Green, Blue). La visualizzazione RGB consente di interpretare il cambiamento in modo naturale, come sarebbe percepito dall’occhio umano.
@@ -106,6 +109,7 @@ plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
 plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
 plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
  ````
+<img width="614" height="387" alt="4bands_2007" src="https://github.com/user-attachments/assets/7162713a-55ca-4a47-98c6-c30c69cc6c3b" />
 
 
 ````r
@@ -115,7 +119,8 @@ plot(bk2025[[2]], main = "B3 - Green", col = magma(100))
 plot(bk2025[[3]], main = "B2 - Blue", col = magma(100)) 
 plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 ````
-<img width="540" height="386" alt="4Bands_2025" src="https://github.com/user-attachments/assets/d4c7ff8a-4ee9-4a15-ba6e-e731611bfbb0" />
+<img width="614" height="387" alt="4bands_2025" src="https://github.com/user-attachments/assets/f9c2f043-8a9a-45ea-bb1d-3f3241579357" />
+
 
 > La visualizzazione separata delle bande spettrali (Blue, Green, Red, NIR) permette di analizzare la risposta del territorio alle diverse lunghezze d’onda: il suolo riflette maggiormente nel blu e nel rosso, mentre la vegetazione sana mostra valori elevati nel NIR. Questa analisi è fondamentale per interpretare correttamente gli indici di vegetazione.
 
@@ -125,7 +130,8 @@ im.multiframe(1,2)
 plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
-<img width="700" height="500" alt="swir" src="https://github.com/user-attachments/assets/0f5aec2c-6df9-4637-a896-34b287409acb" />
+<img width="614" height="387" alt="swir" src="https://github.com/user-attachments/assets/61644875-8261-45bb-b51b-bf645b32fc00" />
+
 
 > Lo SWIR mostra chiaramente che nel 2025 il suolo è meno arido e più vegetato rispetto al 2007. valori alti di swir come nel 2007 mostrano suolo più secco rispetto a valori bassi che riflettono una maggiore umidità.
 
@@ -137,7 +143,8 @@ plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="hist",
 plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
         main="Burkina Faso, GGW 2025")
 ````
-<img width="700" height="500" alt="NIR_inRed" src="https://github.com/user-attachments/assets/a70194c7-355c-45ad-8442-c08d09b920fd" />
+<img width="614" height="387" alt="NIR_inRed" src="https://github.com/user-attachments/assets/8fcc13f8-a028-4685-a7aa-a6fa0b5bcbdc" />
+
 
 
 > sostituire il NIR nella banda del RED permette di evidenziare visivamente la vegetazione e il suo cambiamento tra 2007 e 2025. si evidenziano le zone di vegetazione (rosso).
@@ -160,7 +167,7 @@ im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
 plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 ````
-<img width="800" height="600" alt="DVI" src="https://github.com/user-attachments/assets/26b4c9a8-4958-4787-a87c-b178162995a6" />
+<img width="614" height="387" alt="DVI" src="https://github.com/user-attachments/assets/5af8f0db-1409-415d-b917-db87ba40d262" />
 
 ````r
 # Calcolo e visualizzazione differenza DVI  
@@ -172,7 +179,8 @@ dvi_diff <- dvi_2025_res - dvi_2007_res
 im.multiframe(1,1)
 plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
 ````
-<img width="540" height="386" alt="diff_DVI" src="https://github.com/user-attachments/assets/e1a3bd49-b049-46ee-92f8-80531cc86c12" />
+<img width="614" height="387" alt="diff_DVI" src="https://github.com/user-attachments/assets/aaa9e1a4-bc10-4838-a81a-f65e6a63c28a" />
+
 
 > Questa rappresentazione permette di individuare in modo immediato le zone che hanno beneficiato maggiormente degli interventi di ripristino.
 
@@ -195,7 +203,8 @@ im.multiframe(1, 2)
 plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 ````
-<img width="800" height="600" alt="NDVI" src="https://github.com/user-attachments/assets/72c5c507-d0a7-430d-a2cd-af59cb767c74" />
+<img width="614" height="387" alt="NDVI" src="https://github.com/user-attachments/assets/e0b44e59-c588-4f79-ba2e-3ab8bc4e53db" />
+
 
 > **Valori alti:** vegetazione sana e densa
 > **Valori bassi:** suolo nudo e vegetazione scarsa
@@ -220,7 +229,8 @@ im.ridgeline(
   palette = c("magma", "viridis")  # 2007 = viola/rosso, 2025 = verde/giallo
 )
 ````
-<img width="540" height="386" alt="Ridg_plot" src="https://github.com/user-attachments/assets/eddd4cff-60c0-415b-bdcf-36d1f7149789" />
+<img width="614" height="387" alt="Rplot" src="https://github.com/user-attachments/assets/9c57a10f-5762-4ddd-bde0-a934be330d67" />
+
 
 > Il ridgeline confronta la distribuzione dei valori NDVI tra il 2007 e il 2025. Le curve sono etichettate e colorate in modo distinto: la curva del 2007 (magma) mostra valori più bassi e concentrati, mentre quella del 2025 (viridis) è spostata verso valori più elevati, indicando un aumento della copertura vegetale. Il grafico evidenzia chiaramente il miglioramento della vegetazione nel periodo considerato.
 
@@ -234,8 +244,9 @@ hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
  ````
 <details>
 <summary>Istogrammi (cliccare qui)</summary>  
-<img width="540" height="386" alt="HIST_ndvi2007" src="https://github.com/user-attachments/assets/56810c3b-fed8-4895-a1df-db4eef0b90f2" />
-<img width="540" height="386" alt="HIST_ndvi2025" src="https://github.com/user-attachments/assets/70b58c10-11cf-4e71-974c-181500380ec9" />
+<img width="614" height="387" alt="Hist_2007" src="https://github.com/user-attachments/assets/04194658-91c6-477a-b3e3-7127f49f6614" />
+<img width="614" height="387" alt="Hist_2025" src="https://github.com/user-attachments/assets/d5b144b1-8d9b-4bcb-a209-6e58de75455c" />
+
   
 > Gli istogrammi servono per scegliere soglie significative
 </details>
@@ -258,7 +269,8 @@ plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
  ````
 <p align="center">
-<img width="800" height="600" alt="class_NDVI" src="https://github.com/user-attachments/assets/5abde95f-5e84-4a74-b861-55650417b23e" />
+<img width="614" height="387" alt="3_class" src="https://github.com/user-attachments/assets/7e47e002-19a7-44aa-a61e-dc509d45fc42" />
+
 </p>
 
 > La classificazione NDVI evidenzia un cambiamento netto tra il 2007 e il 2025. Nel 2007 l’intera area ricade nella classe 1 (NDVI < 0.2), indicativa di una copertura vegetale molto bassa e omogenea. Nel 2025 emergono invece tre classi distinte, con la comparsa di patch a NDVI elevato (classe 3) e una maggiore eterogeneità spaziale. Questo pattern è coerente con processi di rigenerazione vegetale associati alle iniziative della Great Green Wall.
