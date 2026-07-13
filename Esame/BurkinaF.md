@@ -6,27 +6,29 @@
 
 # 📌 Introduzione 
 
-La **Great Green Wall** **GGW** è un progetto lanciato dall’Unione Africana nel 2007 per contrastare la desertificazione creando un mosaico di paesaggi produttivi verdi lungo una fascia di ~8.000 km dal Senegal a Gibuti. 
-La fascia del Sahel è una delle regioni africane più vulnerabili al cambiamento climatico, con desertificazione crescente e pressioni antropiche.
-
-Gli obiettivi fissati per il 2030 includono:
+La **Great Green Wall** **GGW** è un progetto lanciato dall’Unione Africana nel 2007 per contrastare la desertificazione, la perdita di biodiversità e la crescente vulnerabilità climatica del Sahel. Il progetto mira a realizzare un mosaico di paesaggi rstaurati lungo circa 8000 km, dal Senegal al Gibuti, attraverso interventi di riforestaizione, agricoltura rigenerativa e gestione sostenibile del territorio.
+La fascia del Sahel rappresenta una delle regioni più esposte agli effetti del cambiamento climatico: avanzamento della desertificazione, degrado del suolo, riduzione della produttività primaria e pressioni antropiche sempre più intense hanno reso questo terrritorio sempre meno abitabile. 
+In questo contesto la **GGW** agisce come una strategia integrata di adattamento e mitigazione con ambizioni obiettivi fissati per il 2030: 
 
 - 100 milioni di ettari restaurati
+- 250 milioni di tonnellate di  CO₂ sequestrate
+- 10 milioni di posti di lavoro verdi nelle comunità rurali
 
-- 250 milioni di tonnellate di CO₂ sequestrate
-
-- 10 milioni di posti di lavoro nelle zone rurali
-
+Nonostante la portata del progetto, la valutazione dell'effiacia degli interventi rimane una delle sfide principale. La mancanza di metodologie standardizzate e di monitoraggi sistematici ha portata ad una comprensione limitata dei progressi reali.
+Il **telerilevamento** offre una soluzione concreta a queste criticità poichè consente un monitoraggio continuo, oggettivo ed economicamente sostenibile, capace di tracciare con precisione i progressi della Great Green Wall.
 
 # 🌍 Area di Studio
-Per l'analisi è stata selezionata la **regione di Sampelga** in **Burkina Faso**.
+Per l'analisi è stata selezionata la **regione di Sampelga** in **Burkina Faso** caratterizzata da una piovosità media annua di cira 400 mm con piogge che si concentrano nei mesi tra giugno e settembre.
+La vegetazione è dominata da una savana arbustiva con copertura erbacea discontinua che emergono esclusivamente durante la stagione delle piogge.
 
 # 🎯 Obiettivi 
-Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia della Great Green Wall attraverso immagini satellitari telerilevate.
+Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia  della Great Green Wall attraverso immagini satellitari e l'uso di indici di vegatazione. 
 
 # 📄 Materiali e metodi
 Le immagini satellitari sono state ricavate attraverso [Google Earth Engine](https://earthengine.google.com/) selezionando le date di riferimento utili all'analisi. 
-Per l'immagine satellitare del 2025 è stato utilizzato Sentinel-2 mentre per quella del 2007 Landsat in quanto Sentinel-2 non era ancora nato.
+Per l'analisi del 2025 è stato utilizzato **Sentinel-2** che fornisce dati multispettralii con risoluzione spaziale di 10-20 m.
+Per l'analisi del 2007 invece è stato utilizzato **Landsat 5 TM**, in quanto Sentinel-2 non era ancora operativo. Landsat garantisce comunque una risoluzione di 30 m e una copertura temporale continua. 
+Le date di acquisizione sono state selezionate in modo da rappresentare on maniera coerente la stagione vegetativa dei siti di sutdio.
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Code.js
 
