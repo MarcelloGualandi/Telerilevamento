@@ -345,19 +345,17 @@ tab <- data.frame(
   a2007 = round(perc_2007, 2),
   a2025 = round(perc_2025, 2)
 )
-print(tab) ##       classi a2007 a2025
- # 1        Suolo nudo     0  0.73
- # 2 Vegetazione media     1  0.27
- # 3  Vegetazione sana     0  0.00
- ````
+print(tab)
+
 Si riportano i risultati in una tabella:
 ### Confronto classi NDVI (2007 vs 2025)
 
-| Classe              | 2007 | 2025 |
-|---------------------|------|------|
-| Suolo nudo          | 1    | 0.50 |
-| Vegetazione media   | 0    | 0.47 |
-| Vegetazione sana    | 0    | 0.03 |
+| Classe             | 2007  | 2025  |
+|--------------------|-------|-------|
+| Suolo nudo         | 93.31 | 11.58 |
+| Vegetazione media  |  6.69 | 29.15 |
+| Vegetazione sana   |  0.00 | 59.27 |
+
 
 ## Visualizzazione 
  ````r
@@ -436,13 +434,14 @@ tab <- data.frame(
 ````
 Si riportano i risultati in una tabella:
 ### Confronto classi NDVI (2007 vs 2025)
-| Classe                       | 2007 | 2025 |
-|------------------------------|------|------|
-| 0 – Ombra / suolo scuro      | 0.01 | 0.00 |
-| 1 – Suolo nudo               | 0.99 | 0.50 |
-| 2 – Erbacee / arbusti bassi  | 0.00 | 0.43 |
-| 3 – Arbusti attivi           | 0.00 | 0.06 |
-| 4 – Vegetazione densa        | 0.00 | 0.00 |
+| Classe                      | 2007  | 2025  |
+|-----------------------------|-------|-------|
+| 0 – Ombra / suolo scuro     | 0.00  | 0.01  |
+| 1 – Suolo nudo              | 0.93  | 0.11  |
+| 2 – Erbacee / arbusti bassi | 0.07  | 0.21  |
+| 3 – Arbusti attivi          | 0.00  | 0.24  |
+| 4 – Vegetazione densa       | 0.00  | 0.43  |
+
 
 ````r
 tab <- data.frame(
