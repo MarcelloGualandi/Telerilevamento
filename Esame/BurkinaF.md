@@ -401,8 +401,7 @@ p2 <- ggplot(df, aes(x = classi, y = a2025, fill = classi)) +
 p1 + p2
 
 ````
-<img width="1118" height="677" alt="Visual_3" src="https://github.com/user-attachments/assets/d2c426b5-9565-4062-a8ee-8037a6c4db24" />
-
+<img width="1440" height="488" alt="visual_3" src="https://github.com/user-attachments/assets/cdbfe048-6678-470c-a0bd-185a559decde" />
 
 
 > Confronto tra le classi NDVI nel 2007 e nel 2025. Nel 2007 l’area ricade interamente nella classe “Suolo nudo”, indicando una copertura vegetale molto scarsa. Nel 2025 si osserva invece una distribuzione più articolata, con una riduzione del suolo nudo (50%) e la comparsa delle classi “Vegetazione media” (47%) e “Vegetazione sana” (3%), evidenziando un miglioramento della copertura vegetale coerente con processi di rigenerazione.
