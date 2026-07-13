@@ -48,7 +48,8 @@ bk2007 <- rast ("Sampelga_2007.tif") # importazione primo file raster
 plot(bk2007) plot(ggw2007) # visualizzazione
 ````
 <p align="center">
-<img width="614" height="387" alt="bk2007" src="https://github.com/user-attachments/assets/6d7203ec-f73c-4e3a-aa37-5332cb94f0a2" />
+<img width="1118" height="537" alt="bk2007" src="https://github.com/user-attachments/assets/c2b38b6b-2e0f-4b50-8fa2-763eda8b9831" />
+
 
 </p>
 
@@ -59,7 +60,7 @@ bk2025 <- rast ("Sampelga_2025.tif")  # importazione secondo file raster
 plot(bk2025)  # visualizzazione
 ````
 <p align="center">
-<img width="614" height="387" alt="bk2025" src="https://github.com/user-attachments/assets/f9ef4d23-ff8e-491f-a5da-4263e0d6327f" />
+<img width="1118" height="509" alt="bk2025" src="https://github.com/user-attachments/assets/80bd289e-58bd-42b2-9741-3f92c2e789bd" />
 
 </p>
 
@@ -95,9 +96,9 @@ plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GG
  ````
 <!-- ho usato la funzione "hist" per ottenere una immagine più luminosa e naturale con maggiori dettagli meglio per un suolo prevalentemente nudo come quello del sahel. l'hist prende l'istogramma dei valori li ridistribuisce in modo da occupare tutta la gamma aumentando così il contrasto nelle zone dove i valori sono più frequenti. il "lin" invece prende i valori mi e max della banda e li mappa linearmente tra 0 e 255 (RGB),si ottiene una immagine scura se i valori sono bassi (SR 0-0.3) e se il contrasto è basso con colori poco vividi. --> 
 <p align="center">
-<img width="614" height="387" alt="true_color" src="https://github.com/user-attachments/assets/4b5ce2f0-2005-4a8e-915c-b8136114adf2" />
- 
-</p>
+<img width="1193" height="494" alt="true_color" src="https://github.com/user-attachments/assets/68eddf89-94fa-48b6-99f0-266c57c9277d" />
+
+ </p>
 
 > Le immagini true color mostrano l’evoluzione del paesaggio tra il 2007 e il 2025 utilizzando le bande del visibile (Red, Green, Blue). La visualizzazione RGB consente di interpretare il cambiamento in modo naturale, come sarebbe percepito dall’occhio umano.
 
@@ -109,7 +110,7 @@ plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
 plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
 plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
  ````
-<img width="614" height="387" alt="4bands_2007" src="https://github.com/user-attachments/assets/7162713a-55ca-4a47-98c6-c30c69cc6c3b" />
+<img width="1193" height="466" alt="4bands_2007" src="https://github.com/user-attachments/assets/cfc7f3bc-7262-414b-8507-9a8f74044dfd" />
 
 
 ````r
@@ -119,7 +120,8 @@ plot(bk2025[[2]], main = "B3 - Green", col = magma(100))
 plot(bk2025[[3]], main = "B2 - Blue", col = magma(100)) 
 plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 ````
-<img width="614" height="387" alt="4bands_2025" src="https://github.com/user-attachments/assets/f9c2f043-8a9a-45ea-bb1d-3f3241579357" />
+<img width="1193" height="438" alt="4bands_2025" src="https://github.com/user-attachments/assets/94efc763-bcf8-441b-8dcf-7553a9e9a4f2" />
+
 
 
 > La visualizzazione separata delle bande spettrali (Blue, Green, Red, NIR) permette di analizzare la risposta del territorio alle diverse lunghezze d’onda: il suolo riflette maggiormente nel blu e nel rosso, mentre la vegetazione sana mostra valori elevati nel NIR. Questa analisi è fondamentale per interpretare correttamente gli indici di vegetazione.
@@ -130,7 +132,7 @@ im.multiframe(1,2)
 plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
-<img width="614" height="387" alt="swir" src="https://github.com/user-attachments/assets/61644875-8261-45bb-b51b-bf645b32fc00" />
+<img width="1159" height="387" alt="swir" src="https://github.com/user-attachments/assets/132e5dc2-bc98-4a4d-8596-d99e3ca3f332" />
 
 
 > Lo SWIR mostra chiaramente che nel 2025 il suolo è meno arido e più vegetato rispetto al 2007. valori alti di swir come nel 2007 mostrano suolo più secco rispetto a valori bassi che riflettono una maggiore umidità.
@@ -143,8 +145,7 @@ plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="hist",
 plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
         main="Burkina Faso, GGW 2025")
 ````
-<img width="614" height="387" alt="NIR_inRed" src="https://github.com/user-attachments/assets/8fcc13f8-a028-4685-a7aa-a6fa0b5bcbdc" />
-
+<img width="1440" height="796" alt="NIR_inRed" src="https://github.com/user-attachments/assets/066bb069-db4b-4264-b90e-3c20717f729d" />
 
 
 > sostituire il NIR nella banda del RED permette di evidenziare visivamente la vegetazione e il suo cambiamento tra 2007 e 2025. si evidenziano le zone di vegetazione (rosso).
@@ -167,7 +168,8 @@ im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
 plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 ````
-<img width="614" height="387" alt="DVI" src="https://github.com/user-attachments/assets/5af8f0db-1409-415d-b917-db87ba40d262" />
+<img width="1440" height="768" alt="DVI" src="https://github.com/user-attachments/assets/f167e54f-0b52-45a3-8714-29d0f6023a0c" />
+
 
 ````r
 # Calcolo e visualizzazione differenza DVI  
@@ -179,7 +181,7 @@ dvi_diff <- dvi_2025_res - dvi_2007_res
 im.multiframe(1,1)
 plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
 ````
-<img width="614" height="387" alt="diff_DVI" src="https://github.com/user-attachments/assets/aaa9e1a4-bc10-4838-a81a-f65e6a63c28a" />
+<img width="614" height="387" alt="diff_DVI" src="https://github.com/user-attachments/assets/fb66fffb-197a-4e33-86da-a120fd637e6f" />
 
 
 > Questa rappresentazione permette di individuare in modo immediato le zone che hanno beneficiato maggiormente degli interventi di ripristino.
@@ -203,7 +205,7 @@ im.multiframe(1, 2)
 plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 ````
-<img width="614" height="387" alt="NDVI" src="https://github.com/user-attachments/assets/e0b44e59-c588-4f79-ba2e-3ab8bc4e53db" />
+<img width="1440" height="712" alt="NDVI" src="https://github.com/user-attachments/assets/b4b4fd89-df50-4ee2-bb3a-cfc61237b7fb" />
 
 
 > **Valori alti:** vegetazione sana e densa
