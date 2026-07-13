@@ -231,7 +231,7 @@ im.ridgeline(
   palette = c("magma", "viridis")  # 2007 = viola/rosso, 2025 = verde/giallo
 )
 ````
-<img width="614" height="387" alt="Rplot" src="https://github.com/user-attachments/assets/9c57a10f-5762-4ddd-bde0-a934be330d67" />
+<img width="1440" height="572" alt="Rplot" src="https://github.com/user-attachments/assets/07ac59f4-7f40-45c2-ae7d-414322e1d902" />
 
 
 > Il ridgeline confronta la distribuzione dei valori NDVI tra il 2007 e il 2025. Le curve sono etichettate e colorate in modo distinto: la curva del 2007 (magma) mostra valori più bassi e concentrati, mentre quella del 2025 (viridis) è spostata verso valori più elevati, indicando un aumento della copertura vegetale. Il grafico evidenzia chiaramente il miglioramento della vegetazione nel periodo considerato.
@@ -271,7 +271,8 @@ plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
  ````
 <p align="center">
-<img width="614" height="387" alt="3_class" src="https://github.com/user-attachments/assets/7e47e002-19a7-44aa-a61e-dc509d45fc42" />
+<img width="1440" height="684" alt="3_class" src="https://github.com/user-attachments/assets/180ea26e-4b6e-4d15-82eb-1c8983398018" />
+
 
 </p>
 
@@ -310,7 +311,8 @@ im.multiframe(1, 2)
 plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007 (Sahel)")
 plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
  ````
-<img width="800" height="600" alt="Class_5" src="https://github.com/user-attachments/assets/d5127338-a5c2-4fe5-89ed-5861d13fec07" />
+<img width="1440" height="628" alt="5_class" src="https://github.com/user-attachments/assets/19e04cbb-bd30-49b3-b1d4-199a032512b6" />
+
 
 
 > E' stata scelta una gamma di colori "friendly" per i daltonici
@@ -399,7 +401,8 @@ p2 <- ggplot(df, aes(x = classi, y = a2025, fill = classi)) +
 p1 + p2
 
 ````
-<img width="1210" height="709" alt="Visual_3" src="https://github.com/user-attachments/assets/4d387c3d-70ca-495a-88ae-04ad785de1e4" />
+<img width="1118" height="677" alt="Visual_3" src="https://github.com/user-attachments/assets/d2c426b5-9565-4062-a8ee-8037a6c4db24" />
+
 
 
 > Confronto tra le classi NDVI nel 2007 e nel 2025. Nel 2007 l’area ricade interamente nella classe “Suolo nudo”, indicando una copertura vegetale molto scarsa. Nel 2025 si osserva invece una distribuzione più articolata, con una riduzione del suolo nudo (50%) e la comparsa delle classi “Vegetazione media” (47%) e “Vegetazione sana” (3%), evidenziando un miglioramento della copertura vegetale coerente con processi di rigenerazione.
@@ -472,9 +475,7 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
 
 p1 + p2
 ````
-<img width="1440" height="768" alt="Visual_5" src="https://github.com/user-attachments/assets/0954f206-022f-42bd-98cd-c7a14e4de31d" />
-
-
+<img width="1118" height="649" alt="visual_5" src="https://github.com/user-attachments/assets/dd027f57-3267-45c0-840a-006b77d03dc5" />
 
 
 
@@ -495,7 +496,8 @@ im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 ````
-<img width="700" height="500" alt="Multitemporal" src="https://github.com/user-attachments/assets/61d7c346-357e-4f6b-987f-1003253d804c" />
+<img width="1440" height="600" alt="multitemporal" src="https://github.com/user-attachments/assets/8729ff74-0a36-4647-ab6b-796caca1254f" />
+
 
 ## 📌 Commenti e Conclusioni
 
