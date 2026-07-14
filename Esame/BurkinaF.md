@@ -243,6 +243,30 @@ im.ridgeline(
 
 > Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0.1–0.2), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati (0.3–0.6), mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve non si sovrappongono quasi mai e ciò significa cambiamento ecologico forte.
 
+ ````r
+# Concatenamento degli NDVI 
+ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method = "bilinear") # stessa estensione
+# Pairs plot
+pairs(ndvi,
+      main = "Matrice scatterplot NDVI 2007–2025")
+
+ ````
+<img width="1440" height="712" alt="Pair" src="https://github.com/user-attachments/assets/143e0566-cb8a-4ae3-8bd9-e12bb0766db2" />
+
+
+ ````r
+# Scatter plot NDVI 2007 vs NDVI 2025
+plot(ndvi[[1]], ndvi[[2]], xlab="NDVI 2007", ylab="NDVI 2025", main="Scatterplot NDVI")    # scatterplot NDVI pre e post-evento 
+abline(0, 1, col="red")  
+
+````
+<p align="center">
+<img width="485" height="390" alt="Scatterplot" src="https://github.com/user-attachments/assets/5c008264-9a5c-4693-841f-7380f25a3eb2" />
+
+</p>
+
+> La matrice lo scatterplot NDVI 2007–2025 evidenziano un aumento significativo dell’attività vegetazionale. La correlazione moderata indica che parte dell’area mantiene una risposta simile nei due anni, mentre la distribuzione dei punti sopra la linea 1:1 mostra che la maggioranza dei pixel ha incrementato i valori NDVI nel 2025.
+
 ## Classificazione per classi di vegetazione
  ````r
 ## Classificazione per classi di vegetazione
@@ -551,6 +575,17 @@ Inoltre, l’analisi si basa soltanto su indici spettrali come NIR e NDVI, che p
 Nel complesso, lo studio offre una lettura coerente dei cambiamenti osservati, ma le conclusioni devono essere interpretate con cautela e considerate come un’indicazione preliminare, che andrebbe confermata attraverso dati di campo e analisi complementari.
 
 ## Commenti e Conclusioni
+Grazie all'utizzo di indici spettrali (DVI e NDVI) si è potuto dimostrare analiticamente come le pratiche di rinverdimento all'interno di un nucleo della fascia Saheliana della Great Green Wall diano risultati nel corso del tempo. L’obiettivo era quello di comprendere se, e in che misura, le dinamiche osservate potessero essere coerenti con gli interventi della Great Green Wall.
+Le analisi condotte mostrano un cambiamento netto e consistente: le aree che nel 2007 risultavano dominate dal suolo nudo e da una vegetazione estremamente rada presentano nel 2025 segnali chiari di recupero, con un aumento significativo della riflettanza nel NIR, valori NDVI più elevati e una transizione verso classi vegetazionali più strutturate. La comparsa e l’espansione degli “arbusti attivi”, insieme alla riduzione del suolo nudo, rappresentano indicatori ecologici di grande rilevanza, che suggeriscono un miglioramento delle condizioni vegetazionali e una maggiore stabilità del suolo. 
+In conclusione, il progetto evidenzia un chiaro miglioramento dello stato vegetazionale dell’area tra il 2007 e il 2025, suggerendo un processo di recupero ecologico in atto. Pur richiedendo ulteriori approfondimenti e integrazioni con dati di campo, i risultati ottenuti rappresentano un contributo significativo alla comprensione delle dinamiche ambientali del Sahel e mostrano il potenziale del telerilevamento come strumento di supporto alle politiche di gestione e conservazione del territorio.
+
 
 
 ## Bibliografia
+
+Sacande, M., Martucci, A., & Vollrath, A. (2021). Monitoring Large-Scale Restoration Interventions from Land Preparation to Biomass Growth in the Sahel. Remote Sensing, 13(18), 3767. https://doi.org/10.3390/rs13183767
+
+[UNCCD - Great Green Wall] (https://www.unccd.int/our-work/ggwi) 
+
+
+
