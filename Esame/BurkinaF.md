@@ -269,7 +269,7 @@ abline(0, 1, col="red")
 
 </p>
 
-> La matrice lo scatterplot NDVI 2007–2025 evidenziano un aumento significativo dell’attività vegetazionale. La correlazione moderata indica che parte dell’area mantiene una risposta simile nei due anni, mentre la distribuzione dei punti sopra la linea 1:1 mostra che la maggioranza dei pixel ha incrementato i valori NDVI nel 2025.
+> La matrice e lo scatterplot NDVI 2007–2025 evidenziano un aumento significativo dell’attività vegetazionale. La correlazione moderata indica che parte dell’area mantiene una risposta simile nei due anni, mentre la distribuzione dei punti sopra la linea 1:1 mostra che la maggioranza dei pixel ha incrementato i valori NDVI nel 2025.
 
 ## Classificazione per classi di vegetazione
  ````r
@@ -417,7 +417,7 @@ p1 + p2
 <img width="1440" height="488" alt="visual_3" src="https://github.com/user-attachments/assets/cdbfe048-6678-470c-a0bd-185a559decde" />
 
 
->L’analisi delle classi NDVI mostra un cambiamento netto tra il 2007 e il 2025. Nel 2007 il paesaggio è dominato dal suolo nudo (93%), con una vegetazione scarsa e nessuna area a elevato vigore fotosintetico. Nel 2025 la situazione si ribalta: la vegetazione sana rappresenta il 59% dell’area, la vegetazione media il 29% e il suolo nudo scende all’11%
+> L’analisi delle classi NDVI mostra un cambiamento netto tra il 2007 e il 2025. Nel 2007 il paesaggio è dominato dal suolo nudo (93%), con una vegetazione scarsa e nessuna area a elevato vigore fotosintetico. Nel 2025 la situazione si ribalta: la vegetazione sana rappresenta il 59% dell’area, la vegetazione media il 29% e il suolo nudo scende all’11%
 
  <details>
 <summary> 5 classi (cliccare qui)</summary>  
