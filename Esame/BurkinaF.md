@@ -272,6 +272,16 @@ class_matrix
 # [2,]  0.2  0.4    2       # Se 0.2 ≤ NDVI < 0.4 allora si associa una classe di tipo 2 (Vegetazione media)
 # [3,]  0.4  Inf    3       # Se NDVI ≥ 0.4 allora si associa una classe di tipo 3 (Vegetazione sana)
 
+ ````
+### Classi NDVI utilizzate
+
+| Classe | Intervallo NDVI        | Descrizione              |
+|--------|--------------------------|---------------------------|
+| 1      | NDVI < 0.20             | Suolo nudo               |
+| 2      | 0.20 ≤ NDVI < 0.40      | Vegetazione media        |
+| 3      | NDVI ≥ 0.40             | Vegetazione sana         |
+
+ ````r
 ndvi_2007_cl <- classify(ndvi_2007, class_matrix) 
 ndvi_2025_cl <- classify(ndvi_2025, class_matrix)  
 im.multiframe(1, 2)
@@ -286,7 +296,10 @@ plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 > La classificazione NDVI evidenzia un cambiamento netto tra il 2007 e il 2025. Nel 2007 prevale la classe “suolo nudo”, con scarsa presenza di vegetazione. Nel 2025 aumentano le classi “vegetazione media” e “vegetazione sana”, indicando un miglioramento della copertura vegetale e del vigore fotosintetico. 
 
 
-## Calcolo percentuali
+## Calcolo frequenze e percentuali
+<details>
+<summary>Code R (cliccare qui)</summary>  
+ 
  ````r
 # Frequenze
 freq_2007 <- freq(ndvi_2007_cl)
@@ -316,6 +329,7 @@ tab <- data.frame(
   a2025 = round(perc_2025, 2)
 )
 print(tab)
+````
 
 Si riportano i risultati in una tabella:
 ### Confronto classi NDVI (2007 vs 2025)
@@ -326,7 +340,7 @@ Si riportano i risultati in una tabella:
 | Vegetazione media  |  6.69 | 29.15 |
 | Vegetazione sana   |  0.00 | 59.27 |
 
-
+````r
 ## Visualizzazione 
  ````r
 # 1) CREAZIONE DEL DATA FRAME
@@ -369,13 +383,19 @@ p2 <- ggplot(df, aes(x = classi, y = a2025, fill = classi)) +
 p1 + p2
 
 ````
+
+</details>
+
 <img width="1440" height="488" alt="visual_3" src="https://github.com/user-attachments/assets/cdbfe048-6678-470c-a0bd-185a559decde" />
 
 
-> Confronto tra le classi NDVI nel 2007 e nel 2025. Nel 2007 l’area ricade interamente nella classe “Suolo nudo”, indicando una copertura vegetale molto scarsa. Nel 2025 si osserva invece una distribuzione più articolata, con una riduzione del suolo nudo (50%) e la comparsa delle classi “Vegetazione media” (47%) e “Vegetazione sana” (3%), evidenziando un miglioramento della copertura vegetale coerente con processi di rigenerazione.
+>L’analisi delle classi NDVI mostra un cambiamento netto tra il 2007 e il 2025. Nel 2007 il paesaggio è dominato dal suolo nudo (93%), con una vegetazione scarsa e nessuna area a elevato vigore fotosintetico. Nel 2025 la situazione si ribalta: la vegetazione sana rappresenta il 59% dell’area, la vegetazione media il 29% e il suolo nudo scende all’11%
 
-
+ <details>
+<summary> 5 classi (cliccare qui)</summary>  
+  
 Utilizziamo ora classi diverse pe mettere in maggiore risalto quelli che potrebbero essere i cambiamenti avvenuti nel secolo. le diverse soglie sono state scelte dopo ricerca bibliografica. 
+
  ````r
 class_matrix_sahel <- matrix(c(
      -Inf, 0.05, 0,   # Ombra, roccia, acqua, suolo molto scuro
@@ -393,6 +413,19 @@ class_matrix_sahel
 # [3,] 0.20 0.35    2
 # [4,] 0.35 0.50    3
 # [5,] 0.50  Inf    4
+
+````
+### Classi NDVI 
+
+| Classe | Intervallo NDVI        | Descrizione                                               |
+|--------|--------------------------|-----------------------------------------------------------|
+| 0      | NDVI < 0.05             | Ombra / roccia / acqua / suolo molto scuro               |
+| 1      | 0.05 ≤ NDVI < 0.20      | Suolo nudo / vegetazione erbacea molto rada              |
+| 2      | 0.20 ≤ NDVI < 0.35      | Vegetazione erbacea / arbustiva discontinua              |
+| 3      | 0.35 ≤ NDVI < 0.50      | Vegetazione arbustiva/arborea moderata (GGW in crescita) |
+| 4      | NDVI ≥ 0.50             | Vegetazione arborea/arbustiva densa (nuclei GGW)         |
+
+````r
  
 ndvi_2007_cl <- classify(ndvi_2007, class_matrix_sahel)
 ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
@@ -413,6 +446,7 @@ plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
 
 
 > E' stata scelta una gamma di colori "friendly" per i daltonici
+
 Ora facciamolo per le 5 classi
 ````r
 freq_2007 <- freq(ndvi_2007_cl)
@@ -484,6 +518,9 @@ p1 + p2
 ````
 <img width="1118" height="649" alt="visual_5" src="https://github.com/user-attachments/assets/dd027f57-3267-45c0-840a-006b77d03dc5" />
 
+> Il confronto tra le classi NDVI del 2007 e del 2025 evidenzia un cambiamento radicale nella struttura vegetazionale dell’area. Nel 2007 il paesaggio è dominato dal suolo nudo (93%), con una minima presenza di vegetazione erbacea (6.7%) e totale assenza di arbusti attivi. Nel 2025 la situazione si ribalta: gli arbusti attivi rappresentano il 59% dell’area, le erbacee il 29%, mentre il suolo nudo scende all’11%
+
+</details>
 
 
 ## 📉 Analisi multitemporale
@@ -505,6 +542,7 @@ plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 ````
 <img width="1440" height="600" alt="multitemporal" src="https://github.com/user-attachments/assets/8729ff74-0a36-4647-ab6b-796caca1254f" />
 
+> La differenza multitemporale tra 2007 e 2025 evidenzia un incremento significativo della riflettanza nel NIR e dei valori NDVI. Le aree che nel 2007 mostravano una risposta spettrale debole (suolo nudo, vegetazione rada) presentano nel 2025 valori nettamente più elevati, indicativi di un aumento della biomassa, della copertura vegetale e del vigore fotosintetico. 
 
 ## 📌 Commenti e Conclusioni
 
