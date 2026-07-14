@@ -25,10 +25,10 @@ La vegetazione è dominata da una savana arbustiva con copertura erbacea discont
 Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia  della Great Green Wall attraverso immagini satellitari e l'uso di indici di vegatazione. 
 
 # 📄 Materiali e metodi
-Le immagini satellitari sono state ricavate attraverso [Google Earth Engine](https://earthengine.google.com/) selezionando le date di riferimento utili all'analisi. 
+Le immagini satellitari sono state ricavate attraverso [Google Earth Engine](https://earthengine.google.com/).
 Per l'analisi del 2025 è stato utilizzato **Sentinel-2** che fornisce dati multispettralii con risoluzione spaziale di 10-20 m.
 Per l'analisi del 2007 invece è stato utilizzato **Landsat 5 TM**, in quanto Sentinel-2 non era ancora operativo. Landsat garantisce comunque una risoluzione di 30 m e una copertura temporale continua. 
-Le date di acquisizione sono state selezionate in modo da rappresentare on maniera coerente la stagione vegetativa dei siti di sutdio.
+Le date di acquisizione sono state selezionate in modo da rappresentare in maniera coerente la stagione vegetativa dei siti di sutdio (giugno - settembre).
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Code.js
 
@@ -83,7 +83,7 @@ plot(bk2025)  # visualizzazione
 | Red | SR_B3 | B4 | 630–690 | Assorbimento clorofilla |
 | NIR | SR_B4 | B8 | 760–900 | Vegetazione sana |
 | SWIR1 | SR_B5 | B11 | 1550–1750 | Umidità del suolo |
-| SWIR2 | SR_B7 | B12 | 2080–2350 | Biomassa secca, incendi |
+| SWIR2 | SR_B7 | B12 | 2080–2350 | Umidità del suolo, Biomassa secca, incendi |
 
 ````r
 # Dobbiamo prima rinominare le bande
@@ -96,9 +96,9 @@ plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GG
  ````
 <!-- ho usato la funzione "hist" per ottenere una immagine più luminosa e naturale con maggiori dettagli meglio per un suolo prevalentemente nudo come quello del sahel. l'hist prende l'istogramma dei valori li ridistribuisce in modo da occupare tutta la gamma aumentando così il contrasto nelle zone dove i valori sono più frequenti. il "lin" invece prende i valori mi e max della banda e li mappa linearmente tra 0 e 255 (RGB),si ottiene una immagine scura se i valori sono bassi (SR 0-0.3) e se il contrasto è basso con colori poco vividi. --> 
 <p align="center">
-<img width="1193" height="494" alt="true_color" src="https://github.com/user-attachments/assets/68eddf89-94fa-48b6-99f0-266c57c9277d" />
+<img width="1193" height="494" alt="true_color" src="https://github.com/user-attachments/assets/2ffd5659-4a69-486a-8b89-a9d10955a062" />
 
- </p>
+</p>
 
 > Le immagini true color mostrano l’evoluzione del paesaggio tra il 2007 e il 2025 utilizzando le bande del visibile (Red, Green, Blue). La visualizzazione RGB consente di interpretare il cambiamento in modo naturale, come sarebbe percepito dall’occhio umano.
 
@@ -110,7 +110,8 @@ plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
 plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
 plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
  ````
-<img width="1193" height="466" alt="4bands_2007" src="https://github.com/user-attachments/assets/cfc7f3bc-7262-414b-8507-9a8f74044dfd" />
+<img width="1193" height="466" alt="4bands_2007" src="https://github.com/user-attachments/assets/50966e96-38e7-43c5-8c8b-c32283c78bbd" />
+
 
 
 ````r
@@ -120,11 +121,10 @@ plot(bk2025[[2]], main = "B3 - Green", col = magma(100))
 plot(bk2025[[3]], main = "B2 - Blue", col = magma(100)) 
 plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 ````
-<img width="1193" height="438" alt="4bands_2025" src="https://github.com/user-attachments/assets/94efc763-bcf8-441b-8dcf-7553a9e9a4f2" />
+<img width="1193" height="438" alt="4bands_2025" src="https://github.com/user-attachments/assets/1a40a9b4-55fd-4c5b-8958-987166d7dc19" />
 
 
-
-> La visualizzazione separata delle bande spettrali (Blue, Green, Red, NIR) permette di analizzare la risposta del territorio alle diverse lunghezze d’onda: il suolo riflette maggiormente nel blu e nel rosso, mentre la vegetazione sana mostra valori elevati nel NIR. Questa analisi è fondamentale per interpretare correttamente gli indici di vegetazione.
+> La visualizzazione separata delle bande spettrali (Blue, Green, Red, NIR) permette di analizzare la risposta del territorio alle diverse lunghezze d’onda: il suolo riflette maggiormente nel blu e nel rosso, mentre la vegetazione sana mostra valori elevati nel NIR. Questa analisi è fondamentale per interpretare correttamente gli indici di vegetazione. Le bande singole mostrano chiaramente che nel 2025 la vegetazione assorbe di più nel rosso e riflette di più nel NIR, segno di aumento della biomassa e miglioramento ecologico.
 
 ````r
 #visualizziamo lo Swir
@@ -132,10 +132,9 @@ im.multiframe(1,2)
 plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
-<img width="1159" height="387" alt="swir" src="https://github.com/user-attachments/assets/132e5dc2-bc98-4a4d-8596-d99e3ca3f332" />
+<img width="1159" height="387" alt="swir" src="https://github.com/user-attachments/assets/55c99baa-c993-4b45-9f69-34f8eef1b446" />
 
-
-> Lo SWIR mostra chiaramente che nel 2025 il suolo è meno arido e più vegetato rispetto al 2007. valori alti di swir come nel 2007 mostrano suolo più secco rispetto a valori bassi che riflettono una maggiore umidità.
+> Il confronto della banda SWIR2 tra il 2007 e il 2025 evidenzia una riduzione della riflettanza, indicativa di un aumento dell’umidità superficiale e della copertura vegetale. Nel 2007 la risposta SWIR2 è elevata e frammentata, tipica di suoli nudi e degradati; nel 2025 diventa più omogenea e con valori più bassi, coerente con la rigenerazione ecologica promossa dalla Great Green Wall.
 
 ### Composizione RGB con NIR al post del red
 ````r
@@ -148,7 +147,7 @@ plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
 <img width="1440" height="796" alt="NIR_inRed" src="https://github.com/user-attachments/assets/066bb069-db4b-4264-b90e-3c20717f729d" />
 
 
-> sostituire il NIR nella banda del RED permette di evidenziare visivamente la vegetazione e il suo cambiamento tra 2007 e 2025. si evidenziano le zone di vegetazione (rosso).
+> Il composito falso‑colore (NIR–Red–Green) evidenzia la vegetazione mettendo la banda NIR nel canale rosso. Nel 2007 la risposta NIR è debole e frammentata, mentre nel 2025 le aree rosse risultano più estese e continue, indicando un aumento della biomassa vegetale e una riduzione del suolo nudo, coerente con gli interventi della Great Green Wall. Nel composito NIR–Red–Green del 2007, le aree molto scure rappresentano superfici con riflettanza estremamente bassa in tutte le bande, tipiche di suoli nudi, compattati o degradati, privi di vegetazione. La scomparsa di queste zone nel 2025 indica un chiaro miglioramento della copertura vegetale e della qualità del suolo.
 
 ### Analisi DVI 
 Il DVI (Difference Vegetation Index) è uno dei più semplici indici spettrali utilizzati per valutare la presenza e la vitalità della vegetazione.
