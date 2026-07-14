@@ -7,8 +7,8 @@ library(ggplot2)
 library(patchwork) 
 library(tidyr)
 list.files()
-bk2007 <- rast ("BURKINA_2007.tif")
-bk2025 <- rast ("BURKINA_2025.tif")
+bk2007 <- rast ("Sampelga_2007.tif")
+bk2025 <- rast ("Sampelga_2025.tif")
 plot(bk2007)
 plot(bk2025)
 
@@ -17,9 +17,9 @@ names(bk2007)
 names(bk2007) <- c("B2","B3","B4","B8","B12") ## per rinominare bande
 im.multiframe(1,2) ## true color
 plotRGB(bk2007, r="B4", g="B3", b="B2", stretch="hist",
-        main = "Burkina Faso, GGW 2007")
+        main = "Sampelga, GGW 2007")
 plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist",
-        main = "Burkina Faso, GGW 2025")
+        main = "Sampelga, GGW 2025")
 # Visualizzazione separata delle quattro bande (RGB e NIR) per entrambe le immagini    
 im.multiframe(2,2)
 plot(bk2007[[3]], main="B4 - Red (SR_B3)", col = magma(100))
@@ -42,9 +42,9 @@ plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ## Sostituendo il NIR al posto della banda del red, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo).
 im.multiframe(1,2)
 plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="hist",
-        main="Burkina Faso, GGW 2007")
+        main="Sampelga, GGW 2007")
 plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
-        main="Burkina Faso, GGW 2025")
+        main="Sampelga, GGW 2025")
 
 ## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
 dvi_2007 <- im.dvi(bk2007, 4, 1)   
@@ -82,11 +82,21 @@ ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method = "bilinear")
 GGW_ridg <- c(ndvi_2007_res, ndvi_2025)
 names(GGW_ridg) <- c("NDVI_2007", "NDVI_2025")
 
-# 3) Ridgeline con palette differenziata
+# 3) Ridgeline 
 im.ridgeline(
   GGW_ridg,
   scale = 2,
   palette = "magma")
+
+## Scatter plot
+ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method = "bilinear") # stessa estensione
+# Pairs plot
+pairs(ndvi,
+      main = "Matrice scatterplot NDVI 2007–2025")
+# Scatter plot NDVI 2007 vs NDVI 2025
+plot(ndvi[[1]], ndvi[[2]], xlab="NDVI 2007", ylab="NDVI 2025", main="Scatterplot NDVI")    # scatterplot NDVI pre e post-evento 
+abline(0, 1, col="red")  
+
 
 ## Classificazione per classi di vegetazione
 ## Scelta del range di valori adatto alla classificazione
@@ -110,6 +120,53 @@ ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
 im.multiframe(1, 2)
 plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2007")
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
+
+# Calcolo percentuali
+# Frequenze
+freq_2007 <- freq(ndvi_2007_cl)
+freq_2025 <- freq(ndvi_2025_cl)
+
+# Percentuali
+# trasformiamo in percentuali garantendo tre classi
+
+tot2007 <- sum(freq_2007$count)
+tot2025 <- sum(freq_2025$count)
+
+perc_2007 <- c(
+  ifelse(1 %in% freq_2007$value, freq_2007$count[freq_2007$value==1] / tot2007, 0),
+  ifelse(2 %in% freq_2007$value, freq_2007$count[freq_2007$value==2] / tot2007, 0),
+  ifelse(3 %in% freq_2007$value, freq_2007$count[freq_2007$value==3] / tot2007, 0)
+)
+
+perc_2025 <- c(
+  ifelse(1 %in% freq_2025$value, freq_2025$count[freq_2025$value==1] / tot2025, 0),
+  ifelse(2 %in% freq_2025$value, freq_2025$count[freq_2025$value==2] / tot2025, 0),
+  ifelse(3 %in% freq_2025$value, freq_2025$count[freq_2025$value==3] / tot2025, 0)
+)
+
+# Visualizzazione
+tab <- data.frame(
+  classi = c("Suolo nudo", "Vegetazione media", "Vegetazione sana"),
+  a2007 = round(perc_2007 * 100, 2),
+  a2025 = round(perc_2025 * 100, 2)
+)
+print(tab)
+p1 <- ggplot(tab, aes(x = classi, y = a2007, fill = classi)) +    
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d() +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2007", y = "%", x = NULL) +
+  theme_minimal()
+
+p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d() +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
+  theme_minimal()
+
+p1 + p2      # Grazie al pacchetto patchwork si possono unire i grafici in questo modo
+
 
 ## utilizziamo altre soglie per definire più classi. 5 classi
 
@@ -141,8 +198,8 @@ pal_sahel_cb <- c(
 )
 
 im.multiframe(1, 2)
-plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007 (Sahel)")
-plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
+plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007")
+plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025")
 
 # Calcolo percentuali
 # Frequenze
@@ -166,8 +223,26 @@ perc_2025 <- c(
   ifelse(2 %in% freq_2025$value, freq_2025$count[freq_2025$value==2] / tot2025, 0),
   ifelse(3 %in% freq_2025$value, freq_2025$count[freq_2025$value==3] / tot2025, 0)
 )
+tab <- data.frame(
+  Classe = c("0 - Ombra/suolo scuro",
+             "1 - Suolo nudo",
+             "2 - Erbacee/arbusti bassi",
+             "3 - Arbusti attivi",
+             "4 - Vegetazione densa"),
+  Perc_2007 = round(perc_2007, 2),
+  Perc_2025 = round(perc_2025, 2)
+)
+
+print(tab)
+
 
 # Visualizzazione
+tab <- data.frame(
+  classi = c("Suolo nudo", "Vegetazione media", "Vegetazione sana"),
+  a2007 = round(perc_2007 * 100, 2),
+  a2025 = round(perc_2025 * 100, 2)
+)
+print(tab)
 p1 <- ggplot(tab, aes(x = classi, y = a2007, fill = classi)) +    
   geom_bar(stat = "identity") +
   scale_fill_viridis_d() +
@@ -272,4 +347,15 @@ ndvi_diff <- ndvi_2025 - ndvi_2007_res
 im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
+
+
+## Scatter plot
+ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method = "bilinear") # stessa estensione
+# Pairs plot
+pairs(ndvi,
+      main = "Matrice scatterplot NDVI 2007–2025")
+# Scatter plot NDVI 2007 vs NDVI 2025
+plot(ndvi[[1]], ndvi[[2]], xlab="NDVI 2007", ylab="NDVI 2025", main="Scatterplot NDVI")    # scatterplot NDVI pre e post-evento 
+abline(0, 1, col="red")  
+
 
