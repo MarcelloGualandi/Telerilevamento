@@ -544,6 +544,13 @@ plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 
 > La differenza multitemporale tra 2007 e 2025 evidenzia un incremento significativo della riflettanza nel NIR e dei valori NDVI. Le aree che nel 2007 mostravano una risposta spettrale debole (suolo nudo, vegetazione rada) presentano nel 2025 valori nettamente più elevati, indicativi di un aumento della biomassa, della copertura vegetale e del vigore fotosintetico. 
 
-## 📌 Commenti e Conclusioni
+## Criticità 
+Lo studio fornisce una visione generale dell’area e dei possibili effetti della Great Green Wall sul territorio saheliano, ma presenta alcune criticità che è necessario considerare per interpretare correttamente i risultati. La principale riguarda l’assenza di dati osservazionali di campo: non disponiamo di informazioni dirette sulla composizione floristica, sulla densità reale della vegetazione o sulle condizioni del suolo. Questo limita la possibilità di verificare che le classi NDVI corrispondano effettivamente alle tipologie vegetazionali presenti.
+Inoltre, l’analisi si basa soltanto su indici spettrali come NIR e NDVI, che pur essendo strumenti efficaci per descrivere la dinamica vegetazionale, non riescono a cogliere l’intera complessità ecologica. L’NDVI, in particolare, può risentire dell’effetto del suolo nudo, saturare nelle aree più vegetate e non distinguere con precisione tra arbusti, colture temporanee o vegetazione effimera. L’integrazione di altri indici, come EVI, SAVI o NDMI, potrebbe rendere l’analisi più robusta e ridurre le incertezze.
+
+Nel complesso, lo studio offre una lettura coerente dei cambiamenti osservati, ma le conclusioni devono essere interpretate con cautela e considerate come un’indicazione preliminare, che andrebbe confermata attraverso dati di campo e analisi complementari.
+
+## Commenti e Conclusioni
+
 
 ## Bibliografia
