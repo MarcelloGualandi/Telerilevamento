@@ -23,7 +23,7 @@ La vegetazione è dominata da una savana arbustiva con copertura erbacea discont
 
 <img width="3507" height="2480" alt="layout" src="https://github.com/user-attachments/assets/f05b6dbe-bc54-4949-8b7f-eb5e7dba8cb5" />
 
-> FIG 1: Area di Sampelga in Burkina Faso. Si evidenzia anche l'intera fascia africana del Sahel 
+> **Fig 1:** Area di Sampelga in Burkina Faso. Si evidenzia anche l'intera fascia africana del Sahel 
 
 # 🎯 Obiettivi 
 Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia  della Great Green Wall attraverso immagini satellitari e l'uso di indici di vegatazione. 
