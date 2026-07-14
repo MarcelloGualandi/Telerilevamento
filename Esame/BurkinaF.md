@@ -251,8 +251,7 @@ pairs(ndvi,
       main = "Matrice scatterplot NDVI 2007–2025")
 
  ````
-<img width="1440" height="712" alt="Pair" src="https://github.com/user-attachments/assets/143e0566-cb8a-4ae3-8bd9-e12bb0766db2" />
-
+<img width="1440" height="712" alt="Pair" src="https://github.com/user-attachments/assets/78db0e25-5ba0-4dc7-a0c7-a18471d5f4c3" />
 
  ````r
 # Scatter plot NDVI 2007 vs NDVI 2025
@@ -261,7 +260,8 @@ abline(0, 1, col="red")
 
 ````
 <p align="center">
-<img width="485" height="390" alt="Scatterplot" src="https://github.com/user-attachments/assets/5c008264-9a5c-4693-841f-7380f25a3eb2" />
+<img width="875" height="648" alt="Scatterplot" src="https://github.com/user-attachments/assets/16240362-7b4c-4b50-a329-bc1c6cad6de4" />
+
 
 </p>
 
