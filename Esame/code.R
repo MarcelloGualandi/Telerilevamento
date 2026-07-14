@@ -90,6 +90,7 @@ im.ridgeline(
 
 ## Scatter plot
 ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method = "bilinear") # stessa estensione
+ndvi <- c(ndvi_2007_res, ndvi_2025)
 # Pairs plot
 pairs(ndvi,
       main = "Matrice scatterplot NDVI 2007–2025")
