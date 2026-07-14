@@ -95,6 +95,7 @@ plotRGB(bk2007, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GG
 plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GGW 2025")
  ````
 <!-- ho usato la funzione "hist" per ottenere una immagine più luminosa e naturale con maggiori dettagli meglio per un suolo prevalentemente nudo come quello del sahel. l'hist prende l'istogramma dei valori li ridistribuisce in modo da occupare tutta la gamma aumentando così il contrasto nelle zone dove i valori sono più frequenti. il "lin" invece prende i valori mi e max della banda e li mappa linearmente tra 0 e 255 (RGB),si ottiene una immagine scura se i valori sono bassi (SR 0-0.3) e se il contrasto è basso con colori poco vividi. --> 
+
 <p align="center">
 <img width="1193" height="494" alt="true_color" src="https://github.com/user-attachments/assets/2ffd5659-4a69-486a-8b89-a9d10955a062" />
 
@@ -132,8 +133,10 @@ im.multiframe(1,2)
 plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
-<img width="1159" height="387" alt="swir" src="https://github.com/user-attachments/assets/55c99baa-c993-4b45-9f69-34f8eef1b446" />
-
+<p align="center">
+<img width="672" height="420" alt="swir" src="https://github.com/user-attachments/assets/181e61c2-2b10-4316-b1ff-0706e370501d" />
+ 
+</p>
 > Il confronto della banda SWIR2 tra il 2007 e il 2025 evidenzia una riduzione della riflettanza, indicativa di un aumento dell’umidità superficiale e della copertura vegetale. Nel 2007 la risposta SWIR2 è elevata e frammentata, tipica di suoli nudi e degradati; nel 2025 diventa più omogenea e con valori più bassi, coerente con la rigenerazione ecologica promossa dalla Great Green Wall.
 
 ### Composizione RGB con NIR al post del red
@@ -167,9 +170,12 @@ im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
 plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 ````
-<img width="1440" height="768" alt="DVI" src="https://github.com/user-attachments/assets/f167e54f-0b52-45a3-8714-29d0f6023a0c" />
+<p align="center">
+<img width="672" height="420" alt="DVI" src="https://github.com/user-attachments/assets/d4d94859-27b7-467f-a863-71b48b3266e0" />
 
+<p>
 
+>La visualizzazione delle scale per entrambe le mappe DVI permette un confronto corretto tra 2007 e 2025. Nel 2007 prevalgono valori bassi e una forte variabilità, indicativi di suolo nudo e degrado; nel 2025 i valori sono più omogenei e mediamente più elevati, segnalando un aumento della copertura vegetale e una maggiore stabilità ecologica dell’area di Sampelga.
 ````r
 # Calcolo e visualizzazione differenza DVI  
 ## i due raster NON hanno la stessa estensione, dimensione o risoluzione QUINDI dobbiamo portare il 2007 alla stessa risoluzione del 2025
@@ -180,10 +186,9 @@ dvi_diff <- dvi_2025_res - dvi_2007_res
 im.multiframe(1,1)
 plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
 ````
-<img width="614" height="387" alt="diff_DVI" src="https://github.com/user-attachments/assets/fb66fffb-197a-4e33-86da-a120fd637e6f" />
+<img width="614" height="387" alt="diff_DVI" src="https://github.com/user-attachments/assets/18cc2c63-3e11-4f0b-963a-5f34efde72d8" />
 
-
-> Questa rappresentazione permette di individuare in modo immediato le zone che hanno beneficiato maggiormente degli interventi di ripristino.
+> Questa rappresentazione permette di individuare in modo immediato le zone che hanno beneficiato maggiormente degli interventi di ripristino. I valori positivi prevalgono sull’intera area, indicando un aumento della riflettanza NIR e una riduzione della riflettanza nel rosso, coerenti con una maggiore copertura vegetale nel 2025. 
 
 #  Analisi NDVI (Normalized Difference Vegetation Index)
 Il NDVI è uno degli indici di vegetazione più diffusi in telerilevamento grazie alla sua capacità di normalizzare le differenze tra immagini acquisite in tempi o condizioni diverse.
@@ -204,15 +209,18 @@ im.multiframe(1, 2)
 plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 ````
-<img width="1440" height="712" alt="NDVI" src="https://github.com/user-attachments/assets/b4b4fd89-df50-4ee2-bb3a-cfc61237b7fb" />
+<p align="center">
+<img width="672" height="420" alt="NDVI" src="https://github.com/user-attachments/assets/13a939f9-f6cf-4f8e-a80e-c6f13a8ee525" />
 
+<p>
 
 > **Valori alti:** vegetazione sana e densa
 > **Valori bassi:** suolo nudo e vegetazione scarsa
+> Il confronto tra NDVI 2007 e NDVI 2025 evidenzia un incremento netto del vigore vegetativo. Nel 2007 prevalgono valori NDVI bassi (−0.05–0.30), indicativi di suolo nudo e vegetazione scarsa. Nel 2025 la distribuzione si estende fino a 0.8, con un aumento significativo delle aree a elevato NDVI, segnalando una maggiore densità e attività fotosintetica della vegetazione.
 
 ## Ridgeline plot 
 >[!TIP]
-> Il ridgeplot consente di confrontare visivamente la distribuzione dell’indice NDVI tra il 2015 e il 2025, evidenziando eventuali variazioni nella densità e nello stato della vegetazione nel tempo.
+> Il ridgeplot consente di confrontare visivamente la distribuzione dell’indice NDVI tra il 2015 e il 2025, evidenziando eventuali variazioni nella densità e nello stato della vegetazione nel tempo. 
 ````r
 ## Ridgeline plot
 # Per cominciare si crea un vettore per visualizzare le due immagini contemporaneamente
@@ -227,13 +235,13 @@ names(GGW_ridg) <- c("NDVI_2007", "NDVI_2025")
 im.ridgeline(
   GGW_ridg,
   scale = 2,
-  palette = c("magma", "viridis")  # 2007 = viola/rosso, 2025 = verde/giallo
+  palette = c("magma")
 )
 ````
 <img width="1440" height="572" alt="Rplot" src="https://github.com/user-attachments/assets/07ac59f4-7f40-45c2-ae7d-414322e1d902" />
 
 
-> Il ridgeline confronta la distribuzione dei valori NDVI tra il 2007 e il 2025. Le curve sono etichettate e colorate in modo distinto: la curva del 2007 (magma) mostra valori più bassi e concentrati, mentre quella del 2025 (viridis) è spostata verso valori più elevati, indicando un aumento della copertura vegetale. Il grafico evidenzia chiaramente il miglioramento della vegetazione nel periodo considerato.
+> Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0.1–0.2), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati (0.3–0.6), mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve non si sovrappongono quasi mai e ciò significa cambiamento ecologico forte.
 
 ## Classificazione per classi di vegetazione
  ````r
@@ -250,6 +258,7 @@ hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
 
   
 > Gli istogrammi servono per scegliere soglie significative
+> Gli istogrammi NDVI mostrano due distribuzioni nettamente diverse: nel 2007 i valori sono concentrati nella fascia bassa (0.05–0.25), mentre nel 2025 si estendono fino a 0.8. Questo permette di definire classi di vegetazione basate su soglie naturali della distribuzione: NDVI < 0.2 (suolo nudo), 0.2–0.4 (vegetazione media), > 0.4 (vegetazione sana).
 </details>
 
  ````r
@@ -270,51 +279,13 @@ plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
  ````
 <p align="center">
-<img width="1440" height="684" alt="3_class" src="https://github.com/user-attachments/assets/180ea26e-4b6e-4d15-82eb-1c8983398018" />
-
+<img width="657" height="420" alt="NDVI_class3" src="https://github.com/user-attachments/assets/1e4cb107-feb7-4df7-a85c-30e5360d1f41" />
 
 </p>
 
-> La classificazione NDVI evidenzia un cambiamento netto tra il 2007 e il 2025. Nel 2007 l’intera area ricade nella classe 1 (NDVI < 0.2), indicativa di una copertura vegetale molto bassa e omogenea. Nel 2025 emergono invece tre classi distinte, con la comparsa di patch a NDVI elevato (classe 3) e una maggiore eterogeneità spaziale. Questo pattern è coerente con processi di rigenerazione vegetale associati alle iniziative della Great Green Wall.
-
-Utilizziamo ora classi diverse pe mettere in maggiore risalto quelli che potrebbero essere i cambiamenti avvenuti nel secolo. le diverse soglie sono state scelte dopo ricerca bibliografica. 
- ````r
-class_matrix_sahel <- matrix(c(
-     -Inf, 0.05, 0,   # Ombra, roccia, acqua, suolo molto scuro
-     0.05, 0.20, 1,  # Suolo nudo / vegetazione erbacea molto rada
-     0.20, 0.35, 2,  # Vegetazione erbacea/arbustiva discontinua
-     0.35, 0.50, 3,  # Vegetazione arbustiva/arborea moderata (GGW in crescita)
-      0.50, Inf, 4    # Vegetazione arborea/arbustiva densa (nuclei di successo GGW)
-), 
-ncol = 3, byrow = TRUE)
- 
-class_matrix_sahel
-     # [,1] [,2] [,3]
-# [1,] -Inf 0.05    0
-# [2,] 0.05 0.20    1
-# [3,] 0.20 0.35    2
-# [4,] 0.35 0.50    3
-# [5,] 0.50  Inf    4
- 
-ndvi_2007_cl <- classify(ndvi_2007, class_matrix_sahel)
-ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
-pal_sahel_cb <- c(
-  "#000000",  # Classe 0 - ombra / roccia / acqua
-  "#E41A1C",  # Classe 1 - suolo nudo
-  "#377EB8",  # Classe 2 - erbacee / arbusti bassi
-  "#4DAF4A",  # Classe 3 - arbusti attivi
-  "#984EA3"   # Classe 4 - vegetazione densa
-)
-
-im.multiframe(1, 2)
-plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007 (Sahel)")
-plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
- ````
-<img width="1440" height="628" alt="5_class" src="https://github.com/user-attachments/assets/19e04cbb-bd30-49b3-b1d4-199a032512b6" />
+> La classificazione NDVI evidenzia un cambiamento netto tra il 2007 e il 2025. Nel 2007 prevale la classe “suolo nudo”, con scarsa presenza di vegetazione. Nel 2025 aumentano le classi “vegetazione media” e “vegetazione sana”, indicando un miglioramento della copertura vegetale e del vigore fotosintetico. 
 
 
-
-> E' stata scelta una gamma di colori "friendly" per i daltonici
 ## Calcolo percentuali
  ````r
 # Frequenze
@@ -403,6 +374,45 @@ p1 + p2
 
 > Confronto tra le classi NDVI nel 2007 e nel 2025. Nel 2007 l’area ricade interamente nella classe “Suolo nudo”, indicando una copertura vegetale molto scarsa. Nel 2025 si osserva invece una distribuzione più articolata, con una riduzione del suolo nudo (50%) e la comparsa delle classi “Vegetazione media” (47%) e “Vegetazione sana” (3%), evidenziando un miglioramento della copertura vegetale coerente con processi di rigenerazione.
 
+
+Utilizziamo ora classi diverse pe mettere in maggiore risalto quelli che potrebbero essere i cambiamenti avvenuti nel secolo. le diverse soglie sono state scelte dopo ricerca bibliografica. 
+ ````r
+class_matrix_sahel <- matrix(c(
+     -Inf, 0.05, 0,   # Ombra, roccia, acqua, suolo molto scuro
+     0.05, 0.20, 1,  # Suolo nudo / vegetazione erbacea molto rada
+     0.20, 0.35, 2,  # Vegetazione erbacea/arbustiva discontinua
+     0.35, 0.50, 3,  # Vegetazione arbustiva/arborea moderata (GGW in crescita)
+      0.50, Inf, 4    # Vegetazione arborea/arbustiva densa (nuclei di successo GGW)
+), 
+ncol = 3, byrow = TRUE)
+ 
+class_matrix_sahel
+     # [,1] [,2] [,3]
+# [1,] -Inf 0.05    0
+# [2,] 0.05 0.20    1
+# [3,] 0.20 0.35    2
+# [4,] 0.35 0.50    3
+# [5,] 0.50  Inf    4
+ 
+ndvi_2007_cl <- classify(ndvi_2007, class_matrix_sahel)
+ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
+pal_sahel_cb <- c(
+  "#000000",  # Classe 0 - ombra / roccia / acqua
+  "#E41A1C",  # Classe 1 - suolo nudo
+  "#377EB8",  # Classe 2 - erbacee / arbusti bassi
+  "#4DAF4A",  # Classe 3 - arbusti attivi
+  "#984EA3"   # Classe 4 - vegetazione densa
+)
+
+im.multiframe(1, 2)
+plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007 (Sahel)")
+plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
+ ````
+<img width="1440" height="628" alt="5_class" src="https://github.com/user-attachments/assets/19e04cbb-bd30-49b3-b1d4-199a032512b6" />
+
+
+
+> E' stata scelta una gamma di colori "friendly" per i daltonici
 Ora facciamolo per le 5 classi
 ````r
 freq_2007 <- freq(ndvi_2007_cl)
