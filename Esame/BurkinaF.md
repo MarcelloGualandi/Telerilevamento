@@ -21,6 +21,7 @@ Il **telerilevamento** offre una soluzione concreta a queste criticità poichè 
 Per l'analisi è stata selezionata la **regione di Sampelga** in **Burkina Faso** caratterizzata da una piovosità media annua di cira 400 mm con piogge che si concentrano nei mesi tra giugno e settembre.
 La vegetazione è dominata da una savana arbustiva con copertura erbacea discontinua che emergono esclusivamente durante la stagione delle piogge.
 
+
 # 🎯 Obiettivi 
 Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia  della Great Green Wall attraverso immagini satellitari e l'uso di indici di vegatazione. 
 
