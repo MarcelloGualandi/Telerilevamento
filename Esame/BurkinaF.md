@@ -143,8 +143,7 @@ plot(bk2007[[5]]/10, main="B12 - SWIR2 (SR_B7)", col = magma(100)) # divido per 
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
 <p align="center">
-<img width="681" height="430" alt="Swir" src="https://github.com/user-attachments/assets/adfa32e3-daa6-42e5-b821-d8835f55f3b5" />
-
+<img width="837" height="641" alt="Swir" src="https://github.com/user-attachments/assets/2c083764-0cbc-48d1-b222-e920c3616eec" />
 
 </p>
 
@@ -236,7 +235,7 @@ plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 ````
 <p align="center">
-<img width="672" height="420" alt="NDVI" src="https://github.com/user-attachments/assets/13a939f9-f6cf-4f8e-a80e-c6f13a8ee525" />
+<img width="865" height="651" alt="NDVI" src="https://github.com/user-attachments/assets/d066b0a4-bb4f-4427-bf2a-4624f13e2f02" />
 
 <p>
 
@@ -339,7 +338,7 @@ plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
  ````
 <p align="center">
-<img width="657" height="420" alt="NDVI_class3" src="https://github.com/user-attachments/assets/1e4cb107-feb7-4df7-a85c-30e5360d1f41" />
+<img width="977" height="676" alt="NDVI_class3" src="https://github.com/user-attachments/assets/841b390b-b9fb-41ff-9482-8a7f0e573ebb" />
 
 </p>
 
@@ -590,7 +589,10 @@ im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 ````
-<img width="1440" height="600" alt="multitemporal" src="https://github.com/user-attachments/assets/8729ff74-0a36-4647-ab6b-796caca1254f" />
+<p align="center">
+<img width="849" height="568" alt="multitemporal" src="https://github.com/user-attachments/assets/40a04834-1174-4980-bd93-9e2ac683b4ef" />
+
+</p>
 
 > La differenza multitemporale tra 2007 e 2025 evidenzia un incremento significativo della riflettanza nel NIR e dei valori NDVI. Le aree che nel 2007 mostravano una risposta spettrale debole (suolo nudo, vegetazione rada) presentano nel 2025 valori nettamente più elevati, indicativi di un aumento della biomassa, della copertura vegetale e del vigore fotosintetico. 
 
