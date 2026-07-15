@@ -23,7 +23,8 @@ plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist",
 
 # devo riscalare i valori delle bande landsat per il 2007, divido per 10
 range(bk2007)
-bk2007_scaled <- bk2007 / 10
+bk2007_norm <- bk2007 / 10
+
 # Visualizzazione separata delle quattro bande (RGB e NIR) per entrambe le immagini    
 im.multiframe(2,2)
 plot(bk2007[[3]]/10, main="B4 - Red (SR_B3)", col = magma(100))
@@ -50,10 +51,10 @@ plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="hist",
 plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
         main="Sampelga, GGW 2025")
 
-## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
-dvi_2007 <- im.dvi(bk2007, 4, 1)   
-dvi_2025 <- im.dvi(bk2025, 4, 1)  
-
+## ## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
+bk2007_norm <- bk2007 / 10 # normalizziamo i valori per il 2007
+dvi_2007 <- im.dvi(bk2007_norm, 4, 1)
+dvi_2025 <- im.dvi(bk2025, 4, 1)
 # Visualizzazione della DVI
 im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
@@ -61,12 +62,15 @@ plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 
 # Calcolo e visualizzazione differenza DVI  
 ## i due raster NON hanno la stessa estensione, dimensione o risoluzione QUINDI dobbiamo portare il 2007 alla stessa risoluzione del 2025
-bk2007_res <- terra::resample(bk2007, bk2025, method="bilinear")
-dvi_2007_res <- bk2007_res[["B4"]] - bk2007_res[["B3"]]
+
+bk2007_norm_res <- terra::resample(bk2007_norm, bk2025, method="bilinear")
+dvi_2007_res <- bk2007_norm_res[["B4"]] - bk2007_norm_res[["B3"]]
 dvi_2025_res <- bk2025[["B4"]] - bk2025[["B3"]]
 dvi_diff <- dvi_2025_res - dvi_2007_res
 im.multiframe(1,1)
-plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
+plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2007)")
+
+
 
 # Analisi NDVI
 ## # Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy 
@@ -353,15 +357,6 @@ im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 
-
-## Scatter plot
-ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method = "bilinear") # stessa estensione
-# Pairs plot
-pairs(ndvi,
-      main = "Matrice scatterplot NDVI 2007–2025")
-# Scatter plot NDVI 2007 vs NDVI 2025
-plot(ndvi[[1]], ndvi[[2]], xlab="NDVI 2007", ylab="NDVI 2025", main="Scatterplot NDVI")    # scatterplot NDVI pre e post-evento 
-abline(0, 1, col="red")  
 
 
 
