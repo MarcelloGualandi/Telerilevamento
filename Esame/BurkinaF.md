@@ -199,6 +199,7 @@ plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2007)")
 <p>
 
 >La visualizzazione delle scale per entrambe le mappe DVI permette un confronto corretto tra 2007 e 2025. Nel 2007 prevalgono valori bassi e una composizione più omogenea; nel 2025 è presente una composizione più complessa con valori mediamente più elevati.
+>I raster del 2007 e del 2025 non avevano la stessa estensione geografica, dimensione e risoluzione. Questo significa che non coprivano esattamente la stessa area e non avevano pixel corrispondenti. Per poter calcolare la differenza DVI è stato necessario effettuare un resample del raster 2007 sulla griglia del 2025, in modo da ottenere due immagini perfettamente allineate e confrontabili pixel‑per‑pixel.
 
 ````r
 # Calcolo e visualizzazione differenza DVI  
