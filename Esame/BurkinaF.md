@@ -198,7 +198,7 @@ plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2007)")
 
 <p>
 
->La visualizzazione delle scale per entrambe le mappe DVI permette un confronto corretto tra 2007 e 2025. Nel 2007 prevalgono valori bassi e una forte variabilità, indicativi di suolo nudo e degrado; nel 2025 i valori sono più omogenei e mediamente più elevati, segnalando un aumento della copertura vegetale e una maggiore stabilità ecologica dell’area di Sampelga.
+>La visualizzazione delle scale per entrambe le mappe DVI permette un confronto corretto tra 2007 e 2025. Nel 2007 prevalgono valori bassi e una composizione più omogenea; nel 2025 è presente una composizione più complessa con valori mediamente più elevati.
 
 ````r
 # Calcolo e visualizzazione differenza DVI  
