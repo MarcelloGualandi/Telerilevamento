@@ -6,8 +6,8 @@
 
 # 📌 Introduzione 
 
-La **Great Green Wall** **GGW** è un progetto lanciato dall’Unione Africana nel 2007 per contrastare la desertificazione, la perdita di biodiversità e la crescente vulnerabilità climatica del Sahel. Il progetto mira a realizzare un mosaico di paesaggi rstaurati lungo circa 8000 km, dal Senegal al Gibuti, attraverso interventi di riforestaizione, agricoltura rigenerativa e gestione sostenibile del territorio.
-La fascia del Sahel rappresenta una delle regioni più esposte agli effetti del cambiamento climatico: avanzamento della desertificazione, degrado del suolo, riduzione della produttività primaria e pressioni antropiche sempre più intense hanno reso questo terrritorio sempre meno abitabile. 
+La **Great Green Wall** **GGW** è un progetto lanciato dall’Unione Africana nel 2007 per contrastare la desertificazione, la perdita di biodiversità e la crescente vulnerabilità climatica del Sahel. Il progetto mira a realizzare un mosaico di paesaggi restaurati lungo circa 8000 km, dal Senegal al Gibuti, attraverso interventi di riforestaizione, agricoltura rigenerativa e gestione sostenibile del territorio.
+La fascia del Sahel rappresenta una delle regioni più esposte agli effetti del cambiamento climatico: avanzamento della desertificazione, degrado del suolo, riduzione della produttività primaria e pressioni antropiche sempre più intense hanno reso questo territorio sempre meno abitabile. 
 In questo contesto la **GGW** agisce come una strategia integrata di adattamento e mitigazione con ambizioni obiettivi fissati per il 2030: 
 
 - 100 milioni di ettari restaurati
@@ -32,7 +32,7 @@ Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia  della 
 Le immagini satellitari sono state ricavate attraverso [Google Earth Engine](https://earthengine.google.com/).
 Per l'analisi del 2025 è stato utilizzato **Sentinel-2** che fornisce dati multispettralii con risoluzione spaziale di 10-20 m.
 Per l'analisi del 2007 invece è stato utilizzato **Landsat 5 TM**, in quanto Sentinel-2 non era ancora operativo. Landsat garantisce comunque una risoluzione di 30 m e una copertura temporale continua. 
-Le date di acquisizione sono state selezionate in modo da rappresentare in maniera coerente la stagione vegetativa dei siti di sutdio (giugno - settembre).
+Le date di acquisizione sono state selezionate in modo da rappresentare in maniera coerente la stagione vegetativa dei siti di studio (giugno - settembre).
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Code.js
 
@@ -143,7 +143,7 @@ plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 </p>
 > Il confronto della banda SWIR2 tra il 2007 e il 2025 evidenzia una riduzione della riflettanza, indicativa di un aumento dell’umidità superficiale e della copertura vegetale. Nel 2007 la risposta SWIR2 è elevata e frammentata, tipica di suoli nudi e degradati; nel 2025 diventa più omogenea e con valori più bassi, coerente con la rigenerazione ecologica promossa dalla Great Green Wall.
 
-### Composizione RGB con NIR al post del red
+### Composizione RGB con NIR al posto del red
 ````r
 im.multiframe(1,2)
 plotRGB(bk2007, r="B8", g="B4", b="B3", stretch="hist",
@@ -422,7 +422,7 @@ p1 + p2
  <details>
 <summary> 5 classi (cliccare qui)</summary>  
   
-Utilizziamo ora classi diverse pe mettere in maggiore risalto quelli che potrebbero essere i cambiamenti avvenuti nel secolo. le diverse soglie sono state scelte dopo ricerca bibliografica. 
+Utilizziamo ora classi diverse per mettere in maggiore risalto quelli che potrebbero essere i cambiamenti avvenuti nel secolo. Le diverse soglie sono state scelte dopo ricerca bibliografica. 
 
  ````r
 class_matrix_sahel <- matrix(c(
@@ -473,7 +473,7 @@ plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
 
 
 
-> E' stata scelta una gamma di colori "friendly" per i daltonici
+> E' stata scelta una gamma di colori "friendly" per persone affette da daltonismo.
 
 Ora facciamolo per le 5 classi
 ````r
