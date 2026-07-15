@@ -249,7 +249,8 @@ plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 
 ## Ridgeline plot 
 >[!TIP]
-> Il ridgeplot consente di confrontare visivamente la distribuzione dell’indice NDVI tra il 2007 e il 2025, evidenziando eventuali variazioni nella densità e nello stato della vegetazione nel tempo. 
+> Il ridgeplot consente di confrontare visivamente la distribuzione dell’indice NDVI tra il 2007 e il 2025, evidenziando eventuali variazioni nella densità e nello stato della vegetazione nel tempo.
+
 ````r
 ## Ridgeline plot
 # Per cominciare si crea un vettore per visualizzare le due immagini contemporaneamente
@@ -269,8 +270,27 @@ im.ridgeline(
 ````
 <img width="1440" height="572" alt="Rplot" src="https://github.com/user-attachments/assets/07ac59f4-7f40-45c2-ae7d-414322e1d902" />
 
+>> Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0.1–0.2), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati (0.3–0.6), mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve non si sovrappongono quasi mai e ciò significa cambiamento ecologico forte.
 
-> Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0.1–0.2), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati (0.3–0.6), mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve non si sovrappongono quasi mai e ciò significa cambiamento ecologico forte.
+<details>
+<summary> Pixel negativi (cliccare qui)</summary> 
+  
+````r
+neg_2007 <- sum(values(ndvi_2007) < 0, na.rm = TRUE)
+neg_2025 <- sum(values(ndvi_2025) < 0, na.rm = TRUE)
+# [1] 4187
+# [1] 40318
+tot_2007 <- sum(!is.na(values(ndvi_2007)))
+tot_2025 <- sum(!is.na(values(ndvi_2025)))
+# [1] 2553888
+# [1] 22954932
+perc_2007 <- neg_2007 / tot_2007 * 100
+perc_2025 <- neg_2025 / tot_2025 * 100
+# [1] 0.1639461
+# [1] 0.1756398
+
+````
+</details>
 
  ````r
 # Concatenamento degli NDVI 
