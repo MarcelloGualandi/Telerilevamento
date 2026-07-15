@@ -362,7 +362,7 @@ plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
  ````
 <p align="center">
-<img width="977" height="676" alt="NDVI_class3" src="https://github.com/user-attachments/assets/841b390b-b9fb-41ff-9482-8a7f0e573ebb" />
+<img width="1003" height="610" alt="3_classmod" src="https://github.com/user-attachments/assets/830ed91e-1191-4a67-80e1-6ff53b95958a" />
 
 </p>
 
