@@ -138,7 +138,7 @@ plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
 <p align="center">
-<img width="672" height="420" alt="swir" src="https://github.com/user-attachments/assets/181e61c2-2b10-4316-b1ff-0706e370501d" />
+<img width="1600" height="1200" alt="swir" src="https://github.com/user-attachments/assets/181e61c2-2b10-4316-b1ff-0706e370501d" />
  
 </p>
 > Il confronto della banda SWIR2 tra il 2007 e il 2025 evidenzia una riduzione della riflettanza, indicativa di un aumento dell’umidità superficiale e della copertura vegetale. Nel 2007 la risposta SWIR2 è elevata e frammentata, tipica di suoli nudi e degradati; nel 2025 diventa più omogenea e con valori più bassi, coerente con la rigenerazione ecologica promossa dalla Great Green Wall.
