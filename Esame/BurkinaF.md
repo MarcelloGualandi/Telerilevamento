@@ -174,19 +174,31 @@ Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di 
 
 ````r
 ## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
-dvi_2007 <- im.dvi(ggw2007, 4, 1)   
-dvi_2025 <- im.dvi(ggw2025, 4, 1)
+bk2007_norm <- bk2007 / 10 # normalizziamo i valori per il 2007
+dvi_2007 <- im.dvi(bk2007_norm, 4, 1)
+dvi_2025 <- im.dvi(bk2025, 4, 1)
 # Visualizzazione della DVI
 im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
 plot(dvi_2025, col = viridis(100), main = "DVI 2025")
+
+# Calcolo e visualizzazione differenza DVI  
+## i due raster NON hanno la stessa estensione, dimensione o risoluzione QUINDI dobbiamo portare il 2007 alla stessa risoluzione del 2025
+
+bk2007_norm_res <- terra::resample(bk2007_norm, bk2025, method="bilinear")
+dvi_2007_res <- bk2007_norm_res[["B4"]] - bk2007_norm_res[["B3"]]
+dvi_2025_res <- bk2025[["B4"]] - bk2025[["B3"]]
+dvi_diff <- dvi_2025_res - dvi_2007_res
+im.multiframe(1,1)
+plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2007)")
 ````
 <p align="center">
-<img width="672" height="420" alt="DVI" src="https://github.com/user-attachments/assets/d4d94859-27b7-467f-a863-71b48b3266e0" />
+<img width="795" height="638" alt="DVI_norm" src="https://github.com/user-attachments/assets/15b2d754-67c7-43be-a2a3-f19cffbf0f9e" />
 
 <p>
 
 >La visualizzazione delle scale per entrambe le mappe DVI permette un confronto corretto tra 2007 e 2025. Nel 2007 prevalgono valori bassi e una forte variabilità, indicativi di suolo nudo e degrado; nel 2025 i valori sono più omogenei e mediamente più elevati, segnalando un aumento della copertura vegetale e una maggiore stabilità ecologica dell’area di Sampelga.
+
 ````r
 # Calcolo e visualizzazione differenza DVI  
 ## i due raster NON hanno la stessa estensione, dimensione o risoluzione QUINDI dobbiamo portare il 2007 alla stessa risoluzione del 2025
@@ -197,9 +209,12 @@ dvi_diff <- dvi_2025_res - dvi_2007_res
 im.multiframe(1,1)
 plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
 ````
-<img width="614" height="387" alt="diff_DVI" src="https://github.com/user-attachments/assets/18cc2c63-3e11-4f0b-963a-5f34efde72d8" />
+<p align="center">
+<img width="575" height="430" alt="diffDVI_norm" src="https://github.com/user-attachments/assets/2a785788-ee9b-43e3-afc2-3286943d4434" />
 
-> Questa rappresentazione permette di individuare in modo immediato le zone che hanno beneficiato maggiormente degli interventi di ripristino. I valori positivi prevalgono sull’intera area, indicando un aumento della riflettanza NIR e una riduzione della riflettanza nel rosso, coerenti con una maggiore copertura vegetale nel 2025. 
+<p>
+
+> Questa rappresentazione permette di individuare in modo immediato le zone che hanno beneficiato maggiormente degli interventi di ripristino. Le aree in giallo indicano un incremento dell’attività vegetazionale, mentre le zone scure evidenziano una diminuzione o condizioni stabili. Il pattern complessivo suggerisce un miglioramento della copertura vegetale nell’area di studio.
 
 #  Analisi NDVI (Normalized Difference Vegetation Index)
 Il NDVI è uno degli indici di vegetazione più diffusi in telerilevamento grazie alla sua capacità di normalizzare le differenze tra immagini acquisite in tempi o condizioni diverse.
