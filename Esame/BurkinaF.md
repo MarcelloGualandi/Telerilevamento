@@ -183,15 +183,6 @@ im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
 plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 
-# Calcolo e visualizzazione differenza DVI  
-## i due raster NON hanno la stessa estensione, dimensione o risoluzione QUINDI dobbiamo portare il 2007 alla stessa risoluzione del 2025
-
-bk2007_norm_res <- terra::resample(bk2007_norm, bk2025, method="bilinear")
-dvi_2007_res <- bk2007_norm_res[["B4"]] - bk2007_norm_res[["B3"]]
-dvi_2025_res <- bk2025[["B4"]] - bk2025[["B3"]]
-dvi_diff <- dvi_2025_res - dvi_2007_res
-im.multiframe(1,1)
-plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2007)")
 ````
 <p align="center">
 <img width="795" height="638" alt="DVI_norm" src="https://github.com/user-attachments/assets/15b2d754-67c7-43be-a2a3-f19cffbf0f9e" />
