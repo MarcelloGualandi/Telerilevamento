@@ -225,7 +225,7 @@ Si calcola come:
 NDVI = (NIR − Red) / (NIR + Red)  
 
 I valori ottenuti variano tra -1 e +1: valori vicini a +1 indicano vegetazione densa e sana, mentre valori prossimi a 0 o negativi indicano suolo nudo, rocce o acqua.
-L'NDVI è particolarmente utile per monitorare variazioni nella copertura vegetale nel tempo e valutare stress idrici, cambiamenti climatici o impatti antropici, come nel caso di pascoli intensivi.
+L'NDVI è particolarmente utile per monitorare variazioni nella copertura vegetale nel tempo e valutare stress idrici, cambiamenti climatici o impatti antropici.
 
 $` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$  
 ````r
