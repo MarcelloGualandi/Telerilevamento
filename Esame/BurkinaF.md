@@ -109,11 +109,12 @@ plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GG
 
 ### Visualizzazione delle quattro bande separate per entrambe le immagini (RGB + NIR) 
  ````r
+range(bk2007) # Per vedere in che scala si trovano le bande
 im.multiframe(2,2)
-plot(bk2007[[3]], main="B4 - Red (SR_B3)", col = magma(100))
-plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
-plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
-plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
+plot(bk2007[[3]]/10, main="B4 - Red (SR_B3)", col = magma(100))  # divido per 10
+plot(bk2007[[2]]/10, main="B3 - Green (SR_B2)", col = magma(100)) # divido per 10
+plot(bk2007[[1]]/10, main="B2 - Blue (SR_B1)", col = magma(100)) # divido per 10
+plot(bk2007[[4]]/10, main="B8 - NIR (SR_B4)", col = magma(100)) # divido per 10
  ````
 
 <p align="center">
@@ -136,7 +137,7 @@ plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 ````r
 #visualizziamo lo Swir
 im.multiframe(1,2)
-plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
+plot(bk2007[[5]]/10, main="B12 - SWIR2 (SR_B7)", col = magma(100)) # divido per 10 
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
 <p align="center">
