@@ -149,7 +149,7 @@ plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 
 </p>
 
-> Il confronto della banda SWIR2 tra il 2007 e il 2025 evidenzia una riduzione della riflettanza, indicativa di un aumento dell’umidità superficiale e della copertura vegetale. Nel 2007 la risposta SWIR2 è elevata e frammentata, tipica di suoli nudi e degradati; nel 2025 diventa più omogenea e con valori più bassi.
+> Il confronto tra la banda SWIR2 di Landsat (2007) e Sentinel‑2 (2025) mostra un aumento significativo dell’eterogeneità radiometrica nel 2025. Sentinel evidenzia valori SWIR2 più elevati e un range più ampio, indicando una maggiore variabilità nelle condizioni del suolo e della vegetazione, con presenza di materiali secchi, suolo nudo e stress idrico. Nel 2007 il paesaggio appare più uniforme e con minori differenze radiometriche.
 
 ### Composizione RGB con NIR al posto del red
 ````r
