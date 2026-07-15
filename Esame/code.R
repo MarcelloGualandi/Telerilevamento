@@ -20,14 +20,18 @@ plotRGB(bk2007, r="B4", g="B3", b="B2", stretch="hist",
         main = "Sampelga, GGW 2007")
 plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist",
         main = "Sampelga, GGW 2025")
+
+# devo riscalare i valori delle bande landsat per il 2007, divido per 10
+range(bk2007)
+bk2007_scaled <- bk2007 / 10
 # Visualizzazione separata delle quattro bande (RGB e NIR) per entrambe le immagini    
 im.multiframe(2,2)
-plot(bk2007[[3]], main="B4 - Red (SR_B3)", col = magma(100))
-plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
-plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
-plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
+plot(bk2007[[3]]/10, main="B4 - Red (SR_B3)", col = magma(100))
+plot(bk2007[[2]]/10, main="B3 - Green (SR_B2)", col = magma(100))
+plot(bk2007[[1]]/10, main="B2 - Blue (SR_B1)", col = magma(100))
+plot(bk2007[[4]]/10, main="B8 - NIR (SR_B4)", col = magma(100))
 
-
+# RGB e NIR 2025
 im.multiframe(2,2)
 plot(bk2025[[1]], main = "B4 - Red", col = magma(100)) 
 plot(bk2025[[2]], main = "B3 - Green", col = magma(100)) 
@@ -36,7 +40,7 @@ plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 
 #visualizziamo lo Swir
 im.multiframe(1,2)
-plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
+plot(bk2007[[5]]/10, main="B12 - SWIR2 (SR_B7)", col = magma(100)) # divido per 10
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 
 ## Sostituendo il NIR al posto della banda del red, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo).
@@ -358,5 +362,6 @@ pairs(ndvi,
 # Scatter plot NDVI 2007 vs NDVI 2025
 plot(ndvi[[1]], ndvi[[2]], xlab="NDVI 2007", ylab="NDVI 2025", main="Scatterplot NDVI")    # scatterplot NDVI pre e post-evento 
 abline(0, 1, col="red")  
+
 
 
