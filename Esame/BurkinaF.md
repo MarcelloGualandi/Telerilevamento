@@ -249,7 +249,7 @@ plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 
 ## Ridgeline plot 
 >[!TIP]
-> Il ridgeplot consente di confrontare visivamente la distribuzione dell’indice NDVI tra il 2015 e il 2025, evidenziando eventuali variazioni nella densità e nello stato della vegetazione nel tempo. 
+> Il ridgeplot consente di confrontare visivamente la distribuzione dell’indice NDVI tra il 2007 e il 2025, evidenziando eventuali variazioni nella densità e nello stato della vegetazione nel tempo. 
 ````r
 ## Ridgeline plot
 # Per cominciare si crea un vettore per visualizzare le due immagini contemporaneamente
@@ -260,7 +260,7 @@ ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method = "bilinear")
 GGW_ridg <- c(ndvi_2007_res, ndvi_2025)
 names(GGW_ridg) <- c("NDVI_2007", "NDVI_2025")
 
-# 3) Ridgeline con palette differenziata
+# 3) Ridgeline
 im.ridgeline(
   GGW_ridg,
   scale = 2,
