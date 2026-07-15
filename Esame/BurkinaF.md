@@ -110,6 +110,8 @@ plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist", main = "Burkina Faso, GG
 ### Visualizzazione delle quattro bande separate per entrambe le immagini (RGB + NIR) 
  ````r
 range(bk2007) # Per vedere in che scala si trovano le bande
+# min values  :    0.8573,    1.1535
+# max values  :    2.0654,     3.889
 im.multiframe(2,2)
 plot(bk2007[[3]]/10, main="B4 - Red (SR_B3)", col = magma(100))  # divido per 10
 plot(bk2007[[2]]/10, main="B3 - Green (SR_B2)", col = magma(100)) # divido per 10
