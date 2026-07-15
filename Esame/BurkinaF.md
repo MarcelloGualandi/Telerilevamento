@@ -26,7 +26,9 @@ La vegetazione è dominata da una savana arbustiva con copertura erbacea discont
 > **Fig 1:** Area di Sampelga in Burkina Faso. Si evidenzia anche l'intera fascia africana del Sahel 
 
 # 🎯 Obiettivi 
-Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia  della Great Green Wall attraverso immagini satellitari e l'uso di indici di vegatazione. 
+Questo progetto ha l'obiettivo di analizzare l'avanzamento e l'efficacia  della Great Green Wall attraverso immagini satellitari e l'uso di indici di vegatazione:
+- DVI
+- NDVI
 
 # 📄 Materiali e metodi
 Le immagini satellitari sono state ricavate attraverso [Google Earth Engine](https://earthengine.google.com/).
