@@ -344,9 +344,8 @@ p1 + p2
 ## Analisi multitemporale
 # L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2007 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco di quasi vent'anni.
 # rinominiamo le bande e portiamo il NIR del 2007 alla griglia del 2025
-nir_2007 <- bk2007[["B4"]]   # Landsat NIR 
+nir_2007 <- bk2007[["B4"]] / 10   # riscalato
 nir_2007_res <- terra::resample(nir_2007, bk2025[[4]], method="bilinear")
-
 nir_diff <- bk2025[[4]] - nir_2007_res
 
 ## stessa cosa per il NDVI
@@ -356,7 +355,4 @@ ndvi_diff <- ndvi_2025 - ndvi_2007_res
 im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
-
-
-
 
