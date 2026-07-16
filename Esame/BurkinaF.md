@@ -163,7 +163,7 @@ plot(norm(bk2007[[5]]),main="B12 - SWIR2", col = magma(100))
 plot(norm(bk2025[[5]]),main="B12 - SWIR2", col = magma(100))
 ````
 <p align="center">
-<img width="902" height="509" alt="Swir" src="https://github.com/user-attachments/assets/b4078cbe-4690-4a02-a2f3-51264a3e5375" />
+<img width="891" height="678" alt="Swir" src="https://github.com/user-attachments/assets/48e2540b-9db0-477b-b703-5796a2c59cb3" />
 
 </p>
 
