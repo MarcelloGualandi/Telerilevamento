@@ -597,7 +597,7 @@ p1 + p2
 L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2007 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco di quasi vent'anni.
 ````r
 # rinominiamo le bande e portiamo il NIR del 2007 alla griglia del 2025
-nir_2007 <- bk2007[["B4"]]   # Landsat NIR 
+nir_2007 <- bk2007[["B4"]] / 10   # riscalato
 nir_2007_res <- terra::resample(nir_2007, bk2025[[4]], method="bilinear")
 
 nir_diff <- bk2025[[4]] - nir_2007_res
@@ -611,11 +611,12 @@ plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
 ````
 <p align="center">
-<img width="849" height="568" alt="multitemporal" src="https://github.com/user-attachments/assets/40a04834-1174-4980-bd93-9e2ac683b4ef" />
+<img width="1006" height="693" alt="multitemporal" src="https://github.com/user-attachments/assets/25d7d357-44d9-461b-a9ee-0e73756e5933" />
 
 </p>
 
-> La differenza multitemporale tra 2007 e 2025 evidenzia un incremento significativo della riflettanza nel NIR e dei valori NDVI. Le aree che nel 2007 mostravano una risposta spettrale debole (suolo nudo, vegetazione rada) presentano nel 2025 valori nettamente più elevati, indicativi di un aumento della biomassa, della copertura vegetale e del vigore fotosintetico. 
+> La mappa NIR mostra variazioni nella riflettanza del vicino infrarosso, indicativa di cambiamenti nella densità e struttura della vegetazione.  
+La mappa NDVI evidenzia variazioni nell’attività fotosintetica: valori positivi indicano un miglioramento del vigore vegetativo, mentre valori negativi segnalano una diminuzione.  
 
 ## Criticità 
 Lo studio fornisce una visione generale dell’area e dei possibili effetti della Great Green Wall sul territorio saheliano, ma presenta alcune criticità che è necessario considerare per interpretare correttamente i risultati. La principale riguarda l’assenza di dati osservazionali di campo: non disponiamo di informazioni dirette sulla composizione floristica, sulla densità reale della vegetazione o sulle condizioni del suolo. Questo limita la possibilità di verificare che le classi NDVI corrispondano effettivamente alle tipologie vegetazionali presenti.
