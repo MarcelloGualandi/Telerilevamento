@@ -124,15 +124,21 @@ range(bk2025)
 # min values  :     0.003,   0.06035
 # max values  :   0.62025,    0.9228
 
+norm <- function(x) (x - min(x[], na.rm=TRUE)) / (max(x[], na.rm=TRUE) - min(x[], na.rm=TRUE))
+
+> Questa funzione prende la banda trova il minimo e il massimo e li porta rispettivamente a 0 e 1 riscalando il resto senza alterare la forma della distribuzione, senza alterare la radiometria interna e permette un confronto Landsat - Sentinel senza scale arbitrarie.
+
+
 im.multiframe(2,2)
-plot(bk2007[[3]], main="B4 - Red (SR_B3)", col = magma(100))
-plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
-plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
-plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
+plot(norm(bk2007[[3]]), main="B4 - Red", col = magma(100))
+plot(norm(bk2007[[2]]), main="B3 - Green", col = magma(100))
+plot(norm(bk2007[[1]]), main="B2 - Blue", col = magma(100))
+plot(norm(bk2007[[4]]), main="B8 - NIR", col = magma(100))
+
  ````
 
 <p align="center">
-<img width="907" height="623" alt="4_Bands07" src="https://github.com/user-attachments/assets/6b12f302-1f40-4352-aa7b-34c38761da26" />
+<img width="902" height="537" alt="4B_2007" src="https://github.com/user-attachments/assets/f27a041a-9517-4654-9803-e73bfb32b693" />
 
 </p>
 
@@ -150,12 +156,14 @@ plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 
 ````r
 #visualizziamo lo Swir
+norm <- function(x) (x - min(x[], na.rm=TRUE)) / (max(x[], na.rm=TRUE) - min(x[], na.rm=TRUE))
+
 im.multiframe(1,2)
-plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
-plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
+plot(norm(bk2007[[5]]),main="B12 - SWIR2", col = magma(100))
+plot(norm(bk2025[[5]]),main="B12 - SWIR2", col = magma(100))
 ````
 <p align="center">
-<img width="902" height="565" alt="Swir" src="https://github.com/user-attachments/assets/79555374-9b87-4d95-bbbd-c924faad749d" />
+<img width="902" height="509" alt="Swir" src="https://github.com/user-attachments/assets/b4078cbe-4690-4a02-a2f3-51264a3e5375" />
 
 </p>
 
