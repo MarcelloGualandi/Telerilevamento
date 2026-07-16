@@ -38,6 +38,12 @@ Le date di acquisizione sono state selezionate in modo da rappresentare in manie
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Code.js
 
+## Impostazione della working directory
+````r
+setwd("~/Desktop/")
+
+````
+
 ## Caricamento pacchetti
 ````r
 library(terra)     # Per lavorare con raster e immagini satellitari
