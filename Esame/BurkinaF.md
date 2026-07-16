@@ -125,14 +125,14 @@ range(bk2025)
 # max values  :   0.62025,    0.9228
 
 im.multiframe(2,2)
-plot(bk2007[[3]]/10, main="B4 - Red (SR_B3)", col = magma(100))  # divido per 10
-plot(bk2007[[2]]/10, main="B3 - Green (SR_B2)", col = magma(100)) # divido per 10
-plot(bk2007[[1]]/10, main="B2 - Blue (SR_B1)", col = magma(100)) # divido per 10
-plot(bk2007[[4]]/10, main="B8 - NIR (SR_B4)", col = magma(100)) # divido per 10
+plot(bk2007[[3]], main="B4 - Red (SR_B3)", col = magma(100))
+plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
+plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
+plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
  ````
 
 <p align="center">
-<img width="681" height="430" alt="4B_2007R" src="https://github.com/user-attachments/assets/f6c80255-a976-4849-b707-1797f46d51cb" />
+<img width="907" height="623" alt="4_Bands07" src="https://github.com/user-attachments/assets/6b12f302-1f40-4352-aa7b-34c38761da26" />
 
 </p>
 
@@ -143,7 +143,7 @@ plot(bk2025[[2]], main = "B3 - Green", col = magma(100))
 plot(bk2025[[3]], main = "B2 - Blue", col = magma(100)) 
 plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 ````
-<img width="1193" height="438" alt="4bands_2025" src="https://github.com/user-attachments/assets/1a40a9b4-55fd-4c5b-8958-987166d7dc19" />
+<img width="907" height="595" alt="4B_2025" src="https://github.com/user-attachments/assets/5c681aad-91a4-49cf-b02a-e9e6b52801f9" />
 
 
 > La visualizzazione separata delle bande spettrali (Blue, Green, Red, NIR) permette di analizzare la risposta del territorio alle diverse lunghezze d’onda: il suolo riflette maggiormente nel blu e nel rosso, mentre la vegetazione sana mostra valori elevati nel NIR. Questa analisi è fondamentale per interpretare correttamente gli indici di vegetazione. Le bande singole mostrano chiaramente che nel 2025 la vegetazione assorbe di più nel rosso e riflette di più nel NIR, segno di aumento della biomassa e miglioramento ecologico.
@@ -151,11 +151,11 @@ plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 ````r
 #visualizziamo lo Swir
 im.multiframe(1,2)
-plot(bk2007[[5]]/10, main="B12 - SWIR2 (SR_B7)", col = magma(100)) # divido per 10 
+plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100))
 plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
 ````
 <p align="center">
-<img width="837" height="641" alt="Swir" src="https://github.com/user-attachments/assets/2c083764-0cbc-48d1-b222-e920c3616eec" />
+<img width="902" height="565" alt="Swir" src="https://github.com/user-attachments/assets/79555374-9b87-4d95-bbbd-c924faad749d" />
 
 </p>
 
