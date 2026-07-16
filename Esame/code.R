@@ -58,9 +58,8 @@ plotRGB(bk2025, r="B8", g="B4", b="B3", stretch="hist",
         main="Sampelga, GGW 2025")
 
 ## ## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
-bk2007_norm <- bk2007 / 10 # normalizziamo i valori per il 2007
-dvi_2007 <- im.dvi(bk2007_norm, 4, 1)
-dvi_2025 <- im.dvi(bk2025, 4, 1)
+dvi_2007 <- im.dvi(bk2007, 4, 1)   # NIR - RED Landsat 5
+dvi_2025 <- im.dvi(bk2025, 4, 1)   # NIR - RED Sentinel-2
 # Visualizzazione della DVI
 im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
@@ -371,6 +370,8 @@ ndvi_diff <- ndvi_2025 - ndvi_2007_res
 im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
+
+
 
 
 
