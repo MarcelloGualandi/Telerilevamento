@@ -634,5 +634,5 @@ Sacande, M., Martucci, A., & Vollrath, A. (2021). Monitoring Large-Scale Restora
 
 [UNCCD - Great Green Wall] (https://www.unccd.int/our-work/ggwi) 
 
-Gualandi M (2021). La desertificazione nel Sahel e il progetto Great Green Wall. Tesi di laurea triennale in Scienze del territorio e dell'ambiente Agro - Forestale.
+Gualandi Marcello (2021). La desertificazione nel Sahel e il progetto Great Green Wall. Tesi di laurea triennale in Scienze del territorio e dell'ambiente Agro - Forestale.
 
