@@ -468,14 +468,12 @@ Utilizziamo ora classi diverse per mettere in maggiore risalto quelli che potreb
 
  ````r
 class_matrix_sahel <- matrix(c(
-     -Inf, 0.05, 0,   # Ombra, roccia, acqua, suolo molto scuro
-     0.05, 0.20, 1,  # Suolo nudo / vegetazione erbacea molto rada
-     0.20, 0.35, 2,  # Vegetazione erbacea/arbustiva discontinua
-     0.35, 0.50, 3,  # Vegetazione arbustiva/arborea moderata (GGW in crescita)
-      0.50, Inf, 4    # Vegetazione arborea/arbustiva densa (nuclei di successo GGW)
-), 
-ncol = 3, byrow = TRUE)
- 
+  -Inf, 0.05, 0,   # Classe 0 – Ombra / suolo scuro / acqua
+  0.05, 0.20, 1,  # Classe 1 – Suolo nudo / erbacee molto rade
+  0.20, 0.35, 2,  # Classe 2 – Erbacee / arbusti bassi discontinui
+  0.35, 0.50, 3,  # Classe 3 – Arbusti attivi / vegetazione moderata
+  0.50, Inf,  4   # Classe 4 – Vegetazione densa
+), ncol = 3, byrow = TRUE)
 class_matrix_sahel
      # [,1] [,2] [,3]
 # [1,] -Inf 0.05    0
@@ -492,32 +490,27 @@ class_matrix_sahel
 | 0      | NDVI < 0.05             | Ombra / roccia / acqua / suolo molto scuro               |
 | 1      | 0.05 ≤ NDVI < 0.20      | Suolo nudo / vegetazione erbacea molto rada              |
 | 2      | 0.20 ≤ NDVI < 0.35      | Vegetazione erbacea / arbustiva discontinua              |
-| 3      | 0.35 ≤ NDVI < 0.50      | Vegetazione arbustiva/arborea moderata (GGW in crescita) |
-| 4      | NDVI ≥ 0.50             | Vegetazione arborea/arbustiva densa (nuclei GGW)         |
+| 3      | 0.35 ≤ NDVI < 0.50      | Vegetazione arbustiva/arborea moderata  |
+| 4      | NDVI ≥ 0.50             | Vegetazione arborea/arbustiva densa          |
 
 ````r
  
 ndvi_2007_cl <- classify(ndvi_2007, class_matrix_sahel)
 ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
-pal_sahel_cb <- c(
-  "#000000",  # Classe 0 - ombra / roccia / acqua
-  "#E41A1C",  # Classe 1 - suolo nudo
-  "#377EB8",  # Classe 2 - erbacee / arbusti bassi
-  "#4DAF4A",  # Classe 3 - arbusti attivi
-  "#984EA3"   # Classe 4 - vegetazione densa
-)
+
 
 im.multiframe(1, 2)
-plot(ndvi_2007_cl, col = pal_sahel_cb, main = "NDVI class. 2007 (Sahel)")
-plot(ndvi_2025_cl, col = pal_sahel_cb, main = "NDVI class. 2025 (Sahel)")
- ````
-<img width="1440" height="628" alt="5_class" src="https://github.com/user-attachments/assets/19e04cbb-bd30-49b3-b1d4-199a032512b6" />
+plot(ndvi_2007_cl, col = viridis(5), main = "NDVI class. 2007")
+plot(ndvi_2025_cl, col = viridis(5), main = "NDVI class. 2025")
 
+ ````
+<img width="1200" height="636" alt="5_class" src="https://github.com/user-attachments/assets/77a45044-ae86-4273-82b9-750edb570457" />
 
 
 > E' stata scelta una gamma di colori "friendly" per persone affette da daltonismo.
 
-Ora facciamolo per le 5 classi
+Calcolo delle frequenze e percentuali
+
 ````r
 freq_2007 <- freq(ndvi_2007_cl)
 freq_2025 <- freq(ndvi_2025_cl)
@@ -536,59 +529,62 @@ perc_2007 <- get_perc(freq_2007, tot2007)
 perc_2025 <- get_perc(freq_2025, tot2025)
 
 tab <- data.frame(
-  Classe = c("0 - Ombra/suolo scuro",
-             "1 - Suolo nudo",
-             "2 - Erbacee/arbusti bassi",
-             "3 - Arbusti attivi",
-             "4 - Vegetazione densa"),
-  Perc_2007 = round(perc_2007, 2),
-  Perc_2025 = round(perc_2025, 2)
-)
-````
-Si riportano i risultati in una tabella:
-### Confronto classi NDVI (2007 vs 2025)
-| Classe                      | 2007  | 2025  |
-|-----------------------------|-------|-------|
-| 0 – Ombra / suolo scuro     | 0.00  | 0.01  |
-| 1 – Suolo nudo              | 0.93  | 0.11  |
-| 2 – Erbacee / arbusti bassi | 0.07  | 0.21  |
-| 3 – Arbusti attivi          | 0.00  | 0.24  |
-| 4 – Vegetazione densa       | 0.00  | 0.43  |
-
-
-````r
-tab <- data.frame(
   classi = c("0 - Ombra/suolo scuro",
              "1 - Suolo nudo",
              "2 - Erbacee/arbusti bassi",
              "3 - Arbusti attivi",
              "4 - Vegetazione densa"),
-  a2007 = round(perc_2007 * 100, 2),   # percentuali in %
-  a2025 = round(perc_2025 * 100, 2),
+  Perc_2007 = round(perc_2007 * 100, 2),
+  Perc_2025 = round(perc_2025 * 100, 2),
   check.names = FALSE
 )
 
-p1 <- ggplot(tab, aes(x = classi, y = a2007, fill = classi)) +    
-  geom_bar(stat = "identity") +
-  scale_fill_viridis_d(option = "C") +
-  ylim(0, 100) +
-  labs(title = "Classi NDVI 2007 (Sahel)", y = "%", x = NULL) +
-  theme_minimal(base_size = 14) +
-  theme(axis.text.x = element_text(angle = 20, hjust = 1))
-
-p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
-  geom_bar(stat = "identity") +
-  scale_fill_viridis_d(option = "C") +
-  ylim(0, 100) +
-  labs(title = "Classi NDVI 2025 (Sahel)", y = "%", x = NULL) +
-  theme_minimal(base_size = 14) +
-  theme(axis.text.x = element_text(angle = 20, hjust = 1))
-
-p1 + p2
+print(tab)
 ````
-<img width="1118" height="649" alt="visual_5" src="https://github.com/user-attachments/assets/dd027f57-3267-45c0-840a-006b77d03dc5" />
 
-> Il confronto tra le classi NDVI del 2007 e del 2025 evidenzia un cambiamento radicale nella struttura vegetazionale dell’area. Nel 2007 il paesaggio è dominato dal suolo nudo (93%), con una minima presenza di vegetazione erbacea (6.7%) e totale assenza di arbusti attivi. Nel 2025 la situazione si ribalta: gli arbusti attivi rappresentano il 59% dell’area, le erbacee il 29%, mentre il suolo nudo scende all’11%
+Si riportano i risultati in una tabella:
+### Confronto classi NDVI (2007 vs 2025)
+| Classe                      | 2007  | 2025  |
+|-----------------------------|-------|-------|
+| 0 – Ombra / suolo scuro     | 0.40  | 0.57  |
+| 1 – Suolo nudo              | 92.91 | 11.01 |
+| 2 – Erbacee / arbusti bassi | 6.69  | 21.35 |
+| 3 – Arbusti attivi          | 0.00  | 23.67 |
+| 4 – Vegetazione densa       | 0.00  | 43.39 |
+
+
+````r
+
+
+p1 <- ggplot(tab, aes(x = classi, y = Perc_2007, fill = classi)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = Perc_2007), vjust = -0.5, size = 4) +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2007", y = "%", x = NULL) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "right")
+
+p2 <- ggplot(tab, aes(x = classi, y = Perc_2025, fill = classi)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = Perc_2025), vjust = -0.5, size = 4) +
+  scale_fill_viridis_d(option = "C") +
+  ylim(0, 100) +
+  labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "right")
+
+p1 + p2 # visualizzazione affiancata
+
+````
+
+<img width="1200" height="608" alt="Visual_5" src="https://github.com/user-attachments/assets/22a511ef-33a3-4792-b7dc-ef481e40b234" />
+
+> Il confronto tra le classi NDVI del 2007 e del 2025 evidenzia un cambiamento radicale nella struttura vegetazionale dell’area. Nel 2007 il paesaggio è dominato dal suolo nudo (93%), con una minima presenza di vegetazione erbacea (6.7%) e totale assenza di arbusti attivi. Nel 2025 la situazione si ribalta con una maggiore eterogeneità nel territorio.
 
 </details>
 
