@@ -24,12 +24,16 @@ plotRGB(bk2025, r="B4", g="B3", b="B2", stretch="hist",
 # range per vedere in che scala si trovano le bande
 range(bk2007)
 range(bk2025)
+
+norm <- function(x) (x - min(x[], na.rm=TRUE)) / (max(x[], na.rm=TRUE) - min(x[], na.rm=TRUE))
+
 # Visualizzazione separata delle quattro bande (RGB e NIR) per entrambe le immagini    
+
 im.multiframe(2,2)
-plot(bk2007[[3]], main="B4 - Red (SR_B3)", col = magma(100))
-plot(bk2007[[2]], main="B3 - Green (SR_B2)", col = magma(100))
-plot(bk2007[[1]], main="B2 - Blue (SR_B1)", col = magma(100))
-plot(bk2007[[4]], main="B8 - NIR (SR_B4)", col = magma(100))
+plot(norm(bk2007[[3]]), main="B4 - Red", col = magma(100))
+plot(norm(bk2007[[2]]), main="B3 - Green", col = magma(100))
+plot(norm(bk2007[[1]]), main="B2 - Blue", col = magma(100))
+plot(norm(bk2007[[4]]), main="B8 - NIR", col = magma(100))
 
 
 # RGB e NIR 2025
@@ -40,9 +44,11 @@ plot(bk2025[[3]], main = "B2 - Blue", col = magma(100))
 plot(bk2025[[4]], main = "B8 - NIR", col = magma(100)) 
 
 #visualizziamo lo Swir
+norm <- function(x) (x - min(x[], na.rm=TRUE)) / (max(x[], na.rm=TRUE) - min(x[], na.rm=TRUE))
+
 im.multiframe(1,2)
-plot(bk2007[[5]], main="B12 - SWIR2 (SR_B7)", col = magma(100)) # divido per 10
-plot(bk2025[[5]], main = "B12 - SWIR2", col = magma(100))
+plot(norm(bk2007[[5]]),main="B12 - SWIR2", col = magma(100))
+plot(norm(bk2025[[5]]),main="B12 - SWIR2", col = magma(100))
 
 ## Sostituendo il NIR al posto della banda del red, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo).
 im.multiframe(1,2)
