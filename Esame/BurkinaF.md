@@ -159,8 +159,8 @@ plot(bk2025[[4]], main = "B8 - NIR", col = magma(100))
 norm <- function(x) (x - min(x[], na.rm=TRUE)) / (max(x[], na.rm=TRUE) - min(x[], na.rm=TRUE))
 
 im.multiframe(1,2)
-plot(norm(bk2007[[5]]),main="B12 - SWIR2", col = magma(100))
-plot(norm(bk2025[[5]]),main="B12 - SWIR2", col = magma(100))
+plot(norm(bk2007[[5]]),main="B12 - SWIR2, 2007", col = magma(100))
+plot(norm(bk2025[[5]]),main="B12 - SWIR2, 2025", col = magma(100))
 ````
 <p align="center">
 <img width="891" height="678" alt="Swir" src="https://github.com/user-attachments/assets/48e2540b-9db0-477b-b703-5796a2c59cb3" />
