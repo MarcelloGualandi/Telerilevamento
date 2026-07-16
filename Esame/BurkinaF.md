@@ -192,10 +192,9 @@ Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di 
 È un indice non normalizzato, ma fornisce indicazioni dirette sulla biomassa verde e può essere utile per analisi comparative.
 
 ````r
-## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
-bk2007_norm <- bk2007 / 10 # normalizziamo i valori per il 2007
-dvi_2007 <- im.dvi(bk2007_norm, 4, 1)
-dvi_2025 <- im.dvi(bk2025, 4, 1)
+## ## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
+dvi_2007 <- im.dvi(bk2007, 4, 1)   # NIR - RED Landsat 5
+dvi_2025 <- im.dvi(bk2025, 4, 1)   # NIR - RED Sentinel-2
 # Visualizzazione della DVI
 im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
@@ -203,11 +202,11 @@ plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 
 ````
 <p align="center">
-<img width="795" height="638" alt="DVI_norm" src="https://github.com/user-attachments/assets/15b2d754-67c7-43be-a2a3-f19cffbf0f9e" />
+<img width="901" height="482" alt="DVI" src="https://github.com/user-attachments/assets/51f610d0-edba-42ec-9b38-aa82bdcd0cf8" />
 
 <p>
 
->La visualizzazione delle scale per entrambe le mappe DVI permette un confronto corretto tra 2007 e 2025. Nel 2007 prevalgono valori bassi e una composizione più omogenea; nel 2025 è presente una composizione più complessa con valori mediamente più elevati.
+>Il confronto delle mappe DVI tra 2007 e 2025 deve essere interpretato con cautela perché Landsat 5 e Sentinel‑2 hanno scale radiometriche diverse.
 
 ````r
 # Calcolo e visualizzazione differenza DVI  
