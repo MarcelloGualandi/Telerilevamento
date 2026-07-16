@@ -270,14 +270,33 @@ p1 + p2      # Grazie al pacchetto patchwork si possono unire i grafici in quest
 
 ## Ora facciamolo con le 5 classi
 
+## 5 classi
+class_matrix_sahel <- matrix(c(
+  -Inf, 0.05, 0,   # Classe 0 – Ombra / suolo scuro / acqua
+  0.05, 0.20, 1,  # Classe 1 – Suolo nudo / erbacee molto rade
+  0.20, 0.35, 2,  # Classe 2 – Erbacee / arbusti bassi discontinui
+  0.35, 0.50, 3,  # Classe 3 – Arbusti attivi / vegetazione moderata
+  0.50, Inf,  4   # Classe 4 – Vegetazione densa
+), ncol = 3, byrow = TRUE)
+class_matrix_sahel
+
+ndvi_2007_cl <- classify(ndvi_2007, class_matrix_sahel)
+ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
+
+im.multiframe (1,2)
+plot(ndvi_2007_cl, col = viridis(5), main = "NDVI class. 2007")
+plot(ndvi_2025_cl, col = viridis(5), main = "NDVI class. 2025")
+
+# calcolo frequenze e percentuali
 freq_2007 <- freq(ndvi_2007_cl)
 freq_2025 <- freq(ndvi_2025_cl)
 
 tot2007 <- sum(freq_2007$count)
 tot2025 <- sum(freq_2025$count)
 
+# 4. # Funzione per estrarre percentuali garantendo tutte le classi
+# ---------------------------------------------------------
 
-# Funzione per estrarre percentuali garantendo tutte le classi
 get_perc <- function(freq, tot) {
   sapply(0:4, function(k) {
     if (k %in% freq$value) freq$count[freq$value == k] / tot else 0
@@ -287,17 +306,8 @@ get_perc <- function(freq, tot) {
 perc_2007 <- get_perc(freq_2007, tot2007)
 perc_2025 <- get_perc(freq_2025, tot2025)
 
-tab <- data.frame(
-  Classe = c("0 - Ombra/suolo scuro",
-             "1 - Suolo nudo",
-             "2 - Erbacee/arbusti bassi",
-             "3 - Arbusti attivi",
-             "4 - Vegetazione densa"),
-  Perc_2007 = round(perc_2007, 2),
-  Perc_2025 = round(perc_2025, 2)
-)
-
-print(tab)
+# 5. Tabella finale (coerente con i grafici)
+# ---------------------------------------------------------
 
 tab <- data.frame(
   classi = c("0 - Ombra/suolo scuro",
@@ -305,41 +315,41 @@ tab <- data.frame(
              "2 - Erbacee/arbusti bassi",
              "3 - Arbusti attivi",
              "4 - Vegetazione densa"),
-  a2007 = round(perc_2007 * 100, 2),   # percentuali in %
-  a2025 = round(perc_2025 * 100, 2),
+  Perc_2007 = round(perc_2007 * 100, 2),
+  Perc_2025 = round(perc_2025 * 100, 2),
   check.names = FALSE
 )
 
-p1 <- ggplot(tab, aes(x = classi, y = a2007, fill = classi)) +    
+print(tab)
+
+# 6. Grafici comparativi NDVI classi
+# ---------------------------------------------------------
+
+p1 <- ggplot(tab, aes(x = classi, y = Perc_2007, fill = classi)) +
   geom_bar(stat = "identity") +
-  geom_text(aes(label = a2007),
-            vjust = -0.5, size = 4) +
+  geom_text(aes(label = Perc_2007), vjust = -0.5, size = 4) +
   scale_fill_viridis_d(option = "C") +
   ylim(0, 100) +
   labs(title = "Classi NDVI 2007", y = "%", x = NULL) +
   theme_minimal(base_size = 14) +
-  theme(
-    axis.text.x = element_blank(),   # niente nomi sotto l’asse X
-    axis.ticks.x = element_blank(),
-    legend.position = "right"        # legenda a lato
-  )
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "right")
 
-p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
+p2 <- ggplot(tab, aes(x = classi, y = Perc_2025, fill = classi)) +
   geom_bar(stat = "identity") +
-  geom_text(aes(label = a2025),
-            vjust = -0.5, size = 4) +
+  geom_text(aes(label = Perc_2025), vjust = -0.5, size = 4) +
   scale_fill_viridis_d(option = "C") +
   ylim(0, 100) +
   labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
   theme_minimal(base_size = 14) +
-  theme(
-    axis.text.x = element_blank(),   # niente nomi sotto l’asse X
-    axis.ticks.x = element_blank(),
-    legend.position = "right"        # legenda a lato
-  )
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "right")
 
-
+# Visualizzazione affiancata
 p1 + p2
+
 
 ## Analisi multitemporale
 # L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2007 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco di quasi vent'anni.
@@ -355,4 +365,3 @@ ndvi_diff <- ndvi_2025 - ndvi_2007_res
 im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
-
