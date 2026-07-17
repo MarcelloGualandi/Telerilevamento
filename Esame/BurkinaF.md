@@ -193,8 +193,8 @@ Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di 
 
 ````r
 ## ## calcolo DVI,  Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy 
-dvi_2007 <- im.dvi(bk2007, 4, 1)   # NIR - RED Landsat 5
-dvi_2025 <- im.dvi(bk2025, 4, 1)   # NIR - RED Sentinel-2
+dvi_2007 <- im.dvi(bk2007, 4, 3)   # NIR - RED Landsat 5
+dvi_2025 <- im.dvi(bk2025, 4, 3)   # NIR - RED Sentinel-2
 # Visualizzazione della DVI
 im.multiframe(1, 2)
 plot(dvi_2007, col = viridis(100), main = "DVI 2007")
@@ -221,7 +221,7 @@ plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
 >I raster del 2007 e del 2025 non avevano la stessa estensione geografica, dimensione e risoluzione. Questo significa che non coprivano esattamente la stessa area e non avevano pixel corrispondenti. Per poter calcolare la differenza DVI è stato necessario effettuare un resample del raster 2007 sulla griglia del 2025, in modo da ottenere due immagini perfettamente allineate e confrontabili pixel‑per‑pixel.
 
 <p align="center">
-<img width="575" height="430" alt="diffDVI_norm" src="https://github.com/user-attachments/assets/2a785788-ee9b-43e3-afc2-3286943d4434" />
+<img width="951" height="671" alt="diff_dvi" src="https://github.com/user-attachments/assets/90419b45-5b35-4a45-9248-4c2db15d3ca6" />
 
 <p>
 
