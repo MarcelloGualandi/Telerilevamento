@@ -1,6 +1,6 @@
 >  #### Marcello Gualandi
 
-# Analisi dell'avanzamento della Great Green Wall in Burkina Faso (2007 - 2025)
+# Analisi multitemporale sull'avanzamento della Great Green Wall in Burkina Faso (2007 - 2025)
 
 ---
 
