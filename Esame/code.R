@@ -5,7 +5,7 @@ library(viridis)
 library(ggridges)
 library(ggplot2)  
 library(patchwork) 
-library(tidyr)
+
 list.files()
 bk2007 <- rast ("Sampelga_2007.tif")
 bk2025 <- rast ("Sampelga_2025.tif")
