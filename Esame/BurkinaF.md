@@ -130,9 +130,9 @@ norm <- function(x) (x - min(x[], na.rm=TRUE)) / (max(x[], na.rm=TRUE) - min(x[]
 
 
 im.multiframe(2,2)
-plot(norm(bk2007[[3]]), main="B4 - Red", col = magma(100))
+plot(norm(bk2007[[1]]), main="B4 - Red", col = magma(100))
 plot(norm(bk2007[[2]]), main="B3 - Green", col = magma(100))
-plot(norm(bk2007[[1]]), main="B2 - Blue", col = magma(100))
+plot(norm(bk2007[[3]]), main="B2 - Blue", col = magma(100))
 plot(norm(bk2007[[4]]), main="B8 - NIR", col = magma(100))
 
  ````
@@ -202,7 +202,7 @@ plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 
 ````
 <p align="center">
-<img width="901" height="482" alt="DVI" src="https://github.com/user-attachments/assets/51f610d0-edba-42ec-9b38-aa82bdcd0cf8" />
+<img width="933" height="539" alt="DVI" src="https://github.com/user-attachments/assets/b5115eb2-9b02-44f2-bc7d-d6c616a1558d" />
 
 <p>
 
@@ -239,15 +239,15 @@ $` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$
 ````r
 # Analisi NDVI
 ## # Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy 
-ndvi_2007 <- im.ndvi(bk2007, 4, 1)   
-ndvi_2025 <- im.ndvi(bk2025, 4, 1) 
+ndvi_2007 <- im.ndvi(bk2007, 4, 3)   
+ndvi_2025 <- im.ndvi(bk2025, 4, 3) 
 # Creazione di un pannello multiframe isualizzazione NDVI
 im.multiframe(1, 2)
 plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 ````
 <p align="center">
-<img width="865" height="651" alt="NDVI" src="https://github.com/user-attachments/assets/d066b0a4-bb4f-4427-bf2a-4624f13e2f02" />
+<img width="951" height="643" alt="ndvi2" src="https://github.com/user-attachments/assets/bbe40af6-dd26-49c2-b96e-4cde62d6f676" />
 
 <p>
 
@@ -276,9 +276,10 @@ im.ridgeline(
   palette = c("magma")
 )
 ````
-<img width="1440" height="572" alt="Rplot" src="https://github.com/user-attachments/assets/07ac59f4-7f40-45c2-ae7d-414322e1d902" />
+<img width="951" height="615" alt="Rplot_2" src="https://github.com/user-attachments/assets/aff72f65-eaea-488b-824f-984708ee2631" />
 
->> Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0.1–0.2), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati (0.3–0.6), mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve non si sovrappongono quasi mai e ciò significa cambiamento ecologico forte.
+
+>> Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0.2–0.3), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati (0.3–0.9), mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve non si sovrappongono quasi mai e ciò significa cambiamento ecologico forte.
 
 <details>
 <summary> Pixel negativi (cliccare qui)</summary> 
@@ -308,7 +309,8 @@ pairs(ndvi,
       main = "Matrice scatterplot NDVI 2007–2025")
 
  ````
-<img width="1440" height="712" alt="Pair" src="https://github.com/user-attachments/assets/78db0e25-5ba0-4dc7-a0c7-a18471d5f4c3" />
+<img width="951" height="587" alt="Pair" src="https://github.com/user-attachments/assets/2cd53794-f9a0-4f9b-88de-79edb611d098" />
+
 
  ````r
 # Scatter plot NDVI 2007 vs NDVI 2025
@@ -317,12 +319,12 @@ abline(0, 1, col="red")
 
 ````
 <p align="center">
-<img width="875" height="648" alt="Scatterplot" src="https://github.com/user-attachments/assets/16240362-7b4c-4b50-a329-bc1c6cad6de4" />
+<img width="951" height="559" alt="Scatterplot" src="https://github.com/user-attachments/assets/a6be4ed4-e1e3-4a39-9dde-ad57fccf51e6" />
 
 
 </p>
 
-> La matrice e lo scatterplot NDVI 2007–2025 evidenziano un aumento significativo dell’attività vegetazionale. La correlazione moderata indica che parte dell’area mantiene una risposta simile nei due anni, mentre la distribuzione dei punti sopra la linea 1:1 mostra che la maggioranza dei pixel ha incrementato i valori NDVI nel 2025.
+> La matrice e lo scatterplot NDVI 2007–2025 evidenziano un aumento significativo dell’attività vegetazionale. La correlazione indica che parte dell’area mantiene una risposta simile nei due anni, mentre la distribuzione dei punti sopra la linea 1:1 mostra che la maggioranza dei pixel ha incrementato i valori NDVI nel 2025.
 
 ## Classificazione per classi di vegetazione
  ````r
@@ -334,12 +336,13 @@ hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
  ````
 <details>
 <summary>Istogrammi (cliccare qui)</summary>  
-<img width="614" height="387" alt="Hist_2007" src="https://github.com/user-attachments/assets/04194658-91c6-477a-b3e3-7127f49f6614" />
-<img width="614" height="387" alt="Hist_2025" src="https://github.com/user-attachments/assets/d5b144b1-8d9b-4bcb-a209-6e58de75455c" />
+<img width="951" height="531" alt="hist_2007" src="https://github.com/user-attachments/assets/5f73e133-d23e-40b5-b316-0c461dd34978" />
+<img width="614" height="387" alt="Hist_2025" src="https://github.com/user-attachments/assets/e9a1ff61-a76b-4302-9da6-583d68edd100" />
+
 
   
 > Gli istogrammi servono per scegliere soglie significative
-> Gli istogrammi NDVI mostrano due distribuzioni nettamente diverse: nel 2007 i valori sono concentrati nella fascia bassa (0.05–0.25), mentre nel 2025 si estendono fino a 0.8. Questo permette di definire classi di vegetazione basate su soglie naturali della distribuzione: NDVI < 0.2 (suolo nudo), 0.2–0.4 (vegetazione media), > 0.4 (vegetazione sana).
+> Gli istogrammi NDVI mostrano due distribuzioni nettamente diverse: nel 2007 i valori sono concentrati nella fascia bassa (0.2–0.4), mentre nel 2025 si estendono fino a 0.9. Questo permette di definire classi di vegetazione basate su soglie naturali della distribuzione: NDVI < 0.2 (suolo nudo), 0.2–0.4 (vegetazione media), > 0.4 (vegetazione sana).
 </details>
 
  ````r
