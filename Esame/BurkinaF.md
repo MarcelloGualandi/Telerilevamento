@@ -52,7 +52,7 @@ library(viridis)   # Palette di colori
 library(ggridges)  # Per creare Ridgeline plot
 library(ggplot2)   # Pacchetto per la creazione di grafici
 library(patchwork) # Per unire più grafici separati
-library(tidyr)
+
 ````
 ## Importazione immagini raster
 ````r
