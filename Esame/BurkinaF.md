@@ -35,9 +35,219 @@ Le immagini satellitari sono state ricavate attraverso [Google Earth Engine](htt
 Per l'analisi del 2025 è stato utilizzato **Sentinel-2** che fornisce dati multispettralii con risoluzione spaziale di 10-20 m.
 Per l'analisi del 2007 invece è stato utilizzato **Landsat 5 TM**, in quanto Sentinel-2 non era ancora operativo. Landsat garantisce comunque una risoluzione di 30 m e una copertura temporale continua. 
 Le date di acquisizione sono state selezionate in modo da rappresentare in maniera coerente la stagione vegetativa dei siti di studio (giugno - settembre).
-> [!NOTE]
-> Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Code.js
 
+
+<details>
+<summary> Codice JavaScript </summary>  
+
+````md
+Landsat 	Burkina Faso 2007
+
+// ==============================================
+// Function to mask clouds using QA_PIXEL (Landsat 5 TM C2)
+// Bits:
+// 3 = cloud shadow
+// 5 = cloud
+// 7 = dilated cloud
+// ==============================================
+function maskL5clouds(image) {
+  var qa = image.select('QA_PIXEL');
+
+  var cloud   = qa.bitwiseAnd(1 << 5).eq(0);
+  var shadow  = qa.bitwiseAnd(1 << 3).eq(0);
+  var dilated = qa.bitwiseAnd(1 << 7).eq(0);
+
+  var mask = cloud.and(shadow).and(dilated);
+
+  return image.updateMask(mask).divide(10000);
+}
+
+// ==============================================
+// Load Landsat 5 TM Surface Reflectance collection (2007)
+// ==============================================
+var collection = ee.ImageCollection('LANDSAT/LT05/C02/T1_L2')
+                   .filterBounds(aoi)
+                   .filterDate('2007-01-01', '2007-12-31')
+                   .map(maskL5clouds);
+
+// Print number of images available after filtering
+print('Number of images in collection:', collection.size());
+
+// ==============================================
+// Create a median composite from the collection
+// ==============================================
+var composite = collection.median().clip(aoi);
+
+// ==============================================
+// Visualization on the Map
+// ==============================================
+Map.centerObject(aoi, 10);
+
+// Display the first image of the collection
+Map.addLayer(collection, {
+  bands: ['SR_B3', 'SR_B2', 'SR_B1'],  
+  min: 0,
+  max: 0.3
+}, 'First image of collection');
+
+// Display the median composite image
+Map.addLayer(composite, {
+  bands: ['SR_B3', 'SR_B2', 'SR_B1',],
+  min: 0,
+  max: 0.3
+}, 'Median composite');
+
+// ==============================================
+// Export to Google Drive
+// ==============================================
+Export.image.toDrive({
+  image: composite.select(['SR_B3', 'SR_B2', 'SR_B1', 'SR_B4', 'SR_B7']),
+  description: 'Landsat5_Median_Composite_2007',
+  folder: 'GEE_exports',
+  fileNamePrefix: 'BURKINA_2007',
+  region: aoi,
+  scale: 30,               // Landsat 5 resolution
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+});
+
+
+Sentinel-2 Burkina Faso 2025
+
+var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                   .filterBounds(aoi)
+                   .filterDate('2025-01-01', '2025-12-31')              // Filter by date                                   // Filter by AOI
+                   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
+                   .map(maskS2clouds);                                  // Apply cloud masking
+
+// Print number of images available after filtering
+print('Number of images in collection:', collection.size());
+
+// ==============================================
+// Create a median composite from the collection
+// Useful when the AOI overlaps multiple scenes or frequent cloud cover
+// ==============================================
+var composite = collection.median().clip(aoi);
+
+// ==============================================
+// Visualization on the Map
+// ==============================================
+
+Map.centerObject(aoi, 10); // Zoom to the AOI
+
+// Display the first image of the collection (GEE does this by default)
+Map.addLayer(collection, {
+  bands: ['B4', 'B3', 'B2', 'B8', 'B12'],  // True color: Red, Green, Blue
+  min: 0,
+  max: 0.3
+}, 'First image of collection');
+
+// Display the median composite image
+Map.addLayer(composite, {
+  bands: ['B4', 'B3', 'B2', 'B8', 'B12'],
+  min: 0,
+  max: 0.3
+}, 'Median composite');
+
+// ==============================================
+// Export to Google Drive
+// ==============================================
+
+// Export the median composite
+Export.image.toDrive({
+  image: composite.select(['B4', 'B3', 'B2', 'B8', 'B12']),  // Select RGB bands
+  description: 'Sentinel2_Median_Composite',
+  folder: 'GEE_exports',                        // Folder in Google Drive
+  fileNamePrefix: 'BURKINA_2025',
+  region: aoi,
+  scale: 10,                                    // Sentinel-2 resolution
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+})
+
+
+Sampelga 2025
+// ==============================================
+// Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
+// https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED
+// ==============================================
+
+// ==============================================
+// Function to mask clouds using the QA60 band
+// Bits 10 and 11 correspond to opaque clouds and cirrus
+// ==============================================
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+
+  // Keep only pixels where both cloud and cirrus bits are 0
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+               .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+
+  // Apply the cloud mask and scale reflectance values (0–10000 ➝ 0–1)
+  return image.updateMask(mask).divide(10000);
+}
+
+// ==============================================
+// Load and Prepare the Image Collection
+// ==============================================
+
+// Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
+var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                   .filterBounds(aoi)
+                   .filterDate('2025-06-01', '2025-09-30')              // Filter by date                                   // Filter by AOI
+                   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
+                   .map(maskS2clouds);                                  // Apply cloud masking
+
+// Print number of images available after filtering
+print('Number of images in collection:', collection.size());
+
+// ==============================================
+// Create a median composite from the collection
+// Useful when the AOI overlaps multiple scenes or frequent cloud cover
+// ==============================================
+var composite = collection.median().clip(aoi);
+
+// ==============================================
+// Visualization on the Map
+// ==============================================
+
+Map.centerObject(aoi, 10); // Zoom to the AOI
+
+// Display the first image of the collection (GEE does this by default)
+Map.addLayer(collection, {
+  bands: ['B4', 'B3', 'B2'],  // True color: Red, Green, Blue
+  min: 0,
+  max: 0.3
+}, 'First image of collection');
+
+// Display the median composite image
+Map.addLayer(composite, {
+  bands: ['B4', 'B3', 'B2'],
+  min: 0,
+  max: 0.3
+}, 'Median composite');
+
+// ==============================================
+// Export to Google Drive
+// ==============================================
+
+// Export the median composite
+Export.image.toDrive({
+  image: composite.select(['B4', 'B3', 'B2', 'B8', 'B12']),  // Select RGB bands
+  description: 'Sentinel2_Median_Composite',
+  folder: 'GEE_exports',                        // Folder in Google Drive
+  fileNamePrefix: 'Sampelga_2025',
+  region: aoi,
+  scale: 10,                                    // Sentinel-2 resolution
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+});
+````
+
+</details>
+ 
 ## Impostazione della working directory
 ````r
 setwd("~/Desktop/")
@@ -57,7 +267,7 @@ library(patchwork) # Per unire più grafici separati
 ## Importazione immagini raster
 ````r
 bk2007 <- rast ("Sampelga_2007.tif") # importazione primo file raster
-plot(bk2007) plot(ggw2007) # visualizzazione
+plot(bk2007) # visualizzazione
 ````
 <p align="center">
 <img width="1118" height="537" alt="bk2007" src="https://github.com/user-attachments/assets/c2b38b6b-2e0f-4b50-8fa2-763eda8b9831" />
@@ -124,7 +334,10 @@ range(bk2025)
 # min values  :     0.003,   0.06035
 # max values  :   0.62025,    0.9228
 
-norm <- function(x) (x - min(x[], na.rm=TRUE)) / (max(x[], na.rm=TRUE) - min(x[], na.rm=TRUE))
+norm <- function(x) {  
+  (x - min(x[], na.rm = TRUE)) /
+    (max(x[], na.rm = TRUE) - min(x[], na.rm = TRUE))
+}
 
 > Questa funzione prende la banda trova il minimo e il massimo e li porta rispettivamente a 0 e 1 riscalando il resto senza alterare la forma della distribuzione, senza alterare la radiometria interna e permette un confronto Landsat - Sentinel senza scale arbitrarie.
 
@@ -138,7 +351,7 @@ plot(norm(bk2007[[4]]), main="B8 - NIR", col = magma(100))
  ````
 
 <p align="center">
-<img width="902" height="537" alt="4B_2007" src="https://github.com/user-attachments/assets/f27a041a-9517-4654-9803-e73bfb32b693" />
+<img width="827" height="530" alt="4bands_07" src="https://github.com/user-attachments/assets/abfc8523-a59f-4584-8ca4-40560a775f53" />
 
 </p>
 
@@ -206,22 +419,24 @@ plot(dvi_2025, col = viridis(100), main = "DVI 2025")
 
 <p>
 
->Il confronto delle mappe DVI tra 2007 e 2025 deve essere interpretato con cautela perché Landsat 5 e Sentinel‑2 hanno scale radiometriche diverse.
+
+>  Il confronto spaziale evidenzia una riduzione delle superfici a bassa copertura e una maggiore continuità della vegetazione nel 2025. Il confronto delle mappe DVI tra 2007 e 2025 deve essere tuttavia interpretato con cautela perché Landsat 5 e Sentinel‑2 hanno scale radiometriche diverse.
 
 ````r
 # Calcolo e visualizzazione differenza DVI  
 ## i due raster NON hanno la stessa estensione, dimensione o risoluzione QUINDI dobbiamo portare il 2007 alla stessa risoluzione del 2025
-bk2007_res <- terra::resample(bk2007, bk2025, method="bilinear")
-dvi_2007_res <- bk2007_res[["B4"]] - bk2007_res[["B3"]]
-dvi_2025_res <- bk2025[["B4"]] - bk2025[["B3"]]
-dvi_diff <- dvi_2025_res - dvi_2007_res
+bk2007_res <- terra::resample(bk2007, bk2025, method = "bilinear")
+dvi_2007 <- bk2007_res[["B8"]] - bk2007_res[["B4"]]
+dvi_2025 <- bk2025[["B8"]] - bk2025[["B4"]]
+dvi_diff <- dvi_2025 - dvi_2007
 im.multiframe(1,1)
-plot(dvi_diff, col=magma(100), main="Differenza DVI (2025 - 2007)")
+plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2007)")
+
 ````
->I raster del 2007 e del 2025 non avevano la stessa estensione geografica, dimensione e risoluzione. Questo significa che non coprivano esattamente la stessa area e non avevano pixel corrispondenti. Per poter calcolare la differenza DVI è stato necessario effettuare un resample del raster 2007 sulla griglia del 2025, in modo da ottenere due immagini perfettamente allineate e confrontabili pixel‑per‑pixel.
+> I raster del 2007 e del 2025 non avevano la stessa estensione geografica, dimensione e risoluzione. Questo significa che non coprivano esattamente la stessa area e non avevano pixel corrispondenti. Per poter calcolare la differenza DVI è stato necessario effettuare un resample del raster 2007 sulla griglia del 2025, in modo da ottenere due immagini perfettamente allineate e confrontabili pixel‑per‑pixel.
 
 <p align="center">
-<img width="951" height="671" alt="diff_dvi" src="https://github.com/user-attachments/assets/90419b45-5b35-4a45-9248-4c2db15d3ca6" />
+<img width="857" height="474" alt="diff_DVI" src="https://github.com/user-attachments/assets/5b11b2e3-5d7f-492a-8723-ac510b3a3e27" />
 
 <p>
 
@@ -239,21 +454,22 @@ $` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$
 ````r
 # Analisi NDVI
 ## # Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy 
-ndvi_2007 <- im.ndvi(bk2007, 4, 3)   
-ndvi_2025 <- im.ndvi(bk2025, 4, 3) 
+ndvi_2007 <- im.ndvi(bk2007, 4, 1)   
+ndvi_2025 <- im.ndvi(bk2025, 4, 1) 
 # Creazione di un pannello multiframe isualizzazione NDVI
 im.multiframe(1, 2)
 plot(ndvi_2007, col = viridis(100), main = "NDVI 2007")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 ````
 <p align="center">
-<img width="951" height="643" alt="ndvi2" src="https://github.com/user-attachments/assets/bbe40af6-dd26-49c2-b96e-4cde62d6f676" />
+<img width="857" height="474" alt="NDVI" src="https://github.com/user-attachments/assets/e5931787-03d6-4da3-bc07-b933f3cbe843" />
 
 <p>
 
 > **Valori alti:** vegetazione sana e densa
 > **Valori bassi:** suolo nudo e vegetazione scarsa
 > Il confronto tra NDVI 2007 e NDVI 2025 evidenzia un incremento netto del vigore vegetativo. Nel 2007 prevalgono valori NDVI bassi (−0.05–0.30), indicativi di suolo nudo e vegetazione scarsa. Nel 2025 la distribuzione si estende fino a 0.8, con un aumento significativo delle aree a elevato NDVI, segnalando una maggiore densità e attività fotosintetica della vegetazione.
+Qui il confronto è più affidabile rispetto al DVI, perché l’NDVI è un indice normalizzato e quindi meno sensibile alle differenze radiometriche tra Landsat 5 e Sentinel‑2.
 
 ## Ridgeline plot 
 >[!TIP]
@@ -276,10 +492,10 @@ im.ridgeline(
   palette = c("magma")
 )
 ````
-<img width="951" height="615" alt="Rplot_2" src="https://github.com/user-attachments/assets/aff72f65-eaea-488b-824f-984708ee2631" />
+<img width="857" height="446" alt="Rplot" src="https://github.com/user-attachments/assets/04a65983-fa8c-4b6d-8069-332ecf069278" />
 
 
->> Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0.2–0.3), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati (0.3–0.9), mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve non si sovrappongono quasi mai e ciò significa cambiamento ecologico forte.
+>> Il ridgeline NDVI evidenzia un netto spostamento della distribuzione dei valori tra il 2007 e il 2025. Nel 2007 i valori sono concentrati nella fascia bassa (0–2.5), indicativi di vegetazione scarsa e suolo nudo. Nel 2025 la distribuzione si amplia e si sposta verso valori più elevati , mostrando un aumento significativo del vigore vegetativo e della biomassa. Le due curve si sovrappongono solo in piccola parte e ciò significa cambiamento ecologico forte.
 
 <details>
 <summary> Pixel negativi (cliccare qui)</summary> 
@@ -309,22 +525,22 @@ pairs(ndvi,
       main = "Matrice scatterplot NDVI 2007–2025")
 
  ````
-<img width="951" height="587" alt="Pair" src="https://github.com/user-attachments/assets/2cd53794-f9a0-4f9b-88de-79edb611d098" />
 
+<img width="857" height="418" alt="pair" src="https://github.com/user-attachments/assets/8083a221-9ca2-4a2e-a3d3-53c154a4b49b" />
 
  ````r
+im.multiframe(1,1)
 # Scatter plot NDVI 2007 vs NDVI 2025
 plot(ndvi[[1]], ndvi[[2]], xlab="NDVI 2007", ylab="NDVI 2025", main="Scatterplot NDVI")    # scatterplot NDVI pre e post-evento 
 abline(0, 1, col="red")  
 
 ````
 <p align="center">
-<img width="951" height="559" alt="Scatterplot" src="https://github.com/user-attachments/assets/a6be4ed4-e1e3-4a39-9dde-ad57fccf51e6" />
-
+<img width="803" height="375" alt="scatterplot" src="https://github.com/user-attachments/assets/a41e93aa-f615-462f-9bc1-c52f2c710814" />
 
 </p>
 
-> La matrice e lo scatterplot NDVI 2007–2025 evidenziano un aumento significativo dell’attività vegetazionale. La correlazione indica che parte dell’area mantiene una risposta simile nei due anni, mentre la distribuzione dei punti sopra la linea 1:1 mostra che la maggioranza dei pixel ha incrementato i valori NDVI nel 2025.
+> La matrice e lo scatterplot NDVI 2007–2025 evidenziano un aumento significativo dell’attività vegetazionale. La maggior parte dei pixel si trova sopra la linea rossa a significare un aumento in positivo del valore ndvi degli stessi.
 
 ## Classificazione per classi di vegetazione
  ````r
@@ -336,13 +552,12 @@ hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
  ````
 <details>
 <summary>Istogrammi (cliccare qui)</summary>  
-<img width="951" height="531" alt="hist_2007" src="https://github.com/user-attachments/assets/5f73e133-d23e-40b5-b316-0c461dd34978" />
-<img width="614" height="387" alt="Hist_2025" src="https://github.com/user-attachments/assets/e9a1ff61-a76b-4302-9da6-583d68edd100" />
-
+<img width="803" height="347" alt="Hist_2007" src="https://github.com/user-attachments/assets/f157b99b-ad9c-4c51-9e05-7bea1dbdd3c6" />
+<img width="799" height="344" alt="Hist_2025" src="https://github.com/user-attachments/assets/74d93569-46cf-46c4-8d23-843c34c47747" />
 
   
 > Gli istogrammi servono per scegliere soglie significative
-> Gli istogrammi NDVI mostrano due distribuzioni nettamente diverse: nel 2007 i valori sono concentrati nella fascia bassa (0.2–0.4), mentre nel 2025 si estendono fino a 0.9. Questo permette di definire classi di vegetazione basate su soglie naturali della distribuzione: NDVI < 0.2 (suolo nudo), 0.2–0.4 (vegetazione media), > 0.4 (vegetazione sana).
+> Gli istogrammi NDVI mostrano due distribuzioni nettamente diverse: nel 2007 i valori sono concentrati nella fascia bassa (0.2–0.3), mentre nel 2025 si estendono fino a 0.9. Questo permette di definire classi di vegetazione basate su soglie naturali della distribuzione: NDVI < 0.2 (suolo nudo), 0.2–0.4 (vegetazione media), > 0.4 (vegetazione sana).
 </details>
 
  ````r
@@ -373,7 +588,7 @@ plot(ndvi_2007_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
  ````
 <p align="center">
-<img width="1003" height="610" alt="3_classmod" src="https://github.com/user-attachments/assets/830ed91e-1191-4a67-80e1-6ff53b95958a" />
+<img width="799" height="316" alt="class_3" src="https://github.com/user-attachments/assets/2bd9eac1-f00b-4282-b197-7c6aa47ea285" />
 
 </p>
 
@@ -516,10 +731,10 @@ ndvi_2025_cl <- classify(ndvi_2025, class_matrix_sahel)
 im.multiframe(1, 2)
 plot(ndvi_2007_cl, col = viridis(5), main = "NDVI class. 2007")
 plot(ndvi_2025_cl, col = viridis(5), main = "NDVI class. 2025")
-
+ 
  ````
-<img width="1200" height="636" alt="5_class" src="https://github.com/user-attachments/assets/77a45044-ae86-4273-82b9-750edb570457" />
 
+<img width="1110" height="526" alt="5_class" src="https://github.com/user-attachments/assets/49470a21-ad07-458c-abab-862c25f01d2c" />
 
 > E' stata scelta una gamma di colori "friendly" per persone affette da daltonismo.
 
@@ -596,7 +811,7 @@ p1 + p2 # visualizzazione affiancata
 
 ````
 
-<img width="1200" height="608" alt="Visual_5" src="https://github.com/user-attachments/assets/22a511ef-33a3-4792-b7dc-ef481e40b234" />
+<img width="1110" height="498" alt="Visual_5" src="https://github.com/user-attachments/assets/d86a173f-2806-4b76-8b51-804321c0c48b" />
 
 > Il confronto tra le classi NDVI del 2007 e del 2025 evidenzia un cambiamento radicale nella struttura vegetazionale dell’area. Nel 2007 il paesaggio è dominato dal suolo nudo (93%), con una minima presenza di vegetazione erbacea (6.7%) e totale assenza di arbusti attivi. Nel 2025 la situazione si ribalta con una maggiore eterogeneità nel territorio.
 
@@ -604,13 +819,13 @@ p1 + p2 # visualizzazione affiancata
 
 
 ## 📉 Analisi multitemporale
-L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2007 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco di quasi vent'anni.
+# L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2007 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco di quasi vent'anni.
+
 ````r
 # rinominiamo le bande e portiamo il NIR del 2007 alla griglia del 2025
-nir_2007 <- bk2007[["B4"]] / 10   # riscalato
-nir_2007_res <- terra::resample(nir_2007, bk2025[[4]], method="bilinear")
-
-nir_diff <- bk2025[[4]] - nir_2007_res
+bk2007_res <- terra::resample(bk2007, bk2025, method = "bilinear")
+nir_2007_res <- terra::resample(nir_2007, bk2025[["4"]], method="bilinear")
+nir_diff <- bk2025[["4"]] - nir_2007_res
 
 ## stessa cosa per il NDVI
 ndvi_2007_res <- terra::resample(ndvi_2007, ndvi_2025, method="bilinear")
@@ -619,9 +834,10 @@ ndvi_diff <- ndvi_2025 - ndvi_2007_res
 im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2007)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2007)")
+
 ````
 <p align="center">
-<img width="1006" height="693" alt="multitemporal" src="https://github.com/user-attachments/assets/25d7d357-44d9-461b-a9ee-0e73756e5933" />
+<img width="956" height="436" alt="multiT" src="https://github.com/user-attachments/assets/1b71f88c-087d-4daa-a14a-01463372e090" />
 
 </p>
 
